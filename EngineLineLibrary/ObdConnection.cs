@@ -38,7 +38,7 @@ namespace EngineLineLibrary
         //    { "ISO 15765 - 4 CAN(29 bit ID, 500 kbaud)", "AT SP 7" }
         //};
 
-        enum CommandType
+        public enum CommandType
         {
             ConnectionCommand,
             EngineInfoCommand
@@ -77,7 +77,7 @@ namespace EngineLineLibrary
             buffer.Append(_serialPort.ReadExisting());
         }
 
-        private void WriteToSerialAndWaitForResponse(string command, CommandType commandType /* Pass the type of command that was sent */)
+        public void WriteToSerialAndWaitForResponse(string command, CommandType commandType /* Pass the type of command that was sent */)
         {
             // Clear the buffer every time a new command is sent
             buffer.Clear();
@@ -211,6 +211,16 @@ namespace EngineLineLibrary
             }
 
             return engineCodes;
+        }
+
+        // 04 mode
+        public bool ResetCodes()
+        {
+            // Send the command
+            var command = "04";
+            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
+
+            return true;
         }
 
         private string[] singleLineResponseToHexArray()

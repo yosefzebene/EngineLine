@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EngineLineLibrary.ObdConnection;
 
 namespace EngineLineLibrary
 {
@@ -14,5 +15,7 @@ namespace EngineLineLibrary
         public decimal ReadTPS();
         public decimal ReadMAF();
         public List<string> ReadEngineCodes();
+        public bool ResetCodes();
+        public void WriteToSerialAndWaitForResponse(string command, CommandType commandType);
     }
 }
