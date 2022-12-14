@@ -27,17 +27,6 @@ namespace EngineLineLibrary
             {'F', "U3" }
         };
 
-        //{
-        //    { "Automatic", "AT SP 0" },
-        //    { "SAE J1850 PMW (41.6 kbaud)", "AT SP 1" },
-        //    { "SAE J1850 VPW (10.4 kbaud)", "AT SP 2" },
-        //    { "ISO 9141-2 (5 baud init, 10.4 kbaud)", "AT SP 3" },
-        //    { "ISO 14230 - 4 KWP(5 baud init, 10.4 kbaud)", "AT SP 4" },
-        //    { "ISO 14230 - 4 KWP(fast init, 10.4 kbaud)", "AT SP 5" },
-        //    { "ISO 15765 - 4 CAN(11 bit ID, 500 kbaud)", "AT SP 6" },
-        //    { "ISO 15765 - 4 CAN(29 bit ID, 500 kbaud)", "AT SP 7" }
-        //};
-
         public enum CommandType
         {
             ConnectionCommand,
@@ -47,7 +36,7 @@ namespace EngineLineLibrary
         private SerialPort _serialPort;
         private StringBuilder buffer = new StringBuilder();  // Contains the response to the last command sent
 
-        public ObdConnection(string port, int baudRate = DEFAULT_BAUD, string protocol = "AT SP 0")
+        public ObdConnection(string port, string protocol, int baudRate = DEFAULT_BAUD)
         {
             _serialPort = new SerialPort();
 
@@ -97,7 +86,12 @@ namespace EngineLineLibrary
         // NOTE: Add error handling
         private void CheckForErrorsInResponse(CommandType commandType)
         {
+            var dad = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
             // throw descriptive errors based on command type
+            if (dad == "SEARCHING...\r\nUNABLE TO CONNECT")
+            {
+                throw new Exception("Bus Connection Error");
+            }
         }
 
         // 01 Mode
