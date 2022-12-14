@@ -45,10 +45,7 @@ namespace EngineLine
 
         private void checkBoxDefaultBaud_CheckedChanged(object sender, EventArgs e)
         {
-            if (!checkBoxDefaultBaud.Checked)
-                comboBoxBaudRate.Enabled = true;
-            else
-                comboBoxBaudRate.Enabled = false;
+            comboBoxBaudRate.Enabled = !checkBoxDefaultBaud.Checked;
         }
 
         private void buttonConnect_Click(object sender, EventArgs e)
