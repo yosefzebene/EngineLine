@@ -63,13 +63,13 @@ namespace EngineLine
                     mainForm.Connection = new ObdConnection(COMPort, protocol);
                 else
                     mainForm.Connection = new ObdConnection(COMPort, protocol, BaudRate);
+
+                this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-
-            this.Close();
         }
     }
 }

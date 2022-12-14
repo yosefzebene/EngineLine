@@ -86,11 +86,15 @@ namespace EngineLineLibrary
         // NOTE: Add error handling
         private void CheckForErrorsInResponse(CommandType commandType)
         {
-            var dad = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
-            // throw descriptive errors based on command type
-            if (dad == "SEARCHING...\r\nUNABLE TO CONNECT")
+            var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
+            if (commandType == CommandType.ConnectionCommand)
             {
-                throw new Exception("Bus Connection Error");
+                // Any Connection error should close the serial connection
+                if (response == "SEARCHING...\r\nUNABLE TO CONNECT")
+                {
+                    CloseConnection();
+                    throw new Exception("Bus Connection Error");
+                }
             }
         }
 
@@ -215,6 +219,11 @@ namespace EngineLineLibrary
             WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
 
             return true;
+        }
+
+        public void CloseConnection()
+        {
+            _serialPort.Close();
         }
 
         private string[] singleLineResponseToHexArray()

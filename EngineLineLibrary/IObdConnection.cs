@@ -17,5 +17,6 @@ namespace EngineLineLibrary
         public List<string> ReadEngineCodes();
         public bool ResetCodes();
         public void WriteToSerialAndWaitForResponse(string command, CommandType commandType);
+        public void CloseConnection();
     }
 }
