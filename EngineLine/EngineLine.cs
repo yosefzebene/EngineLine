@@ -19,6 +19,14 @@ namespace EngineLine
             connecting.ShowDialog();
         }
 
+        private bool IsNotConnected()
+        {
+            if (Connection == null)
+                MessageBox.Show("Connect and try again");
+
+            return Connection == null;
+        }
+
         private void buttonMonitoringTrigger_Click(object sender, EventArgs e)
         {
             if (isMonitoring)
@@ -30,11 +38,8 @@ namespace EngineLine
             }
             else
             {
-                if (Connection == null)
-                {
-                    MessageBox.Show("Connect and try again");
+                if (IsNotConnected())
                     return;
-                }
 
                 buttonMonitoringTrigger.Text = "STOP";
                 buttonMonitoringTrigger.BackColor = Color.Red;
@@ -67,6 +72,36 @@ namespace EngineLine
 
                 textBoxMAF.Text = $"{Connection.ReadMAF()}";
             }
+        }
+
+        private void buttonReload_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+        }
+
+        private void buttonClearCodes_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            var confirm = MessageBox.Show(
+                "Are you sure you want to clear codes? This is not reversable!", 
+                "Confirm clearing", 
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+                );
+
+            if (confirm == DialogResult.Yes) 
+            {
+                Connection.ResetCodes();
+
+                listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+            }
+            else
+                return;
         }
     }
 }
