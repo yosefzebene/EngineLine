@@ -1,4 +1,5 @@
 ﻿using EngineLineLibrary;
+using CodeArtEng.Gauge;
 
 namespace EngineLine
 {
@@ -54,23 +55,29 @@ namespace EngineLine
         {
             while (isMonitoring)
             {
-                textBoxRPM.Text = $"{Connection.ReadRpm()}";
+                var rpm = Connection.ReadRpm();
+                textBoxRPM.Text = $"{rpm}";
+                guageRPM.GaugeData.Value = rpm;
 
-                await Task.Delay(10);
+                await Task.Delay(1);
 
-                textBoxSpeed.Text = $"{Connection.ReadSpeed()} KPH";
+                var speed = Connection.ReadSpeed();
+                textBoxSpeed.Text = $"{speed} KPH";
+                guageSpeed.GaugeData.Value = speed;
 
-                await Task.Delay(10);
+                await Task.Delay(1);
 
                 textBoxTPS.Text = $"{Connection.ReadTPS()}%";
 
-                await Task.Delay(10);
+                await Task.Delay(1);
 
-                textBoxTempreture.Text = $"{Connection.ReadTempreture()}";
+                textBoxTempreture.Text = $"{Connection.ReadTempreture()} °C";
 
-                await Task.Delay(10);
+                await Task.Delay(1);
 
                 textBoxMAF.Text = $"{Connection.ReadMAF()}";
+
+                await Task.Delay(1);
             }
         }
 
@@ -79,7 +86,7 @@ namespace EngineLine
             if (IsNotConnected())
                 return;
 
-            listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+            UpdateEngineCodes();
         }
 
         private void buttonClearCodes_Click(object sender, EventArgs e)
@@ -88,20 +95,33 @@ namespace EngineLine
                 return;
 
             var confirm = MessageBox.Show(
-                "Are you sure you want to clear codes? This is not reversable!", 
-                "Confirm clearing", 
+                "Are you sure you want to clear codes? This is not reversable!",
+                "Confirm clearing",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
                 );
 
-            if (confirm == DialogResult.Yes) 
+            if (confirm == DialogResult.Yes)
             {
                 Connection.ResetCodes();
 
-                listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+                UpdateEngineCodes();
             }
             else
                 return;
+        }
+
+        private void UpdateEngineCodes()
+        {
+            try
+            {
+                listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+            }
+            catch (NoDataFoundException)
+            {
+                List<string> errors = new() { "No Engine codes found" };
+                listBoxEngineCodes.DataSource = errors;
+            }
         }
     }
 }

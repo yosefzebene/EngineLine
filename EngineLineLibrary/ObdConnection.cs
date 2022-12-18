@@ -4,6 +4,11 @@ using System.Text;
 
 namespace EngineLineLibrary
 {
+    public class NoDataFoundException : Exception
+    {
+        public NoDataFoundException(){}
+    }
+
     public class ObdConnection : IObdConnection
     {
         private const int DEFAULT_BAUD = 38400;
@@ -90,10 +95,18 @@ namespace EngineLineLibrary
             if (commandType == CommandType.ConnectionCommand)
             {
                 // Any Connection error should close the serial connection
-                if (response == "SEARCHING...\r\nUNABLE TO CONNECT")
+                if (response == "SEARCHING...\r\nUNABLE TO CONNECT" || response == "BUS ERROR")
                 {
                     CloseConnection();
                     throw new Exception("Bus Connection Error");
+                }
+            }
+
+            if (commandType == CommandType.EngineInfoCommand)
+            {
+                if (response == "NO DATA")
+                {
+                    throw new NoDataFoundException();
                 }
             }
         }

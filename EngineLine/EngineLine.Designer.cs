@@ -1,4 +1,6 @@
-﻿namespace EngineLine
+﻿using CodeArtEng.Gauge;
+
+namespace EngineLine
 {
     partial class EngineLine
     {
@@ -28,10 +30,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors1 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors2 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors3 = new CodeArtEng.Gauge.Themes.ThemeColors();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OnConnectionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageMonitoring = new System.Windows.Forms.TabPage();
+            this.guageRPM = new CodeArtEng.Gauge.LinearGauge();
             this.labelRPM = new System.Windows.Forms.Label();
             this.buttonMonitoringTrigger = new System.Windows.Forms.Button();
             this.textBoxRPM = new System.Windows.Forms.TextBox();
@@ -43,6 +49,7 @@
             this.textBoxTempreture = new System.Windows.Forms.TextBox();
             this.labelTPS = new System.Windows.Forms.Label();
             this.textBoxTPS = new System.Windows.Forms.TextBox();
+            this.guageSpeed = new CodeArtEng.Gauge.LinearGauge();
             this.tabPageEngineCodes = new System.Windows.Forms.TabPage();
             this.buttonClearCodes = new System.Windows.Forms.Button();
             this.buttonReload = new System.Windows.Forms.Button();
@@ -85,6 +92,7 @@
             // 
             // tabPageMonitoring
             // 
+            this.tabPageMonitoring.Controls.Add(this.guageRPM);
             this.tabPageMonitoring.Controls.Add(this.labelRPM);
             this.tabPageMonitoring.Controls.Add(this.buttonMonitoringTrigger);
             this.tabPageMonitoring.Controls.Add(this.textBoxRPM);
@@ -96,6 +104,7 @@
             this.tabPageMonitoring.Controls.Add(this.textBoxTempreture);
             this.tabPageMonitoring.Controls.Add(this.labelTPS);
             this.tabPageMonitoring.Controls.Add(this.textBoxTPS);
+            this.tabPageMonitoring.Controls.Add(this.guageSpeed);
             this.tabPageMonitoring.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabPageMonitoring.Location = new System.Drawing.Point(10, 58);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
@@ -104,6 +113,32 @@
             this.tabPageMonitoring.TabIndex = 0;
             this.tabPageMonitoring.Text = "Monitor";
             this.tabPageMonitoring.UseVisualStyleBackColor = true;
+            // 
+            // guageRPM
+            // 
+            this.guageRPM.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.guageRPM.AnimationEnabled = false;
+            this.guageRPM.BottomBarHeight = 5;
+            this.guageRPM.ErrorLimit = 6000D;
+            this.guageRPM.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageRPM.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageRPM.Location = new System.Drawing.Point(354, 334);
+            this.guageRPM.Maximum = 7000D;
+            this.guageRPM.Name = "guageRPM";
+            this.guageRPM.ScaleFactor = 1D;
+            this.guageRPM.SegmentGap = 1;
+            this.guageRPM.Size = new System.Drawing.Size(491, 117);
+            this.guageRPM.TabIndex = 13;
+            this.guageRPM.Theme = CodeArtEng.Gauge.GaugeTheme.DarkBlue;
+            this.guageRPM.Title = "";
+            this.guageRPM.Unit = "RPM";
+            this.guageRPM.UserDefinedColors.Base = themeColors1;
+            themeColors2.PointerColor = System.Drawing.Color.Red;
+            this.guageRPM.UserDefinedColors.Error = themeColors2;
+            themeColors3.PointerColor = System.Drawing.Color.Orange;
+            this.guageRPM.UserDefinedColors.Warning = themeColors3;
+            this.guageRPM.Value = 0D;
+            this.guageRPM.WarningLimit = 5500D;
             // 
             // labelRPM
             // 
@@ -121,9 +156,9 @@
             this.buttonMonitoringTrigger.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonMonitoringTrigger.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.buttonMonitoringTrigger.Font = new System.Drawing.Font("Segoe UI Black", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.buttonMonitoringTrigger.Location = new System.Drawing.Point(1006, 725);
+            this.buttonMonitoringTrigger.Location = new System.Drawing.Point(1002, 857);
             this.buttonMonitoringTrigger.Name = "buttonMonitoringTrigger";
-            this.buttonMonitoringTrigger.Size = new System.Drawing.Size(250, 107);
+            this.buttonMonitoringTrigger.Size = new System.Drawing.Size(265, 107);
             this.buttonMonitoringTrigger.TabIndex = 10;
             this.buttonMonitoringTrigger.Text = "START";
             this.buttonMonitoringTrigger.UseVisualStyleBackColor = false;
@@ -131,6 +166,7 @@
             // 
             // textBoxRPM
             // 
+            this.textBoxRPM.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBoxRPM.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.textBoxRPM.Location = new System.Drawing.Point(354, 179);
             this.textBoxRPM.Name = "textBoxRPM";
@@ -144,7 +180,7 @@
             this.labelMAF.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelMAF.AutoSize = true;
             this.labelMAF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelMAF.Location = new System.Drawing.Point(1610, 421);
+            this.labelMAF.Location = new System.Drawing.Point(1600, 725);
             this.labelMAF.Name = "labelMAF";
             this.labelMAF.Size = new System.Drawing.Size(122, 62);
             this.labelMAF.TabIndex = 9;
@@ -155,7 +191,7 @@
             this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelSpeed.AutoSize = true;
             this.labelSpeed.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelSpeed.Location = new System.Drawing.Point(1050, 88);
+            this.labelSpeed.Location = new System.Drawing.Point(1587, 88);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(158, 62);
             this.labelSpeed.TabIndex = 6;
@@ -166,7 +202,7 @@
             this.labelTempreture.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelTempreture.AutoSize = true;
             this.labelTempreture.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTempreture.Location = new System.Drawing.Point(485, 421);
+            this.labelTempreture.Location = new System.Drawing.Point(1002, 88);
             this.labelTempreture.Name = "labelTempreture";
             this.labelTempreture.Size = new System.Drawing.Size(265, 62);
             this.labelTempreture.TabIndex = 8;
@@ -176,7 +212,7 @@
             // 
             this.textBoxSpeed.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBoxSpeed.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxSpeed.Location = new System.Drawing.Point(886, 179);
+            this.textBoxSpeed.Location = new System.Drawing.Point(1416, 179);
             this.textBoxSpeed.Name = "textBoxSpeed";
             this.textBoxSpeed.ReadOnly = true;
             this.textBoxSpeed.Size = new System.Drawing.Size(491, 149);
@@ -187,7 +223,7 @@
             // 
             this.textBoxMAF.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBoxMAF.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxMAF.Location = new System.Drawing.Point(1416, 505);
+            this.textBoxMAF.Location = new System.Drawing.Point(1416, 815);
             this.textBoxMAF.Name = "textBoxMAF";
             this.textBoxMAF.ReadOnly = true;
             this.textBoxMAF.Size = new System.Drawing.Size(491, 149);
@@ -198,7 +234,7 @@
             // 
             this.textBoxTempreture.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBoxTempreture.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxTempreture.Location = new System.Drawing.Point(369, 505);
+            this.textBoxTempreture.Location = new System.Drawing.Point(887, 179);
             this.textBoxTempreture.Name = "textBoxTempreture";
             this.textBoxTempreture.ReadOnly = true;
             this.textBoxTempreture.Size = new System.Drawing.Size(491, 149);
@@ -210,7 +246,7 @@
             this.labelTPS.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelTPS.AutoSize = true;
             this.labelTPS.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTPS.Location = new System.Drawing.Point(1610, 88);
+            this.labelTPS.Location = new System.Drawing.Point(537, 725);
             this.labelTPS.Name = "labelTPS";
             this.labelTPS.Size = new System.Drawing.Size(103, 62);
             this.labelTPS.TabIndex = 7;
@@ -220,12 +256,33 @@
             // 
             this.textBoxTPS.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBoxTPS.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxTPS.Location = new System.Drawing.Point(1416, 179);
+            this.textBoxTPS.Location = new System.Drawing.Point(354, 815);
             this.textBoxTPS.Name = "textBoxTPS";
             this.textBoxTPS.ReadOnly = true;
             this.textBoxTPS.Size = new System.Drawing.Size(491, 149);
             this.textBoxTPS.TabIndex = 3;
             this.textBoxTPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // guageSpeed
+            // 
+            this.guageSpeed.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.guageSpeed.AnimationEnabled = false;
+            this.guageSpeed.BottomBarHeight = 5;
+            this.guageSpeed.ErrorLimit = 250D;
+            this.guageSpeed.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageSpeed.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageSpeed.Location = new System.Drawing.Point(1416, 334);
+            this.guageSpeed.Maximum = 300D;
+            this.guageSpeed.Name = "guageSpeed";
+            this.guageSpeed.ScaleFactor = 1D;
+            this.guageSpeed.SegmentGap = 1;
+            this.guageSpeed.Size = new System.Drawing.Size(491, 117);
+            this.guageSpeed.TabIndex = 12;
+            this.guageSpeed.Theme = CodeArtEng.Gauge.GaugeTheme.DarkBlue;
+            this.guageSpeed.Title = "";
+            this.guageSpeed.Unit = "km/h";
+            this.guageSpeed.Value = 0D;
+            this.guageSpeed.WarningLimit = 200D;
             // 
             // tabPageEngineCodes
             // 
@@ -244,6 +301,7 @@
             // 
             // buttonClearCodes
             // 
+            this.buttonClearCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonClearCodes.Location = new System.Drawing.Point(2075, 977);
             this.buttonClearCodes.Name = "buttonClearCodes";
             this.buttonClearCodes.Size = new System.Drawing.Size(144, 73);
@@ -254,6 +312,7 @@
             // 
             // buttonReload
             // 
+            this.buttonReload.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonReload.Location = new System.Drawing.Point(1915, 977);
             this.buttonReload.Name = "buttonReload";
             this.buttonReload.Size = new System.Drawing.Size(144, 73);
@@ -264,20 +323,21 @@
             // 
             // listBoxEngineCodes
             // 
-            this.listBoxEngineCodes.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.listBoxEngineCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.listBoxEngineCodes.FormattingEnabled = true;
             this.listBoxEngineCodes.ItemHeight = 50;
             this.listBoxEngineCodes.Location = new System.Drawing.Point(3, 76);
             this.listBoxEngineCodes.Name = "listBoxEngineCodes";
             this.listBoxEngineCodes.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.listBoxEngineCodes.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.listBoxEngineCodes.Size = new System.Drawing.Size(2229, 1004);
             this.listBoxEngineCodes.TabIndex = 1;
             // 
             // textBox1
             // 
+            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Font = new System.Drawing.Font("Franklin Gothic Medium Cond", 20.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Name = "textBox1";
@@ -294,6 +354,7 @@
             this.ClientSize = new System.Drawing.Size(2255, 1200);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "EngineLine";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -332,5 +393,7 @@
         private ListBox listBoxEngineCodes;
         private TextBox textBox1;
         private Button buttonClearCodes;
+        private LinearGauge guageSpeed;
+        private LinearGauge guageRPM;
     }
 }
