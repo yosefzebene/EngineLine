@@ -122,6 +122,8 @@ namespace EngineLine
             this.guageRPM.ErrorLimit = 6000D;
             this.guageRPM.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.guageRPM.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageRPM.InfoMode = CodeArtEng.Gauge.GaugeInfoMode.NONE;
+            this.guageRPM.InfoPage = CodeArtEng.Gauge.GaugeInfoType.Range;
             this.guageRPM.Location = new System.Drawing.Point(354, 334);
             this.guageRPM.Maximum = 7000D;
             this.guageRPM.Name = "guageRPM";
@@ -271,6 +273,8 @@ namespace EngineLine
             this.guageSpeed.ErrorLimit = 250D;
             this.guageSpeed.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.guageSpeed.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.guageSpeed.InfoMode = CodeArtEng.Gauge.GaugeInfoMode.NONE;
+            this.guageSpeed.InfoPage = CodeArtEng.Gauge.GaugeInfoType.Range;
             this.guageSpeed.Location = new System.Drawing.Point(1416, 334);
             this.guageSpeed.Maximum = 300D;
             this.guageSpeed.Name = "guageSpeed";
