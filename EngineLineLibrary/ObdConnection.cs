@@ -4,6 +4,11 @@ using System.Text;
 
 namespace EngineLineLibrary
 {
+    public class NoDataFoundException : Exception
+    {
+        public NoDataFoundException(){}
+    }
+
     public class ObdConnection : IObdConnection
     {
         private const int DEFAULT_BAUD = 38400;
@@ -27,17 +32,6 @@ namespace EngineLineLibrary
             {'F', "U3" }
         };
 
-        //{
-        //    { "Automatic", "AT SP 0" },
-        //    { "SAE J1850 PMW (41.6 kbaud)", "AT SP 1" },
-        //    { "SAE J1850 VPW (10.4 kbaud)", "AT SP 2" },
-        //    { "ISO 9141-2 (5 baud init, 10.4 kbaud)", "AT SP 3" },
-        //    { "ISO 14230 - 4 KWP(5 baud init, 10.4 kbaud)", "AT SP 4" },
-        //    { "ISO 14230 - 4 KWP(fast init, 10.4 kbaud)", "AT SP 5" },
-        //    { "ISO 15765 - 4 CAN(11 bit ID, 500 kbaud)", "AT SP 6" },
-        //    { "ISO 15765 - 4 CAN(29 bit ID, 500 kbaud)", "AT SP 7" }
-        //};
-
         public enum CommandType
         {
             ConnectionCommand,
@@ -47,7 +41,7 @@ namespace EngineLineLibrary
         private SerialPort _serialPort;
         private StringBuilder buffer = new StringBuilder();  // Contains the response to the last command sent
 
-        public ObdConnection(string port, int baudRate = DEFAULT_BAUD, string protocol = "AT SP 0")
+        public ObdConnection(string port, string protocol, int baudRate = DEFAULT_BAUD)
         {
             _serialPort = new SerialPort();
 
@@ -97,7 +91,24 @@ namespace EngineLineLibrary
         // NOTE: Add error handling
         private void CheckForErrorsInResponse(CommandType commandType)
         {
-            // throw descriptive errors based on command type
+            var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
+            if (commandType == CommandType.ConnectionCommand)
+            {
+                // Any Connection error should close the serial connection
+                if (response == "SEARCHING...\r\nUNABLE TO CONNECT" || response == "BUS ERROR")
+                {
+                    CloseConnection();
+                    throw new Exception("Bus Connection Error");
+                }
+            }
+
+            if (commandType == CommandType.EngineInfoCommand)
+            {
+                if (response == "NO DATA")
+                {
+                    throw new NoDataFoundException();
+                }
+            }
         }
 
         // 01 Mode
@@ -221,6 +232,11 @@ namespace EngineLineLibrary
             WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
 
             return true;
+        }
+
+        public void CloseConnection()
+        {
+            _serialPort.Close();
         }
 
         private string[] singleLineResponseToHexArray()
