@@ -133,7 +133,7 @@ namespace EngineLineLibrary
             return int.Parse(hexResponse[2], NumberStyles.HexNumber);
         }
 
-        public int ReadTempreture()
+        public int ReadTemperature()
         {
             var command = "0105";
             WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
