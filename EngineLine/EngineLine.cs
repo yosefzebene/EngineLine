@@ -71,7 +71,7 @@ namespace EngineLine
 
                 await Task.Delay(1);
 
-                textBoxTempreture.Text = $"{Connection.ReadTemperature()} °C";
+                textBoxTemperature.Text = $"{Connection.ReadTemperature()} °C";
 
                 await Task.Delay(1);
 

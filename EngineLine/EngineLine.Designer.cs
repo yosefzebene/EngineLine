@@ -30,9 +30,9 @@ namespace EngineLine
         /// </summary>
         private void InitializeComponent()
         {
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors1 = new CodeArtEng.Gauge.Themes.ThemeColors();
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors2 = new CodeArtEng.Gauge.Themes.ThemeColors();
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors3 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors4 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors5 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors6 = new CodeArtEng.Gauge.Themes.ThemeColors();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.OnConnectionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -43,10 +43,10 @@ namespace EngineLine
             this.textBoxRPM = new System.Windows.Forms.TextBox();
             this.labelMAF = new System.Windows.Forms.Label();
             this.labelSpeed = new System.Windows.Forms.Label();
-            this.labelTempreture = new System.Windows.Forms.Label();
+            this.labelTemperature = new System.Windows.Forms.Label();
             this.textBoxSpeed = new System.Windows.Forms.TextBox();
             this.textBoxMAF = new System.Windows.Forms.TextBox();
-            this.textBoxTempreture = new System.Windows.Forms.TextBox();
+            this.textBoxTemperature = new System.Windows.Forms.TextBox();
             this.labelTPS = new System.Windows.Forms.Label();
             this.textBoxTPS = new System.Windows.Forms.TextBox();
             this.guageSpeed = new CodeArtEng.Gauge.LinearGauge();
@@ -98,10 +98,10 @@ namespace EngineLine
             this.tabPageMonitoring.Controls.Add(this.textBoxRPM);
             this.tabPageMonitoring.Controls.Add(this.labelMAF);
             this.tabPageMonitoring.Controls.Add(this.labelSpeed);
-            this.tabPageMonitoring.Controls.Add(this.labelTempreture);
+            this.tabPageMonitoring.Controls.Add(this.labelTemperature);
             this.tabPageMonitoring.Controls.Add(this.textBoxSpeed);
             this.tabPageMonitoring.Controls.Add(this.textBoxMAF);
-            this.tabPageMonitoring.Controls.Add(this.textBoxTempreture);
+            this.tabPageMonitoring.Controls.Add(this.textBoxTemperature);
             this.tabPageMonitoring.Controls.Add(this.labelTPS);
             this.tabPageMonitoring.Controls.Add(this.textBoxTPS);
             this.tabPageMonitoring.Controls.Add(this.guageSpeed);
@@ -134,11 +134,11 @@ namespace EngineLine
             this.guageRPM.Theme = CodeArtEng.Gauge.GaugeTheme.DarkBlue;
             this.guageRPM.Title = "";
             this.guageRPM.Unit = "RPM";
-            this.guageRPM.UserDefinedColors.Base = themeColors1;
-            themeColors2.PointerColor = System.Drawing.Color.Red;
-            this.guageRPM.UserDefinedColors.Error = themeColors2;
-            themeColors3.PointerColor = System.Drawing.Color.Orange;
-            this.guageRPM.UserDefinedColors.Warning = themeColors3;
+            this.guageRPM.UserDefinedColors.Base = themeColors4;
+            themeColors5.PointerColor = System.Drawing.Color.Red;
+            this.guageRPM.UserDefinedColors.Error = themeColors5;
+            themeColors6.PointerColor = System.Drawing.Color.Orange;
+            this.guageRPM.UserDefinedColors.Warning = themeColors6;
             this.guageRPM.Value = 0D;
             this.guageRPM.WarningLimit = 5500D;
             // 
@@ -199,16 +199,16 @@ namespace EngineLine
             this.labelSpeed.TabIndex = 6;
             this.labelSpeed.Text = "Speed";
             // 
-            // labelTempreture
+            // labelTemperature
             // 
-            this.labelTempreture.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.labelTempreture.AutoSize = true;
-            this.labelTempreture.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTempreture.Location = new System.Drawing.Point(1002, 88);
-            this.labelTempreture.Name = "labelTempreture";
-            this.labelTempreture.Size = new System.Drawing.Size(265, 62);
-            this.labelTempreture.TabIndex = 8;
-            this.labelTempreture.Text = "Tempreture";
+            this.labelTemperature.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.labelTemperature.AutoSize = true;
+            this.labelTemperature.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelTemperature.Location = new System.Drawing.Point(1002, 88);
+            this.labelTemperature.Name = "labelTemperature";
+            this.labelTemperature.Size = new System.Drawing.Size(289, 62);
+            this.labelTemperature.TabIndex = 8;
+            this.labelTemperature.Text = "Temperature";
             // 
             // textBoxSpeed
             // 
@@ -232,16 +232,16 @@ namespace EngineLine
             this.textBoxMAF.TabIndex = 4;
             this.textBoxMAF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBoxTempreture
+            // textBoxTemperature
             // 
-            this.textBoxTempreture.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.textBoxTempreture.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxTempreture.Location = new System.Drawing.Point(887, 179);
-            this.textBoxTempreture.Name = "textBoxTempreture";
-            this.textBoxTempreture.ReadOnly = true;
-            this.textBoxTempreture.Size = new System.Drawing.Size(491, 149);
-            this.textBoxTempreture.TabIndex = 5;
-            this.textBoxTempreture.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBoxTemperature.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxTemperature.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBoxTemperature.Location = new System.Drawing.Point(887, 179);
+            this.textBoxTemperature.Name = "textBoxTemperature";
+            this.textBoxTemperature.ReadOnly = true;
+            this.textBoxTemperature.Size = new System.Drawing.Size(491, 149);
+            this.textBoxTemperature.TabIndex = 5;
+            this.textBoxTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelTPS
             // 
@@ -386,10 +386,10 @@ namespace EngineLine
         private TextBox textBoxRPM;
         private Label labelMAF;
         private Label labelSpeed;
-        private Label labelTempreture;
+        private Label labelTemperature;
         private TextBox textBoxSpeed;
         private TextBox textBoxMAF;
-        private TextBox textBoxTempreture;
+        private TextBox textBoxTemperature;
         private Label labelTPS;
         private TextBox textBoxTPS;
         private TabPage tabPageEngineCodes;
