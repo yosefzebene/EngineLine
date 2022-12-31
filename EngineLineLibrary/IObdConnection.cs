@@ -11,7 +11,7 @@ namespace EngineLineLibrary
     {
         public int ReadRpm();
         public int ReadSpeed();
-        public int ReadTempreture();
+        public int ReadTemperature();
         public decimal ReadTPS();
         public decimal ReadMAF();
         public List<string> ReadEngineCodes();
