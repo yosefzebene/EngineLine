@@ -172,6 +172,48 @@ namespace EngineLineLibrary
             return decimal.Round(massAirFlow, 1);
         }
 
+        public decimal ShortTermFuelTrimB1()
+        {
+            var command = "0106";
+            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
+
+            return FuelTrimCalculation();
+        }
+
+        public decimal ShortTermFuelTrimB2()
+        {
+            var command = "0108";
+            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
+
+            return FuelTrimCalculation();
+        }
+
+        public decimal LongTermFuelTrimB1()
+        {
+            var command = "0107";
+            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
+
+            return FuelTrimCalculation();
+        }
+
+        public decimal LongTermFuelTrimB2()
+        {
+            var command = "0109";
+            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
+
+            return FuelTrimCalculation();
+        }
+
+        // Fuel trim calculation
+        private decimal FuelTrimCalculation()
+        {
+            var hexResponse = singleLineResponseToHexArray();
+
+            var a = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber);
+
+            return decimal.Round((a * 1.28m) - 100, 1);
+        }
+
         // 03 mode
         public List<string> ReadEngineCodes()
         {
