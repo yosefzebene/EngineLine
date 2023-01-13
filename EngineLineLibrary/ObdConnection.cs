@@ -12,31 +12,6 @@ namespace EngineLineLibrary
     public class ObdConnection : IObdConnection
     {
         private const int DEFAULT_BAUD = 38400;
-        private readonly Dictionary<char, string> engineCodeDict = new Dictionary<char, string>
-        {
-            {'0', "P0" },
-            {'1', "P1" },
-            {'2', "P2" },
-            {'3', "P3" },
-            {'4', "C0" },
-            {'5', "C1" },
-            {'6', "C2" },
-            {'7', "C3" },
-            {'8', "B0" },
-            {'9', "B1" },
-            {'A', "B2" },
-            {'B', "B3" },
-            {'C', "U0" },
-            {'D', "U1" },
-            {'E', "U2" },
-            {'F', "U3" }
-        };
-
-        public enum CommandType
-        {
-            ConnectionCommand,
-            EngineInfoCommand
-        }
 
         private SerialPort _serialPort;
         private StringBuilder buffer = new StringBuilder();  // Contains the response to the last command sent
@@ -63,7 +38,10 @@ namespace EngineLineLibrary
         {
             var init_commands = new List<string>() { "ATD", "ATE0", protocol, "0100" };
 
-            init_commands.ForEach(command => WriteToSerialAndWaitForResponse(command, CommandType.ConnectionCommand));
+            init_commands.ForEach(command =>
+            {
+                Query(new Request(command));
+            });
         }
 
         private void SerialDataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -71,7 +49,7 @@ namespace EngineLineLibrary
             buffer.Append(_serialPort.ReadExisting());
         }
 
-        public void WriteToSerialAndWaitForResponse(string command, CommandType commandType /* Pass the type of command that was sent */)
+        public Response Query(Request command)
         {
             // Clear the buffer every time a new command is sent
             buffer.Clear();
@@ -85,207 +63,31 @@ namespace EngineLineLibrary
             }
 
             //Call a function to check the result for errors
-            CheckForErrorsInResponse(commandType);
+            CheckForErrorsInResponse();
+
+            return new(buffer.ToString());
         }
 
-        // NOTE: Add error handling
-        private void CheckForErrorsInResponse(CommandType commandType)
+        // TODO: Move this error handling to the response object
+        private void CheckForErrorsInResponse()
         {
             var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
-            if (commandType == CommandType.ConnectionCommand)
+            // Any Connection error should close the serial connection
+            if (response == "SEARCHING...\r\nUNABLE TO CONNECT" || response == "BUS ERROR")
             {
-                // Any Connection error should close the serial connection
-                if (response == "SEARCHING...\r\nUNABLE TO CONNECT" || response == "BUS ERROR")
-                {
-                    CloseConnection();
-                    throw new Exception("Bus Connection Error");
-                }
+                CloseConnection();
+                throw new Exception("Bus Connection Error");
             }
 
-            if (commandType == CommandType.EngineInfoCommand)
+            if (response == "NO DATA")
             {
-                if (response == "NO DATA")
-                {
-                    throw new NoDataFoundException();
-                }
+                throw new NoDataFoundException();
             }
-        }
-
-        // 01 Mode
-        public int ReadRpm()
-        {
-            // Send the command
-            var command = "010c";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var hexResponse = singleLineResponseToHexArray();
-
-            return int.Parse(hexResponse[2] + hexResponse[3], NumberStyles.HexNumber) / 4;
-        }
-
-        public int ReadSpeed()
-        {
-            var command = "010D";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var hexResponse = singleLineResponseToHexArray();
-
-            return int.Parse(hexResponse[2], NumberStyles.HexNumber);
-        }
-
-        public int ReadTemperature()
-        {
-            var command = "0105";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var hexResponse = singleLineResponseToHexArray();
-
-            return int.Parse(hexResponse[2], NumberStyles.HexNumber) - 40;
-        }
-
-        public decimal ReadTPS()
-        {
-            var command = "0111";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var hexResponse = singleLineResponseToHexArray();
-
-            // Formula for tps: x*100/255
-            var tps = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber) * 100 / 255;
-
-            return decimal.Round(tps, 1);
-        }
-
-        public decimal ReadMAF()
-        {
-            var command = "0110";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var hexResponse = singleLineResponseToHexArray();
-
-            // Formula for MAF: ((A*256)+B)/4
-            var a = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber);
-            var b = (decimal)int.Parse(hexResponse[3], NumberStyles.HexNumber);
-
-            var massAirFlow = ((a * 256) + b) / 100;
-
-            return decimal.Round(massAirFlow, 1);
-        }
-
-        public decimal ShortTermFuelTrimB1()
-        {
-            var command = "0106";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            return FuelTrimCalculation();
-        }
-
-        public decimal ShortTermFuelTrimB2()
-        {
-            var command = "0108";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            return FuelTrimCalculation();
-        }
-
-        public decimal LongTermFuelTrimB1()
-        {
-            var command = "0107";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            return FuelTrimCalculation();
-        }
-
-        public decimal LongTermFuelTrimB2()
-        {
-            var command = "0109";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            return FuelTrimCalculation();
-        }
-
-        // Fuel trim calculation
-        private decimal FuelTrimCalculation()
-        {
-            var hexResponse = singleLineResponseToHexArray();
-
-            var a = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber);
-
-            return decimal.Round((a * 1.28m) - 100, 1);
-        }
-
-        // 03 mode
-        public List<string> ReadEngineCodes()
-        {
-            List<string> engineCodesRaw = new List<string>();
-            List<string> engineCodes = new List<string>();
-
-            var command = "03";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
-
-            // NOTE: This condition should be handled in the error handler
-            if (response != "NO DATA")
-            {
-                var engineCodeLines = response.Split("\r\n");
-
-                foreach (var engineCodeLine in engineCodeLines)
-                {
-                    // each line of engie code data returns 3 engine codes
-                    var allEngineCode = engineCodeLine.Substring(3);
-
-                    // Get all the engine codes
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
-                    allEngineCode = allEngineCode.Substring(6);
-
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
-                    allEngineCode = allEngineCode.Substring(6);
-
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
-                }
-
-                engineCodesRaw.ForEach(engineCode =>
-                {
-                    if (engineCode != "0000")
-                    {
-                        var engineCodeChars = engineCode.ToCharArray();
-                        string engineCodeString;
-
-                        // Check for the first character of the engine code in the engine code dictionary
-                        if (engineCodeDict.ContainsKey(engineCodeChars[0]))
-                            engineCodeString = engineCodeDict[engineCodeChars[0]] + engineCode.Substring(1);
-                        else
-                            throw new ApplicationException();
-
-                        engineCodes.Add(engineCodeString);
-                    }
-                });
-            }
-
-            return engineCodes;
-        }
-
-        // 04 mode
-        public bool ResetCodes()
-        {
-            // Send the command
-            var command = "04";
-            WriteToSerialAndWaitForResponse(command, CommandType.EngineInfoCommand);
-
-            return true;
         }
 
         public void CloseConnection()
         {
             _serialPort.Close();
-        }
-
-        private string[] singleLineResponseToHexArray()
-        {
-            var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });
-
-            return response.Split(' ');
         }
     }
 }
