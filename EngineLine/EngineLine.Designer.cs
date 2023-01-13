@@ -53,7 +53,7 @@ namespace EngineLine
             this.tabPageEngineCodes = new System.Windows.Forms.TabPage();
             this.buttonClearCodes = new System.Windows.Forms.Button();
             this.buttonReload = new System.Windows.Forms.Button();
-            this.listBoxEngineCodes = new System.Windows.Forms.ListBox();
+            this.listBoxDiagnosticTroubleCodes = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -292,7 +292,7 @@ namespace EngineLine
             // 
             this.tabPageEngineCodes.Controls.Add(this.buttonClearCodes);
             this.tabPageEngineCodes.Controls.Add(this.buttonReload);
-            this.tabPageEngineCodes.Controls.Add(this.listBoxEngineCodes);
+            this.tabPageEngineCodes.Controls.Add(this.listBoxDiagnosticTroubleCodes);
             this.tabPageEngineCodes.Controls.Add(this.textBox1);
             this.tabPageEngineCodes.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabPageEngineCodes.Location = new System.Drawing.Point(10, 58);
@@ -325,17 +325,17 @@ namespace EngineLine
             this.buttonReload.UseVisualStyleBackColor = true;
             this.buttonReload.Click += new System.EventHandler(this.buttonReload_Click);
             // 
-            // listBoxEngineCodes
+            // listBoxDiagnosticTroubleCodes
             // 
-            this.listBoxEngineCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.listBoxEngineCodes.FormattingEnabled = true;
-            this.listBoxEngineCodes.ItemHeight = 50;
-            this.listBoxEngineCodes.Location = new System.Drawing.Point(3, 76);
-            this.listBoxEngineCodes.Name = "listBoxEngineCodes";
-            this.listBoxEngineCodes.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.listBoxEngineCodes.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxEngineCodes.Size = new System.Drawing.Size(2229, 1004);
-            this.listBoxEngineCodes.TabIndex = 1;
+            this.listBoxDiagnosticTroubleCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.listBoxDiagnosticTroubleCodes.FormattingEnabled = true;
+            this.listBoxDiagnosticTroubleCodes.ItemHeight = 50;
+            this.listBoxDiagnosticTroubleCodes.Location = new System.Drawing.Point(3, 76);
+            this.listBoxDiagnosticTroubleCodes.Name = "listBoxDiagnosticTroubleCodes";
+            this.listBoxDiagnosticTroubleCodes.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.listBoxDiagnosticTroubleCodes.SelectionMode = System.Windows.Forms.SelectionMode.None;
+            this.listBoxDiagnosticTroubleCodes.Size = new System.Drawing.Size(2229, 1004);
+            this.listBoxDiagnosticTroubleCodes.TabIndex = 1;
             // 
             // textBox1
             // 
@@ -394,7 +394,7 @@ namespace EngineLine
         private TextBox textBoxTPS;
         private TabPage tabPageEngineCodes;
         private Button buttonReload;
-        private ListBox listBoxEngineCodes;
+        private ListBox listBoxDiagnosticTroubleCodes;
         private TextBox textBox1;
         private Button buttonClearCodes;
         private LinearGauge guageSpeed;

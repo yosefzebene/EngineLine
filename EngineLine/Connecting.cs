@@ -60,9 +60,15 @@ namespace EngineLine
             try
             {
                 if (checkBoxDefaultBaud.Checked)
-                    mainForm.Connection = new ObdConnection(COMPort, protocol);
+                {
+                    var connection = new ObdConnection(COMPort, protocol);
+                    mainForm.vehicle = new Vehicle(connection);
+                }
                 else
-                    mainForm.Connection = new ObdConnection(COMPort, protocol, BaudRate);
+                {
+                    var connection = new ObdConnection(COMPort, protocol, BaudRate);
+                    mainForm.vehicle = new Vehicle(connection);
+                }
 
                 this.Close();
             }

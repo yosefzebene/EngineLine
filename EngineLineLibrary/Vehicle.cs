@@ -4,7 +4,7 @@ namespace EngineLineLibrary
 {
     public class Vehicle
     {
-        private readonly Dictionary<char, string> engineCodeDict = new Dictionary<char, string>
+        private readonly Dictionary<char, string> dtcDict = new Dictionary<char, string>
         {
             {'0', "P0" },
             {'1', "P1" },
@@ -32,7 +32,7 @@ namespace EngineLineLibrary
         }
 
         // 01 Mode
-        public int ReadRpm()
+        public int GetRpm()
         {
             var response = _connection.Query(new Request("010c"));
 
@@ -41,7 +41,7 @@ namespace EngineLineLibrary
             return int.Parse(hexResponse[2] + hexResponse[3], NumberStyles.HexNumber) / 4;
         }
 
-        public int ReadSpeed()
+        public int GetSpeed()
         {
             var response = _connection.Query(new Request("010D"));
 
@@ -50,7 +50,7 @@ namespace EngineLineLibrary
             return int.Parse(hexResponse[2], NumberStyles.HexNumber);
         }
 
-        public int ReadTemperature()
+        public int GetTemperature()
         {
             var response = _connection.Query(new Request("0105"));
 
@@ -59,7 +59,7 @@ namespace EngineLineLibrary
             return int.Parse(hexResponse[2], NumberStyles.HexNumber) - 40;
         }
 
-        public decimal ReadTPS()
+        public decimal GetTPS()
         {
             var response = _connection.Query(new Request("0111"));
 
@@ -71,7 +71,7 @@ namespace EngineLineLibrary
             return decimal.Round(tps, 1);
         }
 
-        public decimal ReadMAF()
+        public decimal GetMAF()
         {
             var response = _connection.Query(new Request("0110"));
 
@@ -86,28 +86,28 @@ namespace EngineLineLibrary
             return decimal.Round(massAirFlow, 1);
         }
 
-        public decimal ShortTermFuelTrimB1()
+        public decimal GetShortTermFuelTrimB1()
         {
             var response = _connection.Query(new Request("0106"));
 
             return FuelTrimCalculation(response);
         }
 
-        public decimal ShortTermFuelTrimB2()
+        public decimal GetShortTermFuelTrimB2()
         {
             var response = _connection.Query(new Request("0108"));
 
             return FuelTrimCalculation(response);
         }
 
-        public decimal LongTermFuelTrimB1()
+        public decimal GetLongTermFuelTrimB1()
         {
             var response = _connection.Query(new Request("0108"));
 
             return FuelTrimCalculation(response);
         }
 
-        public decimal LongTermFuelTrimB2()
+        public decimal GetLongTermFuelTrimB2()
         {
             var response = _connection.Query(new Request("0109"));
 
@@ -115,10 +115,10 @@ namespace EngineLineLibrary
         }
 
         // 03 mode
-        public List<string> ReadEngineCodes()
+        public List<string> GetDiagnosticTroubleCodes()
         {
-            List<string> engineCodesRaw = new List<string>();
-            List<string> engineCodes = new List<string>();
+            List<string> dtcList = new List<string>();  // The final list of trouble codes to be returned
+            List<string> dtcRaw = new List<string>();
 
             var response = _connection.Query(new Request("03"));
 
@@ -127,42 +127,42 @@ namespace EngineLineLibrary
             // NOTE: This condition should be handled in the error handler
             if (responseString != "NO DATA")
             {
-                var engineCodeLines = responseString.Split("\r\n");
+                var dtcLines = responseString.Split("\r\n");
 
-                foreach (var engineCodeLine in engineCodeLines)
+                foreach (var dtcLine in dtcLines)
                 {
                     // each line of engine code data returns 3 engine codes
-                    var allEngineCode = engineCodeLine.Substring(3);
+                    var allDtcs = dtcLine.Substring(3);
 
                     // Get all the engine codes
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
-                    allEngineCode = allEngineCode.Substring(6);
+                    dtcRaw.Add(allDtcs.Remove(5).Replace(" ", ""));
+                    allDtcs = allDtcs.Substring(6);
 
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
-                    allEngineCode = allEngineCode.Substring(6);
+                    dtcRaw.Add(allDtcs.Remove(5).Replace(" ", ""));
+                    allDtcs = allDtcs.Substring(6);
 
-                    engineCodesRaw.Add(allEngineCode.Remove(5).Replace(" ", ""));
+                    dtcRaw.Add(allDtcs.Remove(5).Replace(" ", ""));
                 }
 
-                engineCodesRaw.ForEach(engineCode =>
+                dtcRaw.ForEach(dtc =>
                 {
-                    if (engineCode != "0000")
+                    if (dtc != "0000")
                     {
-                        var engineCodeChars = engineCode.ToCharArray();
-                        string engineCodeString;
+                        var dtcChars = dtc.ToCharArray();
+                        string dtcString;
 
                         // Check for the first character of the engine code in the engine code dictionary
-                        if (engineCodeDict.ContainsKey(engineCodeChars[0]))
-                            engineCodeString = engineCodeDict[engineCodeChars[0]] + engineCode.Substring(1);
+                        if (dtcDict.ContainsKey(dtcChars[0]))
+                            dtcString = dtcDict[dtcChars[0]] + dtc.Substring(1);
                         else
                             throw new ApplicationException();
 
-                        engineCodes.Add(engineCodeString);
+                        dtcList.Add(dtcString);
                     }
                 });
             }
 
-            return engineCodes;
+            return dtcList;
         }
 
         // 04 mode

@@ -5,7 +5,7 @@ namespace EngineLine
 {
     public partial class EngineLine : Form
     {
-        public IObdConnection? Connection { get; set; }
+        public Vehicle vehicle { get; set; }
 
         private bool isMonitoring = false;
 
@@ -22,10 +22,10 @@ namespace EngineLine
 
         private bool IsNotConnected()
         {
-            if (Connection == null)
+            if (vehicle == null)
                 MessageBox.Show("Connect and try again");
 
-            return Connection == null;
+            return vehicle == null;
         }
 
         private void buttonMonitoringTrigger_Click(object sender, EventArgs e)
@@ -55,27 +55,27 @@ namespace EngineLine
         {
             while (isMonitoring)
             {
-                var rpm = Connection.ReadRpm();
+                var rpm = vehicle.GetRpm();
                 textBoxRPM.Text = $"{rpm}";
                 guageRPM.GaugeData.Value = rpm;
 
                 await Task.Delay(1);
 
-                var speed = Connection.ReadSpeed();
+                var speed = vehicle.GetSpeed();
                 textBoxSpeed.Text = $"{speed} KPH";
                 guageSpeed.GaugeData.Value = speed;
 
                 await Task.Delay(1);
 
-                textBoxTPS.Text = $"{Connection.ReadTPS()}%";
+                textBoxTPS.Text = $"{vehicle.GetTPS()}%";
 
                 await Task.Delay(1);
 
-                textBoxTemperature.Text = $"{Connection.ReadTemperature()} °C";
+                textBoxTemperature.Text = $"{vehicle.GetTemperature()} °C";
 
                 await Task.Delay(1);
 
-                textBoxMAF.Text = $"{Connection.ReadMAF()}";
+                textBoxMAF.Text = $"{vehicle.GetMAF()}";
 
                 await Task.Delay(1);
             }
@@ -86,7 +86,7 @@ namespace EngineLine
             if (IsNotConnected())
                 return;
 
-            UpdateEngineCodes();
+            UpdateDtcs();
         }
 
         private void buttonClearCodes_Click(object sender, EventArgs e)
@@ -103,24 +103,24 @@ namespace EngineLine
 
             if (confirm == DialogResult.Yes)
             {
-                Connection.ResetCodes();
+                vehicle.ResetCodes();
 
-                UpdateEngineCodes();
+                UpdateDtcs();
             }
             else
                 return;
         }
 
-        private void UpdateEngineCodes()
+        private void UpdateDtcs()
         {
             try
             {
-                listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+                listBoxDiagnosticTroubleCodes.DataSource = vehicle.GetDiagnosticTroubleCodes();
             }
             catch (NoDataFoundException)
             {
-                List<string> errors = new() { "No Engine codes found" };
-                listBoxEngineCodes.DataSource = errors;
+                List<string> errors = new() { "No DTCs found" };
+                listBoxDiagnosticTroubleCodes.DataSource = errors;
             }
         }
     }
