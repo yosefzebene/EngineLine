@@ -4,11 +4,6 @@ using System.Text;
 
 namespace EngineLineLibrary
 {
-    public class NoDataFoundException : Exception
-    {
-        public NoDataFoundException(){}
-    }
-
     public class ObdConnection : IObdConnection
     {
         private const int DEFAULT_BAUD = 38400;
@@ -68,7 +63,6 @@ namespace EngineLineLibrary
             return new(buffer.ToString());
         }
 
-        // TODO: Move this error handling to the response object
         private void CheckForErrorsInResponse()
         {
             var response = buffer.ToString().Trim(new char[] { '>', '\r', '\n' });

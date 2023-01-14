@@ -20,4 +20,9 @@ namespace EngineLineLibrary
             return ResponseString.Trim(new char[] { '>', '\r', '\n' }).Split(' ');
         }
     }
+
+    public class NoDataFoundException : Exception
+    {
+        public NoDataFoundException() { }
+    }
 }

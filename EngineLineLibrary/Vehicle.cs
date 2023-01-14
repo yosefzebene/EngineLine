@@ -34,7 +34,7 @@ namespace EngineLineLibrary
         // 01 Mode
         public int GetRpm()
         {
-            var response = _connection.Query(new Request("010c"));
+            var response = _connection.Query(new Request(PID.RPM));
 
             var hexResponse = response.singleLineResponseToHexArray();
 
@@ -43,7 +43,7 @@ namespace EngineLineLibrary
 
         public int GetSpeed()
         {
-            var response = _connection.Query(new Request("010D"));
+            var response = _connection.Query(new Request(PID.Speed));
 
             var hexResponse = response.singleLineResponseToHexArray();
 
@@ -52,7 +52,7 @@ namespace EngineLineLibrary
 
         public int GetTemperature()
         {
-            var response = _connection.Query(new Request("0105"));
+            var response = _connection.Query(new Request(PID.Temperature));
 
             var hexResponse = response.singleLineResponseToHexArray();
 
@@ -61,7 +61,7 @@ namespace EngineLineLibrary
 
         public decimal GetTPS()
         {
-            var response = _connection.Query(new Request("0111"));
+            var response = _connection.Query(new Request(PID.ThrottlePosition));
 
             var hexResponse = response.singleLineResponseToHexArray();
 
@@ -73,7 +73,7 @@ namespace EngineLineLibrary
 
         public decimal GetMAF()
         {
-            var response = _connection.Query(new Request("0110"));
+            var response = _connection.Query(new Request(PID.MassAirFlow));
 
             var hexResponse = response.singleLineResponseToHexArray();
 
@@ -88,28 +88,28 @@ namespace EngineLineLibrary
 
         public decimal GetShortTermFuelTrimB1()
         {
-            var response = _connection.Query(new Request("0106"));
+            var response = _connection.Query(new Request(PID.ShortTermFuelTrimB1));
 
             return FuelTrimCalculation(response);
         }
 
         public decimal GetShortTermFuelTrimB2()
         {
-            var response = _connection.Query(new Request("0108"));
+            var response = _connection.Query(new Request(PID.ShortTermFuelTrimB2));
 
             return FuelTrimCalculation(response);
         }
 
         public decimal GetLongTermFuelTrimB1()
         {
-            var response = _connection.Query(new Request("0108"));
+            var response = _connection.Query(new Request(PID.LongTermFuelTrimB1));
 
             return FuelTrimCalculation(response);
         }
 
         public decimal GetLongTermFuelTrimB2()
         {
-            var response = _connection.Query(new Request("0109"));
+            var response = _connection.Query(new Request(PID.LongTermFuelTrimB2));
 
             return FuelTrimCalculation(response);
         }
@@ -120,7 +120,7 @@ namespace EngineLineLibrary
             List<string> dtcList = new List<string>();  // The final list of trouble codes to be returned
             List<string> dtcRaw = new List<string>();
 
-            var response = _connection.Query(new Request("03"));
+            var response = _connection.Query(new Request(PID.DiagnosticTroubleCodes));
 
             var responseString = response.ResponseString.Trim(new char[] { '>', '\r', '\n' });
 
@@ -169,7 +169,7 @@ namespace EngineLineLibrary
         public bool ResetCodes()
         {
             // Send the command
-            _connection.Query(new Request("04"));
+            _connection.Query(new Request(PID.ClearDiagnosticTroubleCodes));
 
             return true;
         }
