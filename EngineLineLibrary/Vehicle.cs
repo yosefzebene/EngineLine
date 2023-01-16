@@ -114,6 +114,46 @@ namespace EngineLineLibrary
             return FuelTrimCalculation(response);
         }
 
+        public decimal GetOxygenSensor1B1()
+        {
+            var response = _connection.Query(new Request(PID.OxygenSensor1B1));
+
+            var hexResponse = response.singleLineResponseToHexArray();
+            var voltage = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber) / 200;
+
+            return decimal.Round(voltage, 3);
+        }
+
+        public decimal GetOxygenSensor2B1()
+        {
+            var response = _connection.Query(new Request(PID.OxygenSensor2B1));
+
+            var hexResponse = response.singleLineResponseToHexArray();
+            var voltage = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber) / 200;
+
+            return decimal.Round(voltage, 3);
+        }
+
+        public decimal GetOxygenSensor1B2()
+        {
+            var response = _connection.Query(new Request(PID.OxygenSensor1B2));
+
+            var hexResponse = response.singleLineResponseToHexArray();
+            var voltage = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber) / 200;
+
+            return decimal.Round(voltage, 3);
+        }
+
+        public decimal GetOxygenSensor2B2()
+        {
+            var response = _connection.Query(new Request(PID.OxygenSensor2B2));
+
+            var hexResponse = response.singleLineResponseToHexArray();
+            var voltage = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber) / 200;
+
+            return decimal.Round(voltage, 3);
+        }
+
         // 03 mode
         public List<string> GetDiagnosticTroubleCodes()
         {
@@ -182,6 +222,11 @@ namespace EngineLineLibrary
             var a = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber);
 
             return decimal.Round((a * 1.28m) - 100, 1);
+        }
+
+        public void Disconnect()
+        {
+            _connection.CloseConnection();
         }
     }
 }

@@ -22,6 +22,7 @@
 
     public enum PID
     {
+        // Mode 1
         RPM,
         Speed,
         Temperature,
@@ -31,7 +32,13 @@
         ShortTermFuelTrimB2,
         LongTermFuelTrimB1,
         LongTermFuelTrimB2,
+        OxygenSensor1B1,
+        OxygenSensor2B1,
+        OxygenSensor1B2,
+        OxygenSensor2B2,
+        // Mode 3
         DiagnosticTroubleCodes,
+        // Mode 4
         ClearDiagnosticTroubleCodes
     }
 
@@ -59,6 +66,14 @@
                     return "0107";
                 case PID.LongTermFuelTrimB2:
                     return "0109";
+                case PID.OxygenSensor1B1:
+                    return "0114";
+                case PID.OxygenSensor2B1:
+                    return "0115";
+                case PID.OxygenSensor1B2:
+                    return "0116";
+                case PID.OxygenSensor2B2:
+                    return "0117";
                 case PID.DiagnosticTroubleCodes:
                     return "03";
                 case PID.ClearDiagnosticTroubleCodes:
