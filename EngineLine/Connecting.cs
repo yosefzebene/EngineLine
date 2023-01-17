@@ -37,6 +37,7 @@ namespace EngineLine
 
             // Populate COM ports
             string[] ports = SerialPort.GetPortNames();
+            ports = ports.Where(port => port.StartsWith("COM")).ToArray();
             comboBoxCOMPort.DataSource = ports;
 
             // Populate BAUD Rate

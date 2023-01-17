@@ -1,4 +1,5 @@
 ﻿using CodeArtEng.Gauge;
+using OxyPlot.WindowsForms;
 
 namespace EngineLine
 {
@@ -30,12 +31,15 @@ namespace EngineLine
         /// </summary>
         private void InitializeComponent()
         {
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors4 = new CodeArtEng.Gauge.Themes.ThemeColors();
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors5 = new CodeArtEng.Gauge.Themes.ThemeColors();
-            CodeArtEng.Gauge.Themes.ThemeColors themeColors6 = new CodeArtEng.Gauge.Themes.ThemeColors();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.OnConnectionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors1 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors2 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            CodeArtEng.Gauge.Themes.ThemeColors themeColors3 = new CodeArtEng.Gauge.Themes.ThemeColors();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPageConnect = new System.Windows.Forms.TabPage();
+            this.buttonConnect = new System.Windows.Forms.Button();
+            this.buttonDisconnect = new System.Windows.Forms.Button();
+            this.textBoxStatus = new System.Windows.Forms.TextBox();
+            this.textBoxTitle = new System.Windows.Forms.TextBox();
             this.tabPageMonitoring = new System.Windows.Forms.TabPage();
             this.guageRPM = new CodeArtEng.Gauge.LinearGauge();
             this.labelRPM = new System.Windows.Forms.Label();
@@ -50,48 +54,115 @@ namespace EngineLine
             this.labelTPS = new System.Windows.Forms.Label();
             this.textBoxTPS = new System.Windows.Forms.TextBox();
             this.guageSpeed = new CodeArtEng.Gauge.LinearGauge();
-            this.tabPageEngineCodes = new System.Windows.Forms.TabPage();
-            this.buttonClearCodes = new System.Windows.Forms.Button();
+            this.tabPageDiagnosticTroubleCodes = new System.Windows.Forms.TabPage();
             this.buttonReload = new System.Windows.Forms.Button();
             this.listBoxDiagnosticTroubleCodes = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.menuStrip1.SuspendLayout();
+            this.buttonClearCodes = new System.Windows.Forms.Button();
+            this.tabPageGraph = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelButtonOrganizer = new System.Windows.Forms.TableLayoutPanel();
+            this.buttonOpenOxygenVoltageGraph = new System.Windows.Forms.Button();
+            this.buttonOpenFuelTrimGraph = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
+            this.tabPageConnect.SuspendLayout();
             this.tabPageMonitoring.SuspendLayout();
-            this.tabPageEngineCodes.SuspendLayout();
+            this.tabPageDiagnosticTroubleCodes.SuspendLayout();
+            this.tabPageGraph.SuspendLayout();
+            this.tableLayoutPanelButtonOrganizer.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(40, 40);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OnConnectionMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2255, 49);
-            this.menuStrip1.TabIndex = 1;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // OnConnectionMenuItem
-            // 
-            this.OnConnectionMenuItem.Name = "OnConnectionMenuItem";
-            this.OnConnectionMenuItem.Size = new System.Drawing.Size(153, 45);
-            this.OnConnectionMenuItem.Text = "Connect";
-            this.OnConnectionMenuItem.Click += new System.EventHandler(this.OnConnectionMenuItem_Click);
             // 
             // tabControl1
             // 
+            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabControl1.Controls.Add(this.tabPageConnect);
             this.tabControl1.Controls.Add(this.tabPageMonitoring);
-            this.tabControl1.Controls.Add(this.tabPageEngineCodes);
+            this.tabControl1.Controls.Add(this.tabPageDiagnosticTroubleCodes);
+            this.tabControl1.Controls.Add(this.tabPageGraph);
+            this.tabControl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 49);
+            this.tabControl1.Font = new System.Drawing.Font("Segoe UI Semilight", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tabControl1.ItemSize = new System.Drawing.Size(119, 75);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2255, 1151);
+            this.tabControl1.Size = new System.Drawing.Size(2255, 1200);
             this.tabControl1.TabIndex = 11;
+            // 
+            // tabPageConnect
+            // 
+            this.tabPageConnect.BackColor = System.Drawing.SystemColors.Desktop;
+            this.tabPageConnect.Controls.Add(this.buttonConnect);
+            this.tabPageConnect.Controls.Add(this.buttonDisconnect);
+            this.tabPageConnect.Controls.Add(this.textBoxStatus);
+            this.tabPageConnect.Controls.Add(this.textBoxTitle);
+            this.tabPageConnect.ForeColor = System.Drawing.Color.White;
+            this.tabPageConnect.Location = new System.Drawing.Point(4, 79);
+            this.tabPageConnect.Name = "tabPageConnect";
+            this.tabPageConnect.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageConnect.Size = new System.Drawing.Size(2247, 1117);
+            this.tabPageConnect.TabIndex = 3;
+            this.tabPageConnect.Text = "Connect";
+            this.tabPageConnect.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPageConnect_Enter);
+            // 
+            // buttonConnect
+            // 
+            this.buttonConnect.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonConnect.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonConnect.Location = new System.Drawing.Point(3, 998);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(2241, 58);
+            this.buttonConnect.TabIndex = 2;
+            this.buttonConnect.Text = "connect";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            // 
+            // buttonDisconnect
+            // 
+            this.buttonDisconnect.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonDisconnect.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonDisconnect.Location = new System.Drawing.Point(3, 1056);
+            this.buttonDisconnect.Name = "buttonDisconnect";
+            this.buttonDisconnect.Size = new System.Drawing.Size(2241, 58);
+            this.buttonDisconnect.TabIndex = 3;
+            this.buttonDisconnect.Text = "disconnect";
+            this.buttonDisconnect.UseVisualStyleBackColor = true;
+            this.buttonDisconnect.Click += new System.EventHandler(this.buttonDisconnect_Click);
+            // 
+            // textBoxStatus
+            // 
+            this.textBoxStatus.BackColor = System.Drawing.Color.Black;
+            this.textBoxStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxStatus.Font = new System.Drawing.Font("Segoe UI Semilight", 15.9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxStatus.ForeColor = System.Drawing.Color.Red;
+            this.textBoxStatus.Location = new System.Drawing.Point(3, 74);
+            this.textBoxStatus.Name = "textBoxStatus";
+            this.textBoxStatus.ReadOnly = true;
+            this.textBoxStatus.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.textBoxStatus.Size = new System.Drawing.Size(2241, 71);
+            this.textBoxStatus.TabIndex = 1;
+            this.textBoxStatus.Text = "Not Connected";
+            this.textBoxStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBoxTitle
+            // 
+            this.textBoxTitle.BackColor = System.Drawing.Color.Black;
+            this.textBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxTitle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.textBoxTitle.Font = new System.Drawing.Font("Segoe UI", 15.9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.textBoxTitle.ForeColor = System.Drawing.Color.White;
+            this.textBoxTitle.Location = new System.Drawing.Point(3, 3);
+            this.textBoxTitle.Name = "textBoxTitle";
+            this.textBoxTitle.ReadOnly = true;
+            this.textBoxTitle.Size = new System.Drawing.Size(2241, 71);
+            this.textBoxTitle.TabIndex = 0;
+            this.textBoxTitle.Text = "Status";
+            this.textBoxTitle.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tabPageMonitoring
             // 
+            this.tabPageMonitoring.BackColor = System.Drawing.SystemColors.Desktop;
             this.tabPageMonitoring.Controls.Add(this.guageRPM);
             this.tabPageMonitoring.Controls.Add(this.labelRPM);
             this.tabPageMonitoring.Controls.Add(this.buttonMonitoringTrigger);
@@ -106,13 +177,13 @@ namespace EngineLine
             this.tabPageMonitoring.Controls.Add(this.textBoxTPS);
             this.tabPageMonitoring.Controls.Add(this.guageSpeed);
             this.tabPageMonitoring.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPageMonitoring.Location = new System.Drawing.Point(10, 58);
+            this.tabPageMonitoring.ForeColor = System.Drawing.Color.White;
+            this.tabPageMonitoring.Location = new System.Drawing.Point(4, 79);
             this.tabPageMonitoring.Name = "tabPageMonitoring";
             this.tabPageMonitoring.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMonitoring.Size = new System.Drawing.Size(2235, 1083);
+            this.tabPageMonitoring.Size = new System.Drawing.Size(2247, 1117);
             this.tabPageMonitoring.TabIndex = 0;
             this.tabPageMonitoring.Text = "Monitor";
-            this.tabPageMonitoring.UseVisualStyleBackColor = true;
             // 
             // guageRPM
             // 
@@ -124,7 +195,7 @@ namespace EngineLine
             this.guageRPM.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.guageRPM.InfoMode = CodeArtEng.Gauge.GaugeInfoMode.NONE;
             this.guageRPM.InfoPage = CodeArtEng.Gauge.GaugeInfoType.Range;
-            this.guageRPM.Location = new System.Drawing.Point(354, 334);
+            this.guageRPM.Location = new System.Drawing.Point(342, 357);
             this.guageRPM.Maximum = 7000D;
             this.guageRPM.Name = "guageRPM";
             this.guageRPM.ScaleFactor = 1D;
@@ -134,11 +205,11 @@ namespace EngineLine
             this.guageRPM.Theme = CodeArtEng.Gauge.GaugeTheme.DarkBlue;
             this.guageRPM.Title = "";
             this.guageRPM.Unit = "RPM";
-            this.guageRPM.UserDefinedColors.Base = themeColors4;
-            themeColors5.PointerColor = System.Drawing.Color.Red;
-            this.guageRPM.UserDefinedColors.Error = themeColors5;
-            themeColors6.PointerColor = System.Drawing.Color.Orange;
-            this.guageRPM.UserDefinedColors.Warning = themeColors6;
+            this.guageRPM.UserDefinedColors.Base = themeColors1;
+            themeColors2.PointerColor = System.Drawing.Color.Red;
+            this.guageRPM.UserDefinedColors.Error = themeColors2;
+            themeColors3.PointerColor = System.Drawing.Color.Orange;
+            this.guageRPM.UserDefinedColors.Warning = themeColors3;
             this.guageRPM.Value = 0D;
             this.guageRPM.WarningLimit = 5500D;
             // 
@@ -147,7 +218,7 @@ namespace EngineLine
             this.labelRPM.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelRPM.AutoSize = true;
             this.labelRPM.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelRPM.Location = new System.Drawing.Point(554, 88);
+            this.labelRPM.Location = new System.Drawing.Point(542, 111);
             this.labelRPM.Name = "labelRPM";
             this.labelRPM.Size = new System.Drawing.Size(123, 62);
             this.labelRPM.TabIndex = 1;
@@ -158,7 +229,7 @@ namespace EngineLine
             this.buttonMonitoringTrigger.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonMonitoringTrigger.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.buttonMonitoringTrigger.Font = new System.Drawing.Font("Segoe UI Black", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.buttonMonitoringTrigger.Location = new System.Drawing.Point(1002, 857);
+            this.buttonMonitoringTrigger.Location = new System.Drawing.Point(990, 880);
             this.buttonMonitoringTrigger.Name = "buttonMonitoringTrigger";
             this.buttonMonitoringTrigger.Size = new System.Drawing.Size(265, 107);
             this.buttonMonitoringTrigger.TabIndex = 10;
@@ -169,12 +240,16 @@ namespace EngineLine
             // textBoxRPM
             // 
             this.textBoxRPM.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxRPM.BackColor = System.Drawing.SystemColors.Desktop;
+            this.textBoxRPM.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxRPM.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxRPM.Location = new System.Drawing.Point(354, 179);
+            this.textBoxRPM.ForeColor = System.Drawing.Color.White;
+            this.textBoxRPM.Location = new System.Drawing.Point(342, 202);
             this.textBoxRPM.Name = "textBoxRPM";
             this.textBoxRPM.ReadOnly = true;
-            this.textBoxRPM.Size = new System.Drawing.Size(491, 149);
+            this.textBoxRPM.Size = new System.Drawing.Size(491, 142);
             this.textBoxRPM.TabIndex = 0;
+            this.textBoxRPM.Text = "0";
             this.textBoxRPM.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelMAF
@@ -182,7 +257,7 @@ namespace EngineLine
             this.labelMAF.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelMAF.AutoSize = true;
             this.labelMAF.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelMAF.Location = new System.Drawing.Point(1600, 725);
+            this.labelMAF.Location = new System.Drawing.Point(1588, 748);
             this.labelMAF.Name = "labelMAF";
             this.labelMAF.Size = new System.Drawing.Size(122, 62);
             this.labelMAF.TabIndex = 9;
@@ -193,7 +268,7 @@ namespace EngineLine
             this.labelSpeed.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelSpeed.AutoSize = true;
             this.labelSpeed.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelSpeed.Location = new System.Drawing.Point(1587, 88);
+            this.labelSpeed.Location = new System.Drawing.Point(1575, 111);
             this.labelSpeed.Name = "labelSpeed";
             this.labelSpeed.Size = new System.Drawing.Size(158, 62);
             this.labelSpeed.TabIndex = 6;
@@ -204,7 +279,7 @@ namespace EngineLine
             this.labelTemperature.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelTemperature.AutoSize = true;
             this.labelTemperature.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTemperature.Location = new System.Drawing.Point(1002, 88);
+            this.labelTemperature.Location = new System.Drawing.Point(990, 111);
             this.labelTemperature.Name = "labelTemperature";
             this.labelTemperature.Size = new System.Drawing.Size(289, 62);
             this.labelTemperature.TabIndex = 8;
@@ -213,34 +288,46 @@ namespace EngineLine
             // textBoxSpeed
             // 
             this.textBoxSpeed.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxSpeed.BackColor = System.Drawing.SystemColors.Desktop;
+            this.textBoxSpeed.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxSpeed.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxSpeed.Location = new System.Drawing.Point(1416, 179);
+            this.textBoxSpeed.ForeColor = System.Drawing.Color.White;
+            this.textBoxSpeed.Location = new System.Drawing.Point(1404, 202);
             this.textBoxSpeed.Name = "textBoxSpeed";
             this.textBoxSpeed.ReadOnly = true;
-            this.textBoxSpeed.Size = new System.Drawing.Size(491, 149);
+            this.textBoxSpeed.Size = new System.Drawing.Size(491, 142);
             this.textBoxSpeed.TabIndex = 2;
+            this.textBoxSpeed.Text = "0";
             this.textBoxSpeed.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxMAF
             // 
             this.textBoxMAF.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxMAF.BackColor = System.Drawing.SystemColors.Desktop;
+            this.textBoxMAF.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxMAF.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxMAF.Location = new System.Drawing.Point(1416, 815);
+            this.textBoxMAF.ForeColor = System.Drawing.Color.White;
+            this.textBoxMAF.Location = new System.Drawing.Point(1404, 838);
             this.textBoxMAF.Name = "textBoxMAF";
             this.textBoxMAF.ReadOnly = true;
-            this.textBoxMAF.Size = new System.Drawing.Size(491, 149);
+            this.textBoxMAF.Size = new System.Drawing.Size(491, 142);
             this.textBoxMAF.TabIndex = 4;
+            this.textBoxMAF.Text = "0";
             this.textBoxMAF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxTemperature
             // 
             this.textBoxTemperature.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxTemperature.BackColor = System.Drawing.SystemColors.Desktop;
+            this.textBoxTemperature.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxTemperature.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxTemperature.Location = new System.Drawing.Point(887, 179);
+            this.textBoxTemperature.ForeColor = System.Drawing.Color.White;
+            this.textBoxTemperature.Location = new System.Drawing.Point(875, 202);
             this.textBoxTemperature.Name = "textBoxTemperature";
             this.textBoxTemperature.ReadOnly = true;
-            this.textBoxTemperature.Size = new System.Drawing.Size(491, 149);
+            this.textBoxTemperature.Size = new System.Drawing.Size(491, 142);
             this.textBoxTemperature.TabIndex = 5;
+            this.textBoxTemperature.Text = "0";
             this.textBoxTemperature.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelTPS
@@ -248,7 +335,7 @@ namespace EngineLine
             this.labelTPS.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelTPS.AutoSize = true;
             this.labelTPS.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelTPS.Location = new System.Drawing.Point(537, 725);
+            this.labelTPS.Location = new System.Drawing.Point(525, 748);
             this.labelTPS.Name = "labelTPS";
             this.labelTPS.Size = new System.Drawing.Size(103, 62);
             this.labelTPS.TabIndex = 7;
@@ -257,12 +344,16 @@ namespace EngineLine
             // textBoxTPS
             // 
             this.textBoxTPS.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBoxTPS.BackColor = System.Drawing.SystemColors.Desktop;
+            this.textBoxTPS.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxTPS.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.textBoxTPS.Location = new System.Drawing.Point(354, 815);
+            this.textBoxTPS.ForeColor = System.Drawing.Color.White;
+            this.textBoxTPS.Location = new System.Drawing.Point(342, 838);
             this.textBoxTPS.Name = "textBoxTPS";
             this.textBoxTPS.ReadOnly = true;
-            this.textBoxTPS.Size = new System.Drawing.Size(491, 149);
+            this.textBoxTPS.Size = new System.Drawing.Size(491, 142);
             this.textBoxTPS.TabIndex = 3;
+            this.textBoxTPS.Text = "0";
             this.textBoxTPS.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // guageSpeed
@@ -275,7 +366,7 @@ namespace EngineLine
             this.guageSpeed.FontUnitLabel = new System.Drawing.Font("Impact", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.guageSpeed.InfoMode = CodeArtEng.Gauge.GaugeInfoMode.NONE;
             this.guageSpeed.InfoPage = CodeArtEng.Gauge.GaugeInfoType.Range;
-            this.guageSpeed.Location = new System.Drawing.Point(1416, 334);
+            this.guageSpeed.Location = new System.Drawing.Point(1404, 357);
             this.guageSpeed.Maximum = 300D;
             this.guageSpeed.Name = "guageSpeed";
             this.guageSpeed.ScaleFactor = 1D;
@@ -288,38 +379,29 @@ namespace EngineLine
             this.guageSpeed.Value = 0D;
             this.guageSpeed.WarningLimit = 200D;
             // 
-            // tabPageEngineCodes
+            // tabPageDiagnosticTroubleCodes
             // 
-            this.tabPageEngineCodes.Controls.Add(this.buttonClearCodes);
-            this.tabPageEngineCodes.Controls.Add(this.buttonReload);
-            this.tabPageEngineCodes.Controls.Add(this.listBoxDiagnosticTroubleCodes);
-            this.tabPageEngineCodes.Controls.Add(this.textBox1);
-            this.tabPageEngineCodes.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabPageEngineCodes.Location = new System.Drawing.Point(10, 58);
-            this.tabPageEngineCodes.Name = "tabPageEngineCodes";
-            this.tabPageEngineCodes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageEngineCodes.Size = new System.Drawing.Size(2235, 1083);
-            this.tabPageEngineCodes.TabIndex = 1;
-            this.tabPageEngineCodes.Text = "Engine Codes";
-            this.tabPageEngineCodes.UseVisualStyleBackColor = true;
-            // 
-            // buttonClearCodes
-            // 
-            this.buttonClearCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonClearCodes.Location = new System.Drawing.Point(2075, 977);
-            this.buttonClearCodes.Name = "buttonClearCodes";
-            this.buttonClearCodes.Size = new System.Drawing.Size(144, 73);
-            this.buttonClearCodes.TabIndex = 3;
-            this.buttonClearCodes.Text = "Clear";
-            this.buttonClearCodes.UseVisualStyleBackColor = true;
-            this.buttonClearCodes.Click += new System.EventHandler(this.buttonClearCodes_Click);
+            this.tabPageDiagnosticTroubleCodes.BackColor = System.Drawing.SystemColors.Desktop;
+            this.tabPageDiagnosticTroubleCodes.Controls.Add(this.buttonReload);
+            this.tabPageDiagnosticTroubleCodes.Controls.Add(this.listBoxDiagnosticTroubleCodes);
+            this.tabPageDiagnosticTroubleCodes.Controls.Add(this.textBox1);
+            this.tabPageDiagnosticTroubleCodes.Controls.Add(this.buttonClearCodes);
+            this.tabPageDiagnosticTroubleCodes.Font = new System.Drawing.Font("Segoe UI", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tabPageDiagnosticTroubleCodes.ForeColor = System.Drawing.Color.White;
+            this.tabPageDiagnosticTroubleCodes.Location = new System.Drawing.Point(4, 79);
+            this.tabPageDiagnosticTroubleCodes.Name = "tabPageDiagnosticTroubleCodes";
+            this.tabPageDiagnosticTroubleCodes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageDiagnosticTroubleCodes.Size = new System.Drawing.Size(2247, 1117);
+            this.tabPageDiagnosticTroubleCodes.TabIndex = 1;
+            this.tabPageDiagnosticTroubleCodes.Text = "DTC";
             // 
             // buttonReload
             // 
-            this.buttonReload.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonReload.Location = new System.Drawing.Point(1915, 977);
+            this.buttonReload.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonReload.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonReload.Location = new System.Drawing.Point(3, 968);
             this.buttonReload.Name = "buttonReload";
-            this.buttonReload.Size = new System.Drawing.Size(144, 73);
+            this.buttonReload.Size = new System.Drawing.Size(2241, 73);
             this.buttonReload.TabIndex = 2;
             this.buttonReload.Text = "Read";
             this.buttonReload.UseVisualStyleBackColor = true;
@@ -327,58 +409,136 @@ namespace EngineLine
             // 
             // listBoxDiagnosticTroubleCodes
             // 
-            this.listBoxDiagnosticTroubleCodes.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.listBoxDiagnosticTroubleCodes.BackColor = System.Drawing.SystemColors.Desktop;
+            this.listBoxDiagnosticTroubleCodes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBoxDiagnosticTroubleCodes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxDiagnosticTroubleCodes.ForeColor = System.Drawing.Color.White;
             this.listBoxDiagnosticTroubleCodes.FormattingEnabled = true;
             this.listBoxDiagnosticTroubleCodes.ItemHeight = 50;
-            this.listBoxDiagnosticTroubleCodes.Location = new System.Drawing.Point(3, 76);
+            this.listBoxDiagnosticTroubleCodes.Location = new System.Drawing.Point(3, 79);
             this.listBoxDiagnosticTroubleCodes.Name = "listBoxDiagnosticTroubleCodes";
             this.listBoxDiagnosticTroubleCodes.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.listBoxDiagnosticTroubleCodes.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBoxDiagnosticTroubleCodes.Size = new System.Drawing.Size(2229, 1004);
+            this.listBoxDiagnosticTroubleCodes.Size = new System.Drawing.Size(2241, 962);
             this.listBoxDiagnosticTroubleCodes.TabIndex = 1;
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.textBox1.BackColor = System.Drawing.Color.White;
+            this.textBox1.BackColor = System.Drawing.SystemColors.Desktop;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBox1.Font = new System.Drawing.Font("Franklin Gothic Medium Cond", 20.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBox1.ForeColor = System.Drawing.Color.White;
             this.textBox1.Location = new System.Drawing.Point(3, 3);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(2229, 76);
+            this.textBox1.Size = new System.Drawing.Size(2241, 76);
             this.textBox1.TabIndex = 0;
             this.textBox1.Text = "DIAGNOSTIC CODES";
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // buttonClearCodes
+            // 
+            this.buttonClearCodes.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonClearCodes.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonClearCodes.Location = new System.Drawing.Point(3, 1041);
+            this.buttonClearCodes.Name = "buttonClearCodes";
+            this.buttonClearCodes.Size = new System.Drawing.Size(2241, 73);
+            this.buttonClearCodes.TabIndex = 3;
+            this.buttonClearCodes.Text = "Clear";
+            this.buttonClearCodes.UseVisualStyleBackColor = true;
+            this.buttonClearCodes.Click += new System.EventHandler(this.buttonClearCodes_Click);
+            // 
+            // tabPageGraph
+            // 
+            this.tabPageGraph.BackColor = System.Drawing.SystemColors.Desktop;
+            this.tabPageGraph.Controls.Add(this.tableLayoutPanelButtonOrganizer);
+            this.tabPageGraph.ForeColor = System.Drawing.Color.White;
+            this.tabPageGraph.Location = new System.Drawing.Point(4, 79);
+            this.tabPageGraph.Name = "tabPageGraph";
+            this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageGraph.Size = new System.Drawing.Size(2247, 1117);
+            this.tabPageGraph.TabIndex = 2;
+            this.tabPageGraph.Text = "Graph";
+            // 
+            // tableLayoutPanelButtonOrganizer
+            // 
+            this.tableLayoutPanelButtonOrganizer.ColumnCount = 3;
+            this.tableLayoutPanelButtonOrganizer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanelButtonOrganizer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanelButtonOrganizer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanelButtonOrganizer.Controls.Add(this.buttonOpenOxygenVoltageGraph, 1, 0);
+            this.tableLayoutPanelButtonOrganizer.Controls.Add(this.buttonOpenFuelTrimGraph, 0, 0);
+            this.tableLayoutPanelButtonOrganizer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelButtonOrganizer.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanelButtonOrganizer.Name = "tableLayoutPanelButtonOrganizer";
+            this.tableLayoutPanelButtonOrganizer.RowCount = 2;
+            this.tableLayoutPanelButtonOrganizer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelButtonOrganizer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelButtonOrganizer.Size = new System.Drawing.Size(2241, 1111);
+            this.tableLayoutPanelButtonOrganizer.TabIndex = 5;
+            // 
+            // buttonOpenOxygenVoltageGraph
+            // 
+            this.buttonOpenOxygenVoltageGraph.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.buttonOpenOxygenVoltageGraph.BackgroundImage = global::EngineLine.Properties.Resources.O2Icon;
+            this.buttonOpenOxygenVoltageGraph.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.buttonOpenOxygenVoltageGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonOpenOxygenVoltageGraph.Font = new System.Drawing.Font("Segoe UI", 14.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.buttonOpenOxygenVoltageGraph.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonOpenOxygenVoltageGraph.Location = new System.Drawing.Point(749, 3);
+            this.buttonOpenOxygenVoltageGraph.Name = "buttonOpenOxygenVoltageGraph";
+            this.buttonOpenOxygenVoltageGraph.Size = new System.Drawing.Size(741, 549);
+            this.buttonOpenOxygenVoltageGraph.TabIndex = 4;
+            this.buttonOpenOxygenVoltageGraph.Text = "O2 Voltage";
+            this.buttonOpenOxygenVoltageGraph.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.buttonOpenOxygenVoltageGraph.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.buttonOpenOxygenVoltageGraph.UseVisualStyleBackColor = false;
+            this.buttonOpenOxygenVoltageGraph.Click += new System.EventHandler(this.buttonOpenOxygenVoltageGraph_Click);
+            // 
+            // buttonOpenFuelTrimGraph
+            // 
+            this.buttonOpenFuelTrimGraph.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.buttonOpenFuelTrimGraph.BackgroundImage = global::EngineLine.Properties.Resources.FuelIcon;
+            this.buttonOpenFuelTrimGraph.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.buttonOpenFuelTrimGraph.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonOpenFuelTrimGraph.Font = new System.Drawing.Font("Segoe UI", 14.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.buttonOpenFuelTrimGraph.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonOpenFuelTrimGraph.Location = new System.Drawing.Point(3, 3);
+            this.buttonOpenFuelTrimGraph.Name = "buttonOpenFuelTrimGraph";
+            this.buttonOpenFuelTrimGraph.Size = new System.Drawing.Size(740, 549);
+            this.buttonOpenFuelTrimGraph.TabIndex = 3;
+            this.buttonOpenFuelTrimGraph.Text = "Fuel Trim";
+            this.buttonOpenFuelTrimGraph.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.buttonOpenFuelTrimGraph.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.buttonOpenFuelTrimGraph.UseVisualStyleBackColor = false;
+            this.buttonOpenFuelTrimGraph.Click += new System.EventHandler(this.buttonOpenFuelTrimGraph_Click);
             // 
             // EngineLine
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(2255, 1200);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MainMenuStrip = this.menuStrip1;
             this.Name = "EngineLine";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EngineLine";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPageConnect.ResumeLayout(false);
+            this.tabPageConnect.PerformLayout();
             this.tabPageMonitoring.ResumeLayout(false);
             this.tabPageMonitoring.PerformLayout();
-            this.tabPageEngineCodes.ResumeLayout(false);
-            this.tabPageEngineCodes.PerformLayout();
+            this.tabPageDiagnosticTroubleCodes.ResumeLayout(false);
+            this.tabPageDiagnosticTroubleCodes.PerformLayout();
+            this.tabPageGraph.ResumeLayout(false);
+            this.tableLayoutPanelButtonOrganizer.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem OnConnectionMenuItem;
         private TabControl tabControl1;
         private TabPage tabPageMonitoring;
         private Label labelRPM;
@@ -392,12 +552,21 @@ namespace EngineLine
         private TextBox textBoxTemperature;
         private Label labelTPS;
         private TextBox textBoxTPS;
-        private TabPage tabPageEngineCodes;
+        private TabPage tabPageDiagnosticTroubleCodes;
         private Button buttonReload;
         private ListBox listBoxDiagnosticTroubleCodes;
         private TextBox textBox1;
         private Button buttonClearCodes;
         private LinearGauge guageSpeed;
         private LinearGauge guageRPM;
+        private TabPage tabPageGraph;
+        private Button buttonOpenFuelTrimGraph;
+        private TableLayoutPanel tableLayoutPanelButtonOrganizer;
+        private Button buttonOpenOxygenVoltageGraph;
+        private TabPage tabPageConnect;
+        private Button buttonConnect;
+        private TextBox textBoxStatus;
+        private TextBox textBoxTitle;
+        private Button buttonDisconnect;
     }
 }

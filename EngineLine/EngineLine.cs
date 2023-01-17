@@ -1,5 +1,5 @@
 ﻿using EngineLineLibrary;
-using CodeArtEng.Gauge;
+using EngineLine.GraphForms;
 
 namespace EngineLine
 {
@@ -14,20 +14,38 @@ namespace EngineLine
             InitializeComponent();
         }
 
-        private void OnConnectionMenuItem_Click(object sender, EventArgs e)
-        {
-            Connecting connecting = new(this);
-            connecting.ShowDialog();
-        }
-
-        private bool IsNotConnected()
+        // Connection Tab
+        private void tabPageConnect_Enter(object sender, EventArgs e)
         {
             if (vehicle == null)
-                MessageBox.Show("Connect and try again");
-
-            return vehicle == null;
+            {
+                textBoxStatus.Text = "Not Connected";
+                textBoxStatus.ForeColor = Color.Red;
+                buttonConnect.Enabled = true;
+                buttonDisconnect.Enabled = false;
+            }
+            else
+            {
+                textBoxStatus.Text = "Connected";
+                textBoxStatus.ForeColor = Color.Green;
+                buttonConnect.Enabled = false;
+                buttonDisconnect.Enabled = true;
+            }
         }
 
+        private void buttonConnect_Click(object sender, EventArgs e)
+        {
+            Connecting connecting = new(this);
+            connecting.Show(this);
+        }
+
+        private void buttonDisconnect_Click(object sender, EventArgs e)
+        {
+            vehicle.Disconnect();
+            vehicle = null;
+        }
+
+        // Monitoring Tab
         private void buttonMonitoringTrigger_Click(object sender, EventArgs e)
         {
             if (isMonitoring)
@@ -81,6 +99,7 @@ namespace EngineLine
             }
         }
 
+        // DTCs Tab
         private void buttonReload_Click(object sender, EventArgs e)
         {
             if (IsNotConnected())
@@ -95,7 +114,7 @@ namespace EngineLine
                 return;
 
             var confirm = MessageBox.Show(
-                "Are you sure you want to clear codes? This is not reversable!",
+                "Are you sure you want to clear codes? This is not reversible!",
                 "Confirm clearing",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
@@ -122,6 +141,33 @@ namespace EngineLine
                 List<string> errors = new() { "No DTCs found" };
                 listBoxDiagnosticTroubleCodes.DataSource = errors;
             }
+        }
+
+        // Graphs Tab
+        private void buttonOpenFuelTrimGraph_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            FuelTrimGraph fuelTrimGraph = new(this);
+            fuelTrimGraph.Show(this);
+        }
+
+        private void buttonOpenOxygenVoltageGraph_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            OxygenVoltageGraph oxygenVoltageGraph = new(this);
+            oxygenVoltageGraph.Show(this);
+        }
+
+        private bool IsNotConnected()
+        {
+            if (vehicle == null)
+                MessageBox.Show("Connect and try again");
+
+            return vehicle == null;
         }
     }
 }
