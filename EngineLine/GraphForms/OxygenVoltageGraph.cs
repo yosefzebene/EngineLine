@@ -2,6 +2,7 @@
 using OxyPlot.Legends;
 using OxyPlot.Series;
 using OxyPlot;
+using EngineLineLibrary;
 
 namespace EngineLine.GraphForms
 {
@@ -52,68 +53,131 @@ namespace EngineLine.GraphForms
 
         private async void StartGraphing()
         {
+            bool s1B1Available = true, s2B1Available = true, s1B2Available = true, s2B2Available = true;
             time = 0.00m;
             
             // ****************************************
             // Create S1B1 Graph
-            var S1B1Model = new PlotModel()
+            var s1B1Model = new PlotModel()
             {
-                Title = "Sensor 1 Bank 1"
+                Title = "Sensor 1 Bank 1",
+                TextColor = OxyColors.White
             };
-
-            AddAxisToModel(S1B1Model);
-
             var s1B1Points = new List<DataPoint>();
-            var s1B1Series = new LineSeries
-            {
-                StrokeThickness = 5,
-                Color = OxyColor.Parse("#f55d42"),
-                LineStyle = LineStyle.Solid,
-                ItemsSource = s1B1Points
-            };
-            S1B1Model.Series.Add(s1B1Series);
 
-            plotViewS1B1.Model = S1B1Model;
+            SetupPlotModel(s1B1Model, s1B1Points);
+            plotViewS1B1.Model = s1B1Model;
 
             // ****************************************
             // Create S2B1 Graph
-
-            var S2B1Model = new PlotModel()
+            var s2B1Model = new PlotModel()
             {
-                Title = "Sensor 2 Bank 1"
+                Title = "Sensor 2 Bank 1",
+                TextColor = OxyColors.White
             };
-
-            AddAxisToModel(S2B1Model);
-
             var s2B1Points = new List<DataPoint>();
-            var s2B1Series = new LineSeries
-            {
-                StrokeThickness = 5,
-                Color = OxyColor.Parse("#f55d42"),
-                LineStyle = LineStyle.Solid,
-                ItemsSource = s2B1Points
-            };
-            S2B1Model.Series.Add(s2B1Series);
 
-            plotViewS2B1.Model = S2B1Model;
+            SetupPlotModel(s2B1Model, s2B1Points);
+            plotViewS2B1.Model = s2B1Model;
+
+            // ****************************************
+            // Create S1B2 Graph
+            var s1B2Model = new PlotModel()
+            {
+                Title = "Sensor 1 Bank 2",
+                TextColor = OxyColors.White
+            };
+            var s1B2Points = new List<DataPoint>();
+
+            SetupPlotModel(s1B2Model, s1B2Points);
+            plotViewS1B2.Model = s1B2Model;
+
+            // ****************************************
+            // Create S2B2 Graph
+            var s2B2Model = new PlotModel()
+            {
+                Title = "Sensor 2 Bank 2",
+                TextColor = OxyColors.White
+            };
+            var s2B2Points = new List<DataPoint>();
+
+            SetupPlotModel(s2B2Model, s2B2Points);
+            plotViewS2B2.Model = s2B2Model;
 
             while (isGraphing)
             {
-                var s1B1Value = mainForm.vehicle.GetOxygenSensor1B1();
-                s1B1Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s1B1Value)));
-                await Task.Delay(1);
+                if (s1B1Available)
+                {
+                    try
+                    {
+                        var s1B1Value = mainForm.vehicle.GetOxygenSensor1B1();
+                        s1B1Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s1B1Value)));
+                        s1B1Model.InvalidatePlot(true);
+                        await Task.Delay(1);
+                    }
+                    catch (NoDataFoundException)
+                    {
+                        s1B1Available = false;
+                        s1B1Model.Title = "Unavailable";
+                        s1B1Model.InvalidatePlot(false);
+                    }
+                }
 
-                var s2B1Value = mainForm.vehicle.GetOxygenSensor2B1();
-                s2B1Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s2B1Value)));
+                if (s2B1Available)
+                {
+                    try
+                    {
+                        var s2B1Value = mainForm.vehicle.GetOxygenSensor2B1();
+                        s2B1Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s2B1Value)));
+                        s2B1Model.InvalidatePlot(true);
+                        await Task.Delay(1);
+                    }
+                    catch (NoDataFoundException)
+                    {
+                        s2B1Available = false;
+                        s2B1Model.Title = "Unavailable";
+                        s2B1Model.InvalidatePlot(false);
+                    }
+                }
+
+                if (s1B2Available)
+                {
+                    try
+                    {
+                        var s1B2Value = mainForm.vehicle.GetOxygenSensor1B2();
+                        s1B2Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s1B2Value)));
+                        s1B2Model.InvalidatePlot(true);
+                        await Task.Delay(1);
+                    }
+                    catch (NoDataFoundException)
+                    {
+                        s1B2Available = false;
+                        s1B2Model.Title = "Unavailable";
+                        s1B2Model.InvalidatePlot(false);
+                    }
+                }
+
+                if (s2B2Available)
+                {
+                    try
+                    {
+                        var s2B2Value = mainForm.vehicle.GetOxygenSensor2B2();
+                        s2B2Points.Add(new DataPoint(Axis.ToDouble(time), Axis.ToDouble(s2B2Value)));
+                        s2B2Model.InvalidatePlot(true);
+                    }
+                    catch(NoDataFoundException)
+                    {
+                        s2B2Available = false;
+                        s2B2Model.Title = "Unavailable";
+                        s2B2Model.InvalidatePlot(false);
+                    }
+                }
 
                 await Task.Delay(100);
-
-                S2B1Model.InvalidatePlot(true);
-                S1B1Model.InvalidatePlot(true);
             }
         }
 
-        private void AddAxisToModel(PlotModel model)
+        private void SetupPlotModel(PlotModel model, List<DataPoint> dataPoints)
         {
             LinearAxis xAxis = new()
             {
@@ -125,7 +189,10 @@ namespace EngineLine.GraphForms
                 MajorGridlineStyle = LineStyle.Dot,
                 MinorTickSize = 0,
                 IsZoomEnabled = false,
-                IsPanEnabled = false,
+                IsPanEnabled = true,
+                MajorGridlineColor = OxyColor.Parse("#4d4d4d"),
+                AxislineColor = OxyColors.White,
+                TicklineColor = OxyColors.White
             };
 
             LinearAxis voltageAxis = new()
@@ -136,13 +203,25 @@ namespace EngineLine.GraphForms
                 PositionTier = 0,
                 Minimum = 0,
                 Maximum = 1.5,
-                MinorTickSize = 0,
+                MinorTickSize = 3,
                 IsZoomEnabled = false,
                 IsPanEnabled = false,
+                MajorGridlineColor = OxyColor.Parse("#4d4d4d"),
+                AxislineColor = OxyColors.White,
+                TicklineColor = OxyColors.White
+            };
+
+            var series = new LineSeries
+            {
+                StrokeThickness = 5,
+                Color = OxyColor.Parse("#f55d42"),
+                LineStyle = LineStyle.Solid,
+                ItemsSource = dataPoints
             };
 
             model.Axes.Add(xAxis);
             model.Axes.Add(voltageAxis);
+            model.Series.Add(series);
         }
     }
 }
