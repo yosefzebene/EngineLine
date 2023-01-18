@@ -75,6 +75,7 @@
             this.Name = "FuelTrimGraph";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Fuel Trims";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FuelTrimGraph_FormClosing);
             this.ResumeLayout(false);
 

@@ -134,6 +134,7 @@
             this.Name = "OxygenVoltageGraph";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Oxygen Voltage";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OxygenVoltageGraph_FormClosing);
             this.tableLayoutPanelO2SensorGraphs.ResumeLayout(false);
             this.ResumeLayout(false);
