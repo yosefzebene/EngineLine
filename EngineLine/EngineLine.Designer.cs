@@ -34,6 +34,7 @@ namespace EngineLine
             CodeArtEng.Gauge.Themes.ThemeColors themeColors1 = new CodeArtEng.Gauge.Themes.ThemeColors();
             CodeArtEng.Gauge.Themes.ThemeColors themeColors2 = new CodeArtEng.Gauge.Themes.ThemeColors();
             CodeArtEng.Gauge.Themes.ThemeColors themeColors3 = new CodeArtEng.Gauge.Themes.ThemeColors();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EngineLine));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageConnect = new System.Windows.Forms.TabPage();
             this.buttonConnect = new System.Windows.Forms.Button();
@@ -107,6 +108,7 @@ namespace EngineLine
             // 
             // buttonConnect
             // 
+            this.buttonConnect.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.buttonConnect.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonConnect.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonConnect.Location = new System.Drawing.Point(3, 998);
@@ -114,11 +116,12 @@ namespace EngineLine
             this.buttonConnect.Size = new System.Drawing.Size(2241, 58);
             this.buttonConnect.TabIndex = 2;
             this.buttonConnect.Text = "connect";
-            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.UseVisualStyleBackColor = false;
             this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // buttonDisconnect
             // 
+            this.buttonDisconnect.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.buttonDisconnect.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.buttonDisconnect.ForeColor = System.Drawing.SystemColors.ControlText;
             this.buttonDisconnect.Location = new System.Drawing.Point(3, 1056);
@@ -126,7 +129,7 @@ namespace EngineLine
             this.buttonDisconnect.Size = new System.Drawing.Size(2241, 58);
             this.buttonDisconnect.TabIndex = 3;
             this.buttonDisconnect.Text = "disconnect";
-            this.buttonDisconnect.UseVisualStyleBackColor = true;
+            this.buttonDisconnect.UseVisualStyleBackColor = false;
             this.buttonDisconnect.Click += new System.EventHandler(this.buttonDisconnect_Click);
             // 
             // textBoxStatus
@@ -521,10 +524,11 @@ namespace EngineLine
             this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(2255, 1200);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "EngineLine";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EngineLine";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.tabControl1.ResumeLayout(false);
             this.tabPageConnect.ResumeLayout(false);
             this.tabPageConnect.PerformLayout();

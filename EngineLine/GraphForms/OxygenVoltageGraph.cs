@@ -173,11 +173,11 @@ namespace EngineLine.GraphForms
                     }
                 }
 
-                await Task.Delay(100);
+                await Task.Delay(50);
             }
         }
 
-        private void SetupPlotModel(PlotModel model, List<DataPoint> dataPoints)
+        private static void SetupPlotModel(PlotModel model, List<DataPoint> dataPoints)
         {
             LinearAxis xAxis = new()
             {
@@ -190,6 +190,7 @@ namespace EngineLine.GraphForms
                 MinorTickSize = 0,
                 IsZoomEnabled = false,
                 IsPanEnabled = true,
+                Key = "xAxis",
                 MajorGridlineColor = OxyColor.Parse("#4d4d4d"),
                 AxislineColor = OxyColors.White,
                 TicklineColor = OxyColors.White

@@ -48,10 +48,11 @@
             // 
             // buttonStartStop
             // 
-            this.buttonStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonStartStop.Location = new System.Drawing.Point(1862, 1017);
+            this.buttonStartStop.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonStartStop.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonStartStop.Location = new System.Drawing.Point(0, 1029);
             this.buttonStartStop.Name = "buttonStartStop";
-            this.buttonStartStop.Size = new System.Drawing.Size(195, 58);
+            this.buttonStartStop.Size = new System.Drawing.Size(2069, 58);
             this.buttonStartStop.TabIndex = 3;
             this.buttonStartStop.Text = "Start";
             this.buttonStartStop.UseVisualStyleBackColor = true;
@@ -65,11 +66,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Desktop;
             this.ClientSize = new System.Drawing.Size(2069, 1087);
             this.Controls.Add(this.buttonStartStop);
             this.Controls.Add(this.plotView);
+            this.ForeColor = System.Drawing.Color.White;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FuelTrimGraph";
-            this.Text = "FuelTrimGraph";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Fuel Trims";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FuelTrimGraph_FormClosing);
             this.ResumeLayout(false);
 

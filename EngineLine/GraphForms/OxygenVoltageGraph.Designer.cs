@@ -33,9 +33,9 @@
             this.buttonStartStop = new System.Windows.Forms.Button();
             this.graphTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanelO2SensorGraphs = new System.Windows.Forms.TableLayoutPanel();
-            this.plotViewS2B1 = new OxyPlot.WindowsForms.PlotView();
-            this.plotViewS1B2 = new OxyPlot.WindowsForms.PlotView();
             this.plotViewS2B2 = new OxyPlot.WindowsForms.PlotView();
+            this.plotViewS1B2 = new OxyPlot.WindowsForms.PlotView();
+            this.plotViewS2B1 = new OxyPlot.WindowsForms.PlotView();
             this.tableLayoutPanelO2SensorGraphs.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,17 +87,17 @@
             this.tableLayoutPanelO2SensorGraphs.Size = new System.Drawing.Size(2665, 1430);
             this.tableLayoutPanelO2SensorGraphs.TabIndex = 5;
             // 
-            // plotViewS2B1
+            // plotViewS2B2
             // 
-            this.plotViewS2B1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plotViewS2B1.Location = new System.Drawing.Point(3, 360);
-            this.plotViewS2B1.Name = "plotViewS2B1";
-            this.plotViewS2B1.PanCursor = System.Windows.Forms.Cursors.PanWest;
-            this.plotViewS2B1.Size = new System.Drawing.Size(2659, 351);
-            this.plotViewS2B1.TabIndex = 3;
-            this.plotViewS2B1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.PanWest;
-            this.plotViewS2B1.ZoomRectangleCursor = System.Windows.Forms.Cursors.No;
-            this.plotViewS2B1.ZoomVerticalCursor = System.Windows.Forms.Cursors.No;
+            this.plotViewS2B2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plotViewS2B2.Location = new System.Drawing.Point(3, 1074);
+            this.plotViewS2B2.Name = "plotViewS2B2";
+            this.plotViewS2B2.PanCursor = System.Windows.Forms.Cursors.PanWest;
+            this.plotViewS2B2.Size = new System.Drawing.Size(2659, 353);
+            this.plotViewS2B2.TabIndex = 5;
+            this.plotViewS2B2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.PanWest;
+            this.plotViewS2B2.ZoomRectangleCursor = System.Windows.Forms.Cursors.No;
+            this.plotViewS2B2.ZoomVerticalCursor = System.Windows.Forms.Cursors.No;
             // 
             // plotViewS1B2
             // 
@@ -111,17 +111,17 @@
             this.plotViewS1B2.ZoomRectangleCursor = System.Windows.Forms.Cursors.No;
             this.plotViewS1B2.ZoomVerticalCursor = System.Windows.Forms.Cursors.No;
             // 
-            // plotViewS2B2
+            // plotViewS2B1
             // 
-            this.plotViewS2B2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plotViewS2B2.Location = new System.Drawing.Point(3, 1074);
-            this.plotViewS2B2.Name = "plotViewS2B2";
-            this.plotViewS2B2.PanCursor = System.Windows.Forms.Cursors.PanWest;
-            this.plotViewS2B2.Size = new System.Drawing.Size(2659, 353);
-            this.plotViewS2B2.TabIndex = 5;
-            this.plotViewS2B2.ZoomHorizontalCursor = System.Windows.Forms.Cursors.PanWest;
-            this.plotViewS2B2.ZoomRectangleCursor = System.Windows.Forms.Cursors.No;
-            this.plotViewS2B2.ZoomVerticalCursor = System.Windows.Forms.Cursors.No;
+            this.plotViewS2B1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.plotViewS2B1.Location = new System.Drawing.Point(3, 360);
+            this.plotViewS2B1.Name = "plotViewS2B1";
+            this.plotViewS2B1.PanCursor = System.Windows.Forms.Cursors.PanWest;
+            this.plotViewS2B1.Size = new System.Drawing.Size(2659, 351);
+            this.plotViewS2B1.TabIndex = 3;
+            this.plotViewS2B1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.PanWest;
+            this.plotViewS2B1.ZoomRectangleCursor = System.Windows.Forms.Cursors.No;
+            this.plotViewS2B1.ZoomVerticalCursor = System.Windows.Forms.Cursors.No;
             // 
             // OxygenVoltageGraph
             // 
@@ -130,8 +130,10 @@
             this.ClientSize = new System.Drawing.Size(2665, 1488);
             this.Controls.Add(this.tableLayoutPanelO2SensorGraphs);
             this.Controls.Add(this.buttonStartStop);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "OxygenVoltageGraph";
-            this.Text = "OxygenVoltageGraph";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Oxygen Voltage";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OxygenVoltageGraph_FormClosing);
             this.tableLayoutPanelO2SensorGraphs.ResumeLayout(false);
             this.ResumeLayout(false);
