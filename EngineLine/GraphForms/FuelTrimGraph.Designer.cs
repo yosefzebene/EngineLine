@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.plotView = new OxyPlot.WindowsForms.PlotView();
             this.buttonStartStop = new System.Windows.Forms.Button();
-            this.graphTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // plotView
@@ -58,10 +56,6 @@
             this.buttonStartStop.UseVisualStyleBackColor = true;
             this.buttonStartStop.Click += new System.EventHandler(this.buttonStartStop_Click);
             // 
-            // graphTimer
-            // 
-            this.graphTimer.Tick += new System.EventHandler(this.graphTimer_Tick);
-            // 
             // FuelTrimGraph
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(17F, 41F);
@@ -75,7 +69,6 @@
             this.Name = "FuelTrimGraph";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Fuel Trims";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FuelTrimGraph_FormClosing);
             this.ResumeLayout(false);
 
@@ -86,6 +79,5 @@
         private OxyPlot.WindowsForms.PlotView plotView;
         private Button buttonStartStop;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.Timer graphTimer;
     }
 }

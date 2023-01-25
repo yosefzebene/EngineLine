@@ -54,7 +54,7 @@ namespace EngineLineLibrary
             //Wait to make sure the buffer is updated with the response data from the command
             while (!buffer.ToString().Contains('>'))
             {
-                Thread.Sleep(30);
+                Thread.Sleep(1);
             }
 
             //Call a function to check the result for errors

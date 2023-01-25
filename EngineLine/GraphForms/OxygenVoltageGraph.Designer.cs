@@ -28,10 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.plotViewS1B1 = new OxyPlot.WindowsForms.PlotView();
             this.buttonStartStop = new System.Windows.Forms.Button();
-            this.graphTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanelO2SensorGraphs = new System.Windows.Forms.TableLayoutPanel();
             this.plotViewS2B2 = new OxyPlot.WindowsForms.PlotView();
             this.plotViewS1B2 = new OxyPlot.WindowsForms.PlotView();
@@ -61,10 +59,6 @@
             this.buttonStartStop.Text = "Start";
             this.buttonStartStop.UseVisualStyleBackColor = true;
             this.buttonStartStop.Click += new System.EventHandler(this.buttonStartStop_Click);
-            // 
-            // graphTimer
-            // 
-            this.graphTimer.Tick += new System.EventHandler(this.graphTimer_Tick);
             // 
             // tableLayoutPanelO2SensorGraphs
             // 
@@ -134,7 +128,6 @@
             this.Name = "OxygenVoltageGraph";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Oxygen Voltage";
-            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OxygenVoltageGraph_FormClosing);
             this.tableLayoutPanelO2SensorGraphs.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -145,7 +138,6 @@
 
         private OxyPlot.WindowsForms.PlotView plotViewS1B1;
         private Button buttonStartStop;
-        private System.Windows.Forms.Timer graphTimer;
         private TableLayoutPanel tableLayoutPanelO2SensorGraphs;
         private OxyPlot.WindowsForms.PlotView plotViewS2B1;
         private OxyPlot.WindowsForms.PlotView plotViewS2B2;

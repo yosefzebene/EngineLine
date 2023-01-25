@@ -413,11 +413,12 @@ namespace EngineLine
             // listBoxDiagnosticTroubleCodes
             // 
             this.listBoxDiagnosticTroubleCodes.BackColor = System.Drawing.SystemColors.Desktop;
-            this.listBoxDiagnosticTroubleCodes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBoxDiagnosticTroubleCodes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listBoxDiagnosticTroubleCodes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxDiagnosticTroubleCodes.Font = new System.Drawing.Font("Segoe UI", 15.9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.listBoxDiagnosticTroubleCodes.ForeColor = System.Drawing.Color.White;
             this.listBoxDiagnosticTroubleCodes.FormattingEnabled = true;
-            this.listBoxDiagnosticTroubleCodes.ItemHeight = 50;
+            this.listBoxDiagnosticTroubleCodes.ItemHeight = 71;
             this.listBoxDiagnosticTroubleCodes.Location = new System.Drawing.Point(3, 79);
             this.listBoxDiagnosticTroubleCodes.Name = "listBoxDiagnosticTroubleCodes";
             this.listBoxDiagnosticTroubleCodes.RightToLeft = System.Windows.Forms.RightToLeft.No;

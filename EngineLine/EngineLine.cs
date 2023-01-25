@@ -80,7 +80,7 @@ namespace EngineLine
                 await Task.Delay(1);
 
                 var speed = vehicle.GetSpeed();
-                textBoxSpeed.Text = $"{speed} KPH";
+                textBoxSpeed.Text = $"{speed} KM/H";
                 guageSpeed.GaugeData.Value = speed;
 
                 await Task.Delay(1);
