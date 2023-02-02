@@ -1,11 +1,11 @@
 ﻿using EngineLineLibrary;
-using CodeArtEng.Gauge;
+using EngineLine.GraphForms;
 
 namespace EngineLine
 {
     public partial class EngineLine : Form
     {
-        public IObdConnection? Connection { get; set; }
+        public Vehicle vehicle { get; set; }
 
         private bool isMonitoring = false;
 
@@ -14,20 +14,38 @@ namespace EngineLine
             InitializeComponent();
         }
 
-        private void OnConnectionMenuItem_Click(object sender, EventArgs e)
+        // Connection Tab
+        private void tabPageConnect_Enter(object sender, EventArgs e)
+        {
+            if (vehicle == null)
+            {
+                textBoxStatus.Text = "Not Connected";
+                textBoxStatus.ForeColor = Color.Red;
+                buttonConnect.Enabled = true;
+                buttonDisconnect.Enabled = false;
+            }
+            else
+            {
+                textBoxStatus.Text = "Connected";
+                textBoxStatus.ForeColor = Color.Green;
+                buttonConnect.Enabled = false;
+                buttonDisconnect.Enabled = true;
+            }
+        }
+
+        private void buttonConnect_Click(object sender, EventArgs e)
         {
             Connecting connecting = new(this);
-            connecting.ShowDialog();
+            connecting.Show(this);
         }
 
-        private bool IsNotConnected()
+        private void buttonDisconnect_Click(object sender, EventArgs e)
         {
-            if (Connection == null)
-                MessageBox.Show("Connect and try again");
-
-            return Connection == null;
+            vehicle.Disconnect();
+            vehicle = null;
         }
 
+        // Monitoring Tab
         private void buttonMonitoringTrigger_Click(object sender, EventArgs e)
         {
             if (isMonitoring)
@@ -55,38 +73,39 @@ namespace EngineLine
         {
             while (isMonitoring)
             {
-                var rpm = Connection.ReadRpm();
+                var rpm = vehicle.GetRpm();
                 textBoxRPM.Text = $"{rpm}";
                 guageRPM.GaugeData.Value = rpm;
 
                 await Task.Delay(1);
 
-                var speed = Connection.ReadSpeed();
-                textBoxSpeed.Text = $"{speed} KPH";
+                var speed = vehicle.GetSpeed();
+                textBoxSpeed.Text = $"{speed} KM/H";
                 guageSpeed.GaugeData.Value = speed;
 
                 await Task.Delay(1);
 
-                textBoxTPS.Text = $"{Connection.ReadTPS()}%";
+                textBoxTPS.Text = $"{vehicle.GetTPS()}%";
 
                 await Task.Delay(1);
 
-                textBoxTemperature.Text = $"{Connection.ReadTemperature()} °C";
+                textBoxTemperature.Text = $"{vehicle.GetTemperature()} °C";
 
                 await Task.Delay(1);
 
-                textBoxMAF.Text = $"{Connection.ReadMAF()}";
+                textBoxMAF.Text = $"{vehicle.GetMAF()}";
 
                 await Task.Delay(1);
             }
         }
 
+        // DTCs Tab
         private void buttonReload_Click(object sender, EventArgs e)
         {
             if (IsNotConnected())
                 return;
 
-            UpdateEngineCodes();
+            UpdateDtcs();
         }
 
         private void buttonClearCodes_Click(object sender, EventArgs e)
@@ -95,7 +114,7 @@ namespace EngineLine
                 return;
 
             var confirm = MessageBox.Show(
-                "Are you sure you want to clear codes? This is not reversable!",
+                "Are you sure you want to clear codes? This is not reversible!",
                 "Confirm clearing",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
@@ -103,25 +122,52 @@ namespace EngineLine
 
             if (confirm == DialogResult.Yes)
             {
-                Connection.ResetCodes();
+                vehicle.ResetCodes();
 
-                UpdateEngineCodes();
+                UpdateDtcs();
             }
             else
                 return;
         }
 
-        private void UpdateEngineCodes()
+        private void UpdateDtcs()
         {
             try
             {
-                listBoxEngineCodes.DataSource = Connection.ReadEngineCodes();
+                listBoxDiagnosticTroubleCodes.DataSource = vehicle.GetDiagnosticTroubleCodes();
             }
             catch (NoDataFoundException)
             {
-                List<string> errors = new() { "No Engine codes found" };
-                listBoxEngineCodes.DataSource = errors;
+                List<string> errors = new() { "No DTCs found" };
+                listBoxDiagnosticTroubleCodes.DataSource = errors;
             }
+        }
+
+        // Graphs Tab
+        private void buttonOpenFuelTrimGraph_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            FuelTrimGraph fuelTrimGraph = new(this);
+            fuelTrimGraph.Show(this);
+        }
+
+        private void buttonOpenOxygenVoltageGraph_Click(object sender, EventArgs e)
+        {
+            if (IsNotConnected())
+                return;
+
+            OxygenVoltageGraph oxygenVoltageGraph = new(this);
+            oxygenVoltageGraph.Show(this);
+        }
+
+        private bool IsNotConnected()
+        {
+            if (vehicle == null)
+                MessageBox.Show("Connect and try again");
+
+            return vehicle == null;
         }
     }
 }
