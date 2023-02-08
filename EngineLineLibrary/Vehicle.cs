@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections;
+using System.Globalization;
+using System.Security.Cryptography;
 
 namespace EngineLineLibrary
 {
@@ -22,6 +24,18 @@ namespace EngineLineLibrary
             {'D', "U1" },
             {'E', "U2" },
             {'F', "U3" }
+        };
+
+        private readonly List<string> StatusCheckNames = new()
+        {
+            "EGR and/or VVT System",
+            "Oxygen Sensor Heater",
+            "Oxygen Sensor",
+            "Gasoline Particulate Filter",
+            "Secondary Air System",
+            "Evaporative System",
+            "Heated Catalyst",
+            "Catalyst"
         };
 
         private IObdConnection _connection;
@@ -154,6 +168,97 @@ namespace EngineLineLibrary
             return decimal.Round(voltage, 3);
         }
 
+        public List<ReadinessMonitorStatus> GetMonitorStatuses()
+        {
+            List<ReadinessMonitorStatus> statusList = new();
+
+            var response = _connection.Query(new Request(PID.MonitorSinceDtcCleared));
+            var statusHexResponse = response.singleLineResponseToHexArray();
+
+            response = _connection.Query(new Request(PID.MonitorCurrentDriveCycle));
+            var currentCycleHexResponse = response.singleLineResponseToHexArray();
+
+            var bBoolArray = BinaryToBoolArray(
+                Convert.ToString(
+                    byte.Parse(statusHexResponse[3], NumberStyles.HexNumber),
+                    2).PadLeft(8, '0')
+                );
+
+            var bBoolArrayCurrentCycle = BinaryToBoolArray(
+                Convert.ToString(
+                    byte.Parse(currentCycleHexResponse[3], NumberStyles.HexNumber),
+                    2).PadLeft(8, '0')
+                );
+
+            // If this bit is true it is a diesel engine so return an empty list
+            if (bBoolArray[4])
+            {
+                return statusList;
+            }
+
+            statusList.Add(
+                new ReadinessMonitorStatus()
+                {
+                    Name = "Components",
+                    Available = bBoolArray[5],
+                    Incomplete = bBoolArray[1],
+                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[1]
+                });
+
+            statusList.Add(
+                new ReadinessMonitorStatus()
+                {
+                    Name = "Fuel System",
+                    Available = bBoolArray[6],
+                    Incomplete = bBoolArray[2],
+                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[2]
+                });
+
+            statusList.Add(
+                new ReadinessMonitorStatus()
+                {
+                    Name = "Misfire",
+                    Available = bBoolArray[7],
+                    Incomplete = bBoolArray[3],
+                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[3]
+                });
+
+            // Get C and D bool arrays
+            // C is availability
+            // D is completeness
+            var cBoolArray = BinaryToBoolArray(
+                Convert.ToString(
+                    byte.Parse(statusHexResponse[4], NumberStyles.HexNumber),
+                    2).PadLeft(8, '0')
+                );
+
+            var dBoolArray = BinaryToBoolArray(
+                Convert.ToString(
+                    byte.Parse(statusHexResponse[5], NumberStyles.HexNumber),
+                    2).PadLeft(8, '0')
+                );
+
+            var dBoolArrayCurrentCycle = BinaryToBoolArray(
+                Convert.ToString(
+                    byte.Parse(currentCycleHexResponse[5], NumberStyles.HexNumber),
+                    2).PadLeft(8, '0')
+                );
+
+            for (int i = 0; i < StatusCheckNames.Count; i++)
+            {
+                statusList.Add(
+                    new ReadinessMonitorStatus()
+                    {
+                        Name = StatusCheckNames[i],
+                        Available = cBoolArray[i],
+                        Incomplete = dBoolArray[i],
+                        IncompleteCurrentDriveCycle = dBoolArrayCurrentCycle[i]
+                    });
+            }
+
+            return statusList;
+        }
+
         // 03 mode
         public List<string> GetDiagnosticTroubleCodes()
         {
@@ -222,6 +327,11 @@ namespace EngineLineLibrary
             var a = (decimal)int.Parse(hexResponse[2], NumberStyles.HexNumber);
 
             return decimal.Round((a * 1.28m) - 100, 1);
+        }
+
+        private bool[] BinaryToBoolArray(string BinaryString)
+        {
+            return BinaryString.Select(c => c == '1').ToArray();
         }
 
         public void Disconnect()

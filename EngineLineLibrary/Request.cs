@@ -23,6 +23,8 @@
     public enum PID
     {
         // Mode 1
+        MonitorSinceDtcCleared,
+        MonitorCurrentDriveCycle,
         RPM,
         Speed,
         Temperature,
@@ -48,6 +50,10 @@
         {
             switch(pid)
             {
+                case PID.MonitorSinceDtcCleared:
+                    return "0101";
+                case PID.MonitorCurrentDriveCycle:
+                    return "0141";
                 case PID.RPM:
                     return "010c";
                 case PID.Speed:
