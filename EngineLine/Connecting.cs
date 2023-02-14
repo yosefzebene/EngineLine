@@ -71,6 +71,8 @@ namespace EngineLine
                     mainForm.vehicle = new Vehicle(connection);
                 }
 
+                mainForm.UpdateMonitorChecks();
+
                 this.Close();
             }
             catch (Exception ex)

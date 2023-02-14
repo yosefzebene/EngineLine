@@ -31,12 +31,18 @@ namespace EngineLine
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             CodeArtEng.Gauge.Themes.ThemeColors themeColors1 = new CodeArtEng.Gauge.Themes.ThemeColors();
             CodeArtEng.Gauge.Themes.ThemeColors themeColors2 = new CodeArtEng.Gauge.Themes.ThemeColors();
             CodeArtEng.Gauge.Themes.ThemeColors themeColors3 = new CodeArtEng.Gauge.Themes.ThemeColors();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EngineLine));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageConnect = new System.Windows.Forms.TabPage();
+            this.dataGridViewMonitorStatuses = new System.Windows.Forms.DataGridView();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.buttonDisconnect = new System.Windows.Forms.Button();
             this.textBoxStatus = new System.Windows.Forms.TextBox();
@@ -66,6 +72,7 @@ namespace EngineLine
             this.buttonOpenFuelTrimGraph = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageConnect.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonitorStatuses)).BeginInit();
             this.tabPageMonitoring.SuspendLayout();
             this.tabPageDiagnosticTroubleCodes.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
@@ -93,6 +100,7 @@ namespace EngineLine
             // tabPageConnect
             // 
             this.tabPageConnect.BackColor = System.Drawing.SystemColors.Desktop;
+            this.tabPageConnect.Controls.Add(this.dataGridViewMonitorStatuses);
             this.tabPageConnect.Controls.Add(this.buttonConnect);
             this.tabPageConnect.Controls.Add(this.buttonDisconnect);
             this.tabPageConnect.Controls.Add(this.textBoxStatus);
@@ -105,6 +113,65 @@ namespace EngineLine
             this.tabPageConnect.TabIndex = 3;
             this.tabPageConnect.Text = "Connect";
             this.tabPageConnect.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPageConnect_Enter);
+            // 
+            // dataGridViewMonitorStatuses
+            // 
+            this.dataGridViewMonitorStatuses.AllowUserToAddRows = false;
+            this.dataGridViewMonitorStatuses.AllowUserToDeleteRows = false;
+            this.dataGridViewMonitorStatuses.AllowUserToResizeColumns = false;
+            this.dataGridViewMonitorStatuses.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            this.dataGridViewMonitorStatuses.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewMonitorStatuses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewMonitorStatuses.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewMonitorStatuses.BackgroundColor = System.Drawing.Color.Black;
+            this.dataGridViewMonitorStatuses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semilight", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMonitorStatuses.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewMonitorStatuses.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Semilight", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewMonitorStatuses.DefaultCellStyle = dataGridViewCellStyle3;
+            this.dataGridViewMonitorStatuses.GridColor = System.Drawing.Color.Black;
+            this.dataGridViewMonitorStatuses.Location = new System.Drawing.Point(222, 175);
+            this.dataGridViewMonitorStatuses.MultiSelect = false;
+            this.dataGridViewMonitorStatuses.Name = "dataGridViewMonitorStatuses";
+            this.dataGridViewMonitorStatuses.ReadOnly = true;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI Semilight", 11.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewMonitorStatuses.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.dataGridViewMonitorStatuses.RowHeadersVisible = false;
+            this.dataGridViewMonitorStatuses.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
+            this.dataGridViewMonitorStatuses.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dataGridViewMonitorStatuses.RowTemplate.Height = 49;
+            this.dataGridViewMonitorStatuses.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridViewMonitorStatuses.Size = new System.Drawing.Size(1700, 783);
+            this.dataGridViewMonitorStatuses.TabIndex = 4;
             // 
             // buttonConnect
             // 
@@ -136,7 +203,7 @@ namespace EngineLine
             // 
             this.textBoxStatus.BackColor = System.Drawing.Color.Black;
             this.textBoxStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxStatus.Dock = System.Windows.Forms.DockStyle.Top;
             this.textBoxStatus.Font = new System.Drawing.Font("Segoe UI Semilight", 15.9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.textBoxStatus.ForeColor = System.Drawing.Color.Red;
             this.textBoxStatus.Location = new System.Drawing.Point(3, 74);
@@ -534,6 +601,7 @@ namespace EngineLine
             this.tabControl1.ResumeLayout(false);
             this.tabPageConnect.ResumeLayout(false);
             this.tabPageConnect.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMonitorStatuses)).EndInit();
             this.tabPageMonitoring.ResumeLayout(false);
             this.tabPageMonitoring.PerformLayout();
             this.tabPageDiagnosticTroubleCodes.ResumeLayout(false);
@@ -574,5 +642,6 @@ namespace EngineLine
         private TextBox textBoxStatus;
         private TextBox textBoxTitle;
         private Button buttonDisconnect;
+        private DataGridView dataGridViewMonitorStatuses;
     }
 }

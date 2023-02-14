@@ -175,20 +175,30 @@ namespace EngineLineLibrary
             var response = _connection.Query(new Request(PID.MonitorSinceDtcCleared));
             var statusHexResponse = response.singleLineResponseToHexArray();
 
-            response = _connection.Query(new Request(PID.MonitorCurrentDriveCycle));
-            var currentCycleHexResponse = response.singleLineResponseToHexArray();
-
             var bBoolArray = BinaryToBoolArray(
                 Convert.ToString(
                     byte.Parse(statusHexResponse[3], NumberStyles.HexNumber),
                     2).PadLeft(8, '0')
                 );
 
-            var bBoolArrayCurrentCycle = BinaryToBoolArray(
-                Convert.ToString(
-                    byte.Parse(currentCycleHexResponse[3], NumberStyles.HexNumber),
-                    2).PadLeft(8, '0')
-                );
+            var currentDriveCheckAvailable = true;
+            bool[] bBoolArrayCurrentCycle = Array.Empty<bool>();
+            string[] currentCycleHexResponse = Array.Empty<string>();
+            try
+            {
+                response = _connection.Query(new Request(PID.MonitorCurrentDriveCycle));
+                currentCycleHexResponse = response.singleLineResponseToHexArray();
+
+                bBoolArrayCurrentCycle = BinaryToBoolArray(
+                    Convert.ToString(
+                        byte.Parse(currentCycleHexResponse[3], NumberStyles.HexNumber),
+                        2).PadLeft(8, '0')
+                    );
+            }
+            catch(NoDataFoundException)
+            {
+                currentDriveCheckAvailable = false;
+            }
 
             // If this bit is true it is a diesel engine so return an empty list
             if (bBoolArray[4])
@@ -202,7 +212,8 @@ namespace EngineLineLibrary
                     Name = "Components",
                     Available = bBoolArray[5],
                     Incomplete = bBoolArray[1],
-                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[1]
+                    CurrentDriveCheckAvailable = currentDriveCheckAvailable,
+                    IncompleteCurrentDriveCycle = currentDriveCheckAvailable && bBoolArrayCurrentCycle[1]
                 });
 
             statusList.Add(
@@ -211,7 +222,8 @@ namespace EngineLineLibrary
                     Name = "Fuel System",
                     Available = bBoolArray[6],
                     Incomplete = bBoolArray[2],
-                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[2]
+                    CurrentDriveCheckAvailable = currentDriveCheckAvailable,
+                    IncompleteCurrentDriveCycle = currentDriveCheckAvailable && bBoolArrayCurrentCycle[2]
                 });
 
             statusList.Add(
@@ -220,7 +232,8 @@ namespace EngineLineLibrary
                     Name = "Misfire",
                     Available = bBoolArray[7],
                     Incomplete = bBoolArray[3],
-                    IncompleteCurrentDriveCycle = bBoolArrayCurrentCycle[3]
+                    CurrentDriveCheckAvailable = currentDriveCheckAvailable,
+                    IncompleteCurrentDriveCycle = currentDriveCheckAvailable && bBoolArrayCurrentCycle[3]
                 });
 
             // Get C and D bool arrays
@@ -238,11 +251,15 @@ namespace EngineLineLibrary
                     2).PadLeft(8, '0')
                 );
 
-            var dBoolArrayCurrentCycle = BinaryToBoolArray(
-                Convert.ToString(
-                    byte.Parse(currentCycleHexResponse[5], NumberStyles.HexNumber),
-                    2).PadLeft(8, '0')
-                );
+            bool[] dBoolArrayCurrentCycle = Array.Empty<bool>();
+            if (currentDriveCheckAvailable)
+            {
+                dBoolArrayCurrentCycle = BinaryToBoolArray(
+                    Convert.ToString(
+                        byte.Parse(currentCycleHexResponse[5], NumberStyles.HexNumber),
+                        2).PadLeft(8, '0')
+                    );
+            }
 
             for (int i = 0; i < StatusCheckNames.Count; i++)
             {
@@ -252,7 +269,8 @@ namespace EngineLineLibrary
                         Name = StatusCheckNames[i],
                         Available = cBoolArray[i],
                         Incomplete = dBoolArray[i],
-                        IncompleteCurrentDriveCycle = dBoolArrayCurrentCycle[i]
+                        CurrentDriveCheckAvailable = currentDriveCheckAvailable,
+                        IncompleteCurrentDriveCycle = currentDriveCheckAvailable && dBoolArrayCurrentCycle[i]
                     });
             }
 

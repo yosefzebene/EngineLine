@@ -169,5 +169,35 @@ namespace EngineLine
 
             return vehicle == null;
         }
+
+        internal void UpdateMonitorChecks()
+        {
+            if (IsNotConnected())
+                return;
+
+            try
+            {
+                var MonitorStatusData = vehicle.GetMonitorStatuses().Where(x => x.Available == true);
+
+                if (!MonitorStatusData.Any())
+                    throw new NoDataFoundException();
+
+                dataGridViewMonitorStatuses.DataSource = MonitorStatusData;
+                dataGridViewMonitorStatuses.Columns["Available"].Visible = false;
+                dataGridViewMonitorStatuses.Columns["CurrentDriveCheckAvailable"].Visible = false;
+                dataGridViewMonitorStatuses.Columns["Incomplete"].HeaderText = "Status";
+                dataGridViewMonitorStatuses.Columns["IncompleteCurrentDriveCycle"].HeaderText = "Status this drive cycle";
+
+                if (!MonitorStatusData.FirstOrDefault().CurrentDriveCheckAvailable)
+                {
+                    dataGridViewMonitorStatuses.Columns["IncompleteCurrentDriveCycle"].Visible = false;
+                }
+            }
+            catch (NoDataFoundException)
+            {
+                List<string> errors = new() { "No status checks available" };
+                dataGridViewMonitorStatuses.DataSource = errors.Select(s => new { error = s }).ToList();
+            }
+        }
     }
 }
