@@ -10,6 +10,7 @@ namespace EngineLine.Connection.ExternalDependencies
         public int DataBits { get; set; }
         public StopBits StopBits { get; set; }
         public Handshake Handshake { get; set; }
+        public event SerialDataReceivedEventHandler DataReceived;
 
         public void Open();
         public void Close();

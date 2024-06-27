@@ -42,6 +42,12 @@ namespace EngineLine.Connection.ExternalDependencies
             set { _serialPort.Handshake = value; }
         }
 
+        public event SerialDataReceivedEventHandler DataReceived 
+        {
+            add { _serialPort.DataReceived += value; }
+            remove { _serialPort.DataReceived -= value; }
+        }
+
         public SerialPortWrapper() { _serialPort = new(); }
 
         public void Open() { _serialPort.Open(); }
