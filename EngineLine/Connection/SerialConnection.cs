@@ -9,7 +9,6 @@ namespace EngineLine.Connection
         private const int DEFAULT_BAUD = 38400;
 
         private readonly ISerialPort _serialPort;
-        private bool isConnected = false;
         private string buffer = "";
 
         public SerialConnection(ISerialPort serialPort, string port, int baudRate = DEFAULT_BAUD)
@@ -30,14 +29,13 @@ namespace EngineLine.Connection
             try
             {
                 _serialPort.Open();
-                isConnected = true;
             }
             catch
             {
-                isConnected = false;
+                
             }
 
-            return isConnected;
+            return _serialPort.IsOpen;
         }
 
         public bool Disconnect()
@@ -45,11 +43,10 @@ namespace EngineLine.Connection
             try
             {
                 _serialPort.Close();
-                isConnected = false;
-            } 
+            }
             catch
-            { 
-                return false; 
+            {
+                return false;
             }
 
             return true;
@@ -57,7 +54,7 @@ namespace EngineLine.Connection
 
         public bool GetConnectionStatus()
         {
-            return isConnected;
+            return _serialPort.IsOpen;
         }
 
         public string SendMessage(string message)

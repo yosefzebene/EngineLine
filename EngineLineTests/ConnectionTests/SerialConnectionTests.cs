@@ -7,12 +7,14 @@ using System.IO.Ports;
 
 namespace EngineLineTests.ConnectionTests
 {
-    public class SerialConnectionTest
+    public class SerialConnectionTests
     {
         [Fact]
         public void Connect_ShouldReturnTrue_WhenConnectionIsEstablished()
         {
             var serialPortMock = new Mock<ISerialPort>();
+            serialPortMock.Setup(m => m.Open())
+                .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
 
             var port = "COM1";
             var sut = new SerialConnection(serialPortMock.Object, port);
@@ -56,7 +58,7 @@ namespace EngineLineTests.ConnectionTests
         {
             var serialPortMock = new Mock<ISerialPort>();
             serialPortMock.Setup(m => m.Close()).Throws(new Exception());
-
+ 
             var port = "COM1";
             var sut = new SerialConnection(serialPortMock.Object, port);
 
@@ -82,6 +84,8 @@ namespace EngineLineTests.ConnectionTests
         public void GetConnectionStatus_ShouldReturnTrue_WhenTheSerialConnectionIsEstablished()
         {
             var serialPortMock = new Mock<ISerialPort>();
+            serialPortMock.Setup(m => m.Open())
+                .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
 
             var port = "COM1";
             var sut = new SerialConnection(serialPortMock.Object, port);

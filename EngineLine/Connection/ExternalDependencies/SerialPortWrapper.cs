@@ -6,6 +6,11 @@ namespace EngineLine.Connection.ExternalDependencies
     {
         private readonly SerialPort _serialPort;
 
+        public bool IsOpen
+        {
+            get { return _serialPort.IsOpen; }
+        }
+
         public string PortName 
         {
             get { return _serialPort.PortName; }

@@ -4,6 +4,7 @@ namespace EngineLine.Connection.ExternalDependencies
 {
     public interface ISerialPort
     {
+        public bool IsOpen { get; }
         public string PortName { get; set; }
         public int BaudRate { get; set; }
         public Parity Parity { get; set; }
