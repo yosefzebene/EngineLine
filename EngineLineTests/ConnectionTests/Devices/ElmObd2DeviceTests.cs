@@ -3,7 +3,7 @@ using EngineLine.Connection.Devices;
 using FluentAssertions;
 using Moq;
 
-namespace EngineLineTests.ConnectionTests
+namespace EngineLineTests.ConnectionTests.Devices
 {
     public class ElmObd2DeviceTests
     {

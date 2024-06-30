@@ -16,10 +16,9 @@ namespace EngineLineTests.ConnectionTests
             serialPortMock.Setup(m => m.Open())
                 .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
-            var result = sut.Connect();
+            var result = sut.Connect("COM1");
 
             result.Should().BeTrue();
             sut.GetConnectionStatus().Should().BeTrue();
@@ -31,10 +30,9 @@ namespace EngineLineTests.ConnectionTests
             var serialPortMock = new Mock<ISerialPort>();
             serialPortMock.Setup(m => m.Open()).Throws(new Exception());
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
-            var result = sut.Connect();
+            var result = sut.Connect("COM1");
 
             result.Should().BeFalse();
             sut.GetConnectionStatus().Should().BeFalse();
@@ -45,8 +43,7 @@ namespace EngineLineTests.ConnectionTests
         {
             var serialPortMock = new Mock<ISerialPort>();
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
             var result = sut.Disconnect();
 
@@ -59,8 +56,7 @@ namespace EngineLineTests.ConnectionTests
             var serialPortMock = new Mock<ISerialPort>();
             serialPortMock.Setup(m => m.Close()).Throws(new Exception());
  
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
             var result = sut.Disconnect();
 
@@ -72,8 +68,7 @@ namespace EngineLineTests.ConnectionTests
         {
             var serialPortMock = new Mock<ISerialPort>();
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
             var result = sut.GetConnectionStatus();
 
@@ -87,10 +82,9 @@ namespace EngineLineTests.ConnectionTests
             serialPortMock.Setup(m => m.Open())
                 .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
-            sut.Connect();
+            sut.Connect("COM1");
             var result = sut.GetConnectionStatus();
 
             result.Should().BeTrue();
@@ -104,8 +98,7 @@ namespace EngineLineTests.ConnectionTests
             serialPortMock.Setup(m => m.WriteLine(It.IsAny<string>()))
                           .Raises(m => m.DataReceived += null, serialPortMock.Object, It.IsAny<SerialDataReceivedEventArgs>());
 
-            var port = "COM1";
-            var sut = new SerialConnection(serialPortMock.Object, port);
+            var sut = new SerialConnection(serialPortMock.Object);
 
             var result = sut.SendMessage("TestMessage");
 

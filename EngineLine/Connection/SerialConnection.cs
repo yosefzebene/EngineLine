@@ -11,11 +11,9 @@ namespace EngineLine.Connection
         private readonly ISerialPort _serialPort;
         private string buffer = "";
 
-        public SerialConnection(ISerialPort serialPort, string port, int baudRate = DEFAULT_BAUD)
+        public SerialConnection(ISerialPort serialPort)
         {
             _serialPort = serialPort;
-            _serialPort.PortName = port;
-            _serialPort.BaudRate = baudRate;
             _serialPort.Parity = Parity.None;
             _serialPort.DataBits = 8;
             _serialPort.StopBits = StopBits.One;
@@ -24,10 +22,12 @@ namespace EngineLine.Connection
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialDataReceived);
         }
 
-        public bool Connect()
+        public bool Connect(string port, int baudRate = DEFAULT_BAUD)
         {
             try
             {
+                _serialPort.PortName = port;
+                _serialPort.BaudRate = baudRate;
                 _serialPort.Open();
             }
             catch
@@ -63,7 +63,7 @@ namespace EngineLine.Connection
 
             try
             {
-                _serialPort.WriteLine(message);
+                _serialPort.WriteLine(String.Format("{0}{1}", message, "\r"));
             }
             catch
             {
