@@ -8,7 +8,8 @@ namespace EngineLine.Connection.Devices
 {
     public interface IObd2Device
     {
-        public bool InitalizeDevice(string protocol);
+        public void InitalizeDevice(string protocol);
         public string Query(string command);
+        public void Disconnect();
     }
 }

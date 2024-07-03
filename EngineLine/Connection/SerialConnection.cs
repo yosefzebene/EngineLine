@@ -1,6 +1,5 @@
 ﻿using EngineLine.Connection.ExternalDependencies;
 using System.IO.Ports;
-using System.Text;
 
 namespace EngineLine.Connection
 {
@@ -24,32 +23,16 @@ namespace EngineLine.Connection
 
         public bool Connect(string port, int baudRate = DEFAULT_BAUD)
         {
-            try
-            {
-                _serialPort.PortName = port;
-                _serialPort.BaudRate = baudRate;
-                _serialPort.Open();
-            }
-            catch
-            {
-                
-            }
+            _serialPort.PortName = port;
+            _serialPort.BaudRate = baudRate;
+            _serialPort.Open();
 
             return _serialPort.IsOpen;
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
-            try
-            {
-                _serialPort.Close();
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
+            _serialPort.Close();
         }
 
         public bool GetConnectionStatus()
@@ -61,14 +44,7 @@ namespace EngineLine.Connection
         {
             buffer = "";
 
-            try
-            {
-                _serialPort.WriteLine(String.Format("{0}{1}", message, "\r"));
-            }
-            catch
-            {
-
-            }
+            _serialPort.WriteLine(String.Format("{0}{1}", message, "\r"));
 
             while (!buffer.Contains('>'))
             {

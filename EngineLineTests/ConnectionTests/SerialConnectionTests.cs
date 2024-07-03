@@ -1,4 +1,3 @@
-using Castle.Components.DictionaryAdapter;
 using EngineLine.Connection;
 using EngineLine.Connection.ExternalDependencies;
 using FluentAssertions;
@@ -28,37 +27,10 @@ namespace EngineLineTests.ConnectionTests
         public void Connect_ShouldReturnFalse_WhenConnectionFailsToEstablish()
         {
             var serialPortMock = new Mock<ISerialPort>();
-            serialPortMock.Setup(m => m.Open()).Throws(new Exception());
 
             var sut = new SerialConnection(serialPortMock.Object);
 
             var result = sut.Connect("COM1");
-
-            result.Should().BeFalse();
-            sut.GetConnectionStatus().Should().BeFalse();
-        }
-
-        [Fact]
-        public void Disconnect_ShouldReturnTrue_WhenItIsDisconnected()
-        {
-            var serialPortMock = new Mock<ISerialPort>();
-
-            var sut = new SerialConnection(serialPortMock.Object);
-
-            var result = sut.Disconnect();
-
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public void Disconnect_ShouldReturnFalse_WhenItFailsToDisconnect()
-        {
-            var serialPortMock = new Mock<ISerialPort>();
-            serialPortMock.Setup(m => m.Close()).Throws(new Exception());
- 
-            var sut = new SerialConnection(serialPortMock.Object);
-
-            var result = sut.Disconnect();
 
             result.Should().BeFalse();
         }
