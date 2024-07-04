@@ -17,5 +17,6 @@ namespace EngineLine.Connection.ExternalDependencies
         public void Close();
         public void WriteLine(string message);
         public string ReadExisting();
+        public string[] GetPortNames();
     }
 }

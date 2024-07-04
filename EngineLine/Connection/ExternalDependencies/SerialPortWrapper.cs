@@ -62,5 +62,7 @@ namespace EngineLine.Connection.ExternalDependencies
         public void WriteLine(string message) { _serialPort.WriteLine(message); }
 
         public string ReadExisting() { return _serialPort.ReadExisting(); }
+
+        public string[] GetPortNames() { return SerialPort.GetPortNames(); }
     }
 }
