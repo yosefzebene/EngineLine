@@ -13,7 +13,7 @@ namespace EngineLine.Connection.Devices
 
         public void InitalizeDevice(string protocol)
         {
-            var init_commands = new List<string>() { "ATD", "ATE0", "ATS0", protocol, "0100" };
+            var init_commands = new List<string>() { "ATD", "ATE0", protocol, "0100" };
 
             init_commands.ForEach(command =>
             {
@@ -24,10 +24,10 @@ namespace EngineLine.Connection.Devices
         public string Query(string command)
         {
             var response = _connection.SendMessage(command);
+            var trimmedResponse = response.ToString().Trim(new char[] { '>', '\r', '\n' });
+            CheckForErrorsInResponse(trimmedResponse);
 
-            CheckForErrorsInResponse(response);
-
-            return response;
+            return trimmedResponse;
         }
 
         public void Disconnect()
@@ -37,9 +37,7 @@ namespace EngineLine.Connection.Devices
 
         private static void CheckForErrorsInResponse(string response)
         {
-            var trimmedResponse = response.ToString().Trim(new char[] { '>', '\r', '\n' });
-
-            switch (trimmedResponse)
+            switch (response)
             {
                 case "?":
                     throw new InvalidCommandReceivedException();
