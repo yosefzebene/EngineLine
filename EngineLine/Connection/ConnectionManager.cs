@@ -12,12 +12,12 @@ namespace EngineLine.Connection
             _serialPort = serialPort;
         }
 
-        public IObd2Device CreateSerialConnection(string port, int baudRate)
+        public IObd2Device CreateSerialConnection(string port, int baudRate, string protocol)
         {
             var serialConnection = new SerialConnection(_serialPort);
             serialConnection.Connect(port, baudRate);
 
-            return new ElmObd2Device(serialConnection);
+            return new ElmObd2Device(serialConnection, protocol);
         }
 
         public string[] GetAvailableSerialDevices()

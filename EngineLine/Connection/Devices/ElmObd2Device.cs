@@ -5,26 +5,48 @@ namespace EngineLine.Connection.Devices
     public class ElmObd2Device : IObd2Device
     {
         private readonly IConnection _connection;
+        private readonly string protocol;
 
-        public ElmObd2Device(IConnection connection) 
+        private bool isInitialized = false;
+        private bool isCurrentlyInitializing = false;
+
+        // NOTE:
+        // The Protocol name is what is expected here not an AT command
+        // Use a dictionary to map the name to an AT command.
+        // This way the client doesn't need to worry about the specific command to pass in.
+        // Depending on the device being used it will be converted to the appropriate command
+        public ElmObd2Device(IConnection connection, string protocol) 
         {
             _connection = connection;
+            this.protocol = protocol;
         }
 
-        public void InitalizeDevice(string protocol)
+        public bool InitalizeDevice()
         {
             var init_commands = new List<string>() { "ATD", "ATE0", protocol, "0100" };
+
+            isCurrentlyInitializing = true;
 
             init_commands.ForEach(command =>
             {
                 Query(command);
             });
+
+            isInitialized = true;
+
+            return isInitialized;
         }
 
         public string Query(string command)
         {
-            var response = _connection.SendMessage(command);
-            var trimmedResponse = response.ToString().Trim(new char[] { '>', '\r', '\n' });
+            string response;
+
+            if (isCurrentlyInitializing || isInitialized)
+                response = _connection.SendMessage(command);
+            else
+                response = "UNINITIALIZED CONNECTION";
+
+            var trimmedResponse = response.Trim(new char[] { '>', '\r', '\n' });
             CheckForErrorsInResponse(trimmedResponse);
 
             return trimmedResponse;
@@ -37,28 +59,23 @@ namespace EngineLine.Connection.Devices
 
         private static void CheckForErrorsInResponse(string response)
         {
-            switch (response)
+            Dictionary<string, Exception> error_mapping = new Dictionary<string, Exception>() 
             {
-                case "?":
-                    throw new InvalidCommandReceivedException();
-                case "DATA ERROR":
-                    throw new VehicleDataException("Data from vehicle was invalid or could not be recovered");
-                case "NO DATA":
-                    throw new VehicleDataException("No data was received from the vehicle");
-                case "BUS BUSY":
-                    throw new VehicleConnectionException("To much activity on the bus to send a message");
-                case "BUS ERROR":
-                    throw new VehicleConnectionException("A generic problem has occurred");
-                case "CAN ERROR":
-                    throw new VehicleConnectionException("The CAN system had difficulty initializing, sending, or receiving");
-                case "UNABLE TO CONNECT":
-                    throw new VehicleConnectionException("Connection with the vehicle could not be established");
-                case "SEARCHING...\r\nUNABLE TO CONNECT":
-                    throw new VehicleConnectionException("Connection with the vehicle could not be established");
-                case "STOPPED":
-                    throw new VehicleConnectionException("The OBD operation has be interrupted");
-                default:
-                    break;
+                { "?", new InvalidCommandReceivedException() },
+                { "DATA ERROR", new VehicleDataException("Data from vehicle was invalid or could not be recovered") },
+                { "NO DATA", new VehicleDataException("No data was received from the vehicle") },
+                { "BUS BUSY", new VehicleConnectionException("To much activity on the bus to send a message") },
+                { "BUS ERROR", new VehicleConnectionException("A generic problem has occurred") },
+                { "CAN ERROR", new VehicleConnectionException("The CAN system had difficulty initializing, sending, or receiving") },
+                { "UNABLE TO CONNECT", new VehicleConnectionException("Connection with the vehicle could not be established") },
+                { "SEARCHING...\r\nUNABLE TO CONNECT", new VehicleConnectionException("Connection with the vehicle could not be established") },
+                { "STOPPED", new VehicleConnectionException("The OBD operation has be interrupted") },
+                { "UNINITIALIZED CONNECTION", new VehicleConnectionException("The OBD2 Device has not been initialized") }
+            };
+
+            if (error_mapping.ContainsKey(response))
+            {
+                throw error_mapping[response];
             }
         }
     }
