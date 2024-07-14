@@ -1,4 +1,4 @@
-﻿namespace EngineLine
+﻿namespace EngineLine.Vehicle.Enums
 {
     public enum Pid
     {
