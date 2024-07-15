@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EngineLine\EngineLineLibrary.csproj" />
+    <ProjectReference Include="..\EngineLineLibrary\EngineLineLibrary.csproj" />
   </ItemGroup>
 
 </Project>
