@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EngineLine", "EngineLine\EngineLine.csproj", "{5712321F-A4F9-48D0-A542-0A7C9A10F414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EngineLineLibrary", "EngineLine\EngineLineLibrary.csproj", "{5712321F-A4F9-48D0-A542-0A7C9A10F414}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EngineLineTests", "EngineLineTests\EngineLineTests.csproj", "{020A9AEB-525C-47B1-BAD9-6FA993A371AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EngineLineLibraryTests", "EngineLineTests\EngineLineLibraryTests.csproj", "{020A9AEB-525C-47B1-BAD9-6FA993A371AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
