@@ -9,12 +9,14 @@ namespace EngineLineLibrary.Vehicle
         private readonly IObd2Device _device;
         private readonly IVehicleDataRetriever _vehicleDataRetriever;
         private readonly IDiagnosticTroubleCodeHandler _dtcHandler;
+        private readonly IMonitorStatusRetriever _monitorStatusRetriever;
 
         public QueryManager(IObd2Device device)
         {
             _device = device;
             _vehicleDataRetriever = new VehicleDataRetriever(device);
             _dtcHandler = new DiagnosticTroubleCodeHandler(device);
+            _monitorStatusRetriever = new MonitorStatusRetriever(device);
         }
 
         public Pid[] GetSupportedCommands()
@@ -27,10 +29,10 @@ namespace EngineLineLibrary.Vehicle
             return _vehicleDataRetriever.GetVehicleData(pid);
         }
 
-        //public void GetVehicleStatus()
-        //{
-
-        //}
+        public MonitorStatus GetVehicleMonitorStatus()
+        {
+            return _monitorStatusRetriever.GetMonitorStatus();
+        }
 
         //// Mode 2
         //public string GetFreezeFrameDiagnosticTroubleCode()

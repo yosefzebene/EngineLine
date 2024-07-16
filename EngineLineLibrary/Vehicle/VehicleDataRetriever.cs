@@ -2,7 +2,6 @@
 using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
-using EngineLineLibrary.Vehicle.Models;
 
 namespace EngineLineLibrary.Vehicle
 {
