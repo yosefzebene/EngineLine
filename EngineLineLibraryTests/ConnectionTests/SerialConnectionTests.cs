@@ -4,7 +4,7 @@ using FluentAssertions;
 using Moq;
 using System.IO.Ports;
 
-namespace EngineLineTests.ConnectionTests
+namespace EngineLineLibraryTests.ConnectionTests
 {
     public class SerialConnectionTests
     {

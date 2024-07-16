@@ -4,11 +4,11 @@ using EngineLineLibrary.Vehicle.Models;
 using FluentAssertions;
 using Moq;
 
-namespace EngineLineTests.VehicleTests
+namespace EngineLineLibraryTests.VehicleTests
 {
     public class DiagnosticTroubleCodeHandlerTests
     {
-        private Mock<IObd2Device> _deviceMock;
+        private readonly Mock<IObd2Device> _deviceMock;
 
         public DiagnosticTroubleCodeHandlerTests()
         {
@@ -20,10 +20,9 @@ namespace EngineLineTests.VehicleTests
         {
             _deviceMock.Setup(m => m.Query(It.IsAny<string>())).Returns("43 01 03 00 00 00 00");
 
-            var unavailableDescription = "Not available - check your vehicle manual or contact the manufacturer.";
-            var expected = new List<DiagnosticTroubleCode> 
-            { 
-                new() { Code = "P0103", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }
+            var expected = new List<DiagnosticTroubleCode>
+            {
+                new() { Code = "P0103", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Mass or Volume Air Flow Circuit High Input" }
             };
 
             var sut = new DiagnosticTroubleCodeHandler(_deviceMock.Object);
@@ -37,15 +36,14 @@ namespace EngineLineTests.VehicleTests
         {
             _deviceMock.Setup(m => m.Query(It.IsAny<string>())).Returns("43 01 03 01 04 01 05\r\n41 01 06 01 07 01 08");
 
-            var unavailableDescription = "Not available - check your vehicle manual or contact the manufacturer.";
-            var expected = new List<DiagnosticTroubleCode> 
-            { 
-                new() { Code = "P0103", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }, 
-                new() { Code = "P0104", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }, 
-                new() { Code = "P0105", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }, 
-                new() { Code = "P0106", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }, 
-                new() { Code = "P0107", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription }, 
-                new() { Code = "P0108", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription } 
+            var expected = new List<DiagnosticTroubleCode>
+            {
+                new() { Code = "P0103", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Mass or Volume Air Flow Circuit High Input" },
+                new() { Code = "P0104", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Mass or Volume Air Flow Circuit Intermittent" },
+                new() { Code = "P0105", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Manifold Absolute Pressure/Barometric Pressure Circuit Malfunction" },
+                new() { Code = "P0106", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Manifold Absolute Pressure/Barometric Pressure Circuit Range/Performance Problem" },
+                new() { Code = "P0107", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Manifold Absolute Pressure/Barometric Pressure Circuit Low Input" },
+                new() { Code = "P0108", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Manifold Absolute Pressure/Barometric Pressure Circuit High Input" }
             };
 
             var sut = new DiagnosticTroubleCodeHandler(_deviceMock.Object);
@@ -62,23 +60,23 @@ namespace EngineLineTests.VehicleTests
 
             var unavailableDescription = "Not available - check your vehicle manual or contact the manufacturer.";
             var expected = new List<DiagnosticTroubleCode>
-            { 
+            {
                 new() { Code = "P0011", System = "Powertrain", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription },
-                new() { Code = "P1011", System = "Powertrain", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "P2011", System = "Powertrain", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "P3011", System = "Powertrain", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "C0011", System = "Chassis", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription }, 
-                new() { Code = "C1011", System = "Chassis", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "C2011", System = "Chassis", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "C3011", System = "Chassis", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "B0011", System = "Body", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription }, 
-                new() { Code = "B1011", System = "Body", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "B2011", System = "Body", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "B3011", System = "Body", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "U0011", System = "Network", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription }, 
-                new() { Code = "U1011", System = "Network", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "U2011", System = "Network", Subsystem = "", Description = unavailableDescription }, 
-                new() { Code = "U3011", System = "Network", Subsystem = "", Description = unavailableDescription } 
+                new() { Code = "P1011", System = "Powertrain", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "P2011", System = "Powertrain", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "P3011", System = "Powertrain", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "C0011", System = "Chassis", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription },
+                new() { Code = "C1011", System = "Chassis", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "C2011", System = "Chassis", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "C3011", System = "Chassis", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "B0011", System = "Body", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription },
+                new() { Code = "B1011", System = "Body", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "B2011", System = "Body", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "B3011", System = "Body", Subsystem = "", Description = unavailableDescription },
+                new() { Code = "U0011", System = "Network", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription },
+                new() { Code = "U1011", System = "Network", Subsystem = "", Description = "SCP (J1850) Invalid or Missing Data for Engine Air Intake" },
+                new() { Code = "U2011", System = "Network", Subsystem = "", Description = "Module Transmitted Invalid Data (Non SCP)" },
+                new() { Code = "U3011", System = "Network", Subsystem = "", Description = unavailableDescription }
             };
 
             var sut = new DiagnosticTroubleCodeHandler(_deviceMock.Object);
@@ -97,13 +95,13 @@ namespace EngineLineTests.VehicleTests
             var expected = new List<DiagnosticTroubleCode>
             {
                 new() { Code = "P0011", System = "Powertrain", Subsystem = "Fuel and air metering and auxiliary emission controls", Description = unavailableDescription },
-                new() { Code = "P0111", System = "Powertrain", Subsystem = "Fuel and air metering", Description = unavailableDescription },
-                new() { Code = "P0211", System = "Powertrain", Subsystem = "Fuel and air metering injection system", Description = unavailableDescription },
-                new() { Code = "P0311", System = "Powertrain", Subsystem = "Ignition systems", Description = unavailableDescription },
-                new() { Code = "P0411", System = "Powertrain", Subsystem = "Emissions system", Description = unavailableDescription },
+                new() { Code = "P0111", System = "Powertrain", Subsystem = "Fuel and air metering", Description = "Intake Air Temperature Circuit Range/Performance Problem" },
+                new() { Code = "P0211", System = "Powertrain", Subsystem = "Fuel and air metering injection system", Description = "Injector Circuit Malfunction - Cylinder 10" },
+                new() { Code = "P0311", System = "Powertrain", Subsystem = "Ignition systems", Description = "Cylinder 10 Misfire Detected" },
+                new() { Code = "P0411", System = "Powertrain", Subsystem = "Emissions system", Description = "Secondary Air Injection System Malfunction" },
                 new() { Code = "P0511", System = "Powertrain", Subsystem = "Vehicle speed controls and idle control system", Description = unavailableDescription },
                 new() { Code = "P0611", System = "Powertrain", Subsystem = "Computer output circuit", Description = unavailableDescription },
-                new() { Code = "P0711", System = "Powertrain", Subsystem = "Transmission", Description = unavailableDescription },
+                new() { Code = "P0711", System = "Powertrain", Subsystem = "Transmission", Description = "Transmission Fluid Temperature Sensor Circuit Malfunction" },
                 new() { Code = "P0811", System = "Powertrain", Subsystem = "Transmission", Description = unavailableDescription },
                 new() { Code = "P0911", System = "Powertrain", Subsystem = "", Description = unavailableDescription },
             };

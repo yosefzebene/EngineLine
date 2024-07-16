@@ -1,7 +1,7 @@
 ﻿using EngineLineLibrary.Vehicle.Helpers;
 using FluentAssertions;
 
-namespace EngineLineTests.UtilityTests
+namespace EngineLineLibraryTests.UtilityTests
 {
     public class ResponseHelperTests
     {
@@ -57,9 +57,9 @@ namespace EngineLineTests.UtilityTests
             var expected = new bool[16];
             expected[0] = true;
             for (int i = 1; i < expected.Length; i++)
-                expected[i] = !expected[i-1];
+                expected[i] = !expected[i - 1];
 
-            var inputString = new[] { "aa", "aa"};
+            var inputString = new[] { "aa", "aa" };
 
 
             var result = ResponseHelper.HexToBoolArray(inputString);

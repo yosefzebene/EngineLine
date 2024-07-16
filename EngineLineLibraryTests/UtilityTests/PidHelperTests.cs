@@ -3,9 +3,9 @@ using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
 using FluentAssertions;
 
-namespace EngineLineTests.VehicleTests
+namespace EngineLineLibraryTests.UtilityTests
 {
-    public class PidCalculationTests
+    public class PidHelperTests
     {
         [Theory]
         [InlineData(Pid.CalculatedEngineLoad, new[] { "ff" }, 100)]
@@ -23,7 +23,7 @@ namespace EngineLineTests.VehicleTests
         [InlineData(Pid.MassAirFlowSensor, new[] { "ff", "ff" }, 655.35)]
         public void CalculateBasedOnPid_ShouldReturnCalculatedValue_WhenProvidedWithThePidAndValidHexArrayToCalculate(Pid pid, string[] hexArray, decimal expected)
         {
-            var result = PidCalculation.CalculateBasedOnPid(pid, hexArray);
+            var result = PidHelper.CalculateBasedOnPid(pid, hexArray);
 
             result.Should().Be(expected);
         }
@@ -44,7 +44,7 @@ namespace EngineLineTests.VehicleTests
         [InlineData(Pid.MassAirFlowSensor, new[] { "ff" }, "Mass air flow sensor expects a 2 byte response from the vehicle but got 1 instead.")]
         public void CalculateBasedOnPid_ShouldThrowVehicleDataException_WhenProvidedWithThePidAndInvalidHexArrayToCalculate(Pid pid, string[] hexArray, string expectedMessage)
         {
-            Action act = () => PidCalculation.CalculateBasedOnPid(pid, hexArray);
+            Action act = () => PidHelper.CalculateBasedOnPid(pid, hexArray);
 
             act.Should().Throw<VehicleDataException>()
                 .WithMessage(expectedMessage);

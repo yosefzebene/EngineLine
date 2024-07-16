@@ -1,6 +1,7 @@
 ﻿using EngineLineLibrary.Connection.Devices;
 using EngineLineLibrary.Vehicle.Helpers;
 using EngineLineLibrary.Vehicle.Models;
+using System.Text.Json;
 
 namespace EngineLineLibrary.Vehicle
 {
@@ -49,14 +50,21 @@ namespace EngineLineLibrary.Vehicle
             { '8', "Transmission" },
         };
 
-        private readonly Dictionary<string, string> DescriptionOfDiagnosticTroubleCodeLookup = new()
-        {
-
-        };
+        private readonly Dictionary<string, string> DescriptionOfDiagnosticTroubleCodeLookup = new() {};
 
         public DiagnosticTroubleCodeHandler(IObd2Device device)
         {
             _device = device;
+
+            try
+            {
+                var dtcDescriptionsJson = File.ReadAllText("Resources\\DiagnosticTroubleCodeDescriptions.json");
+                DescriptionOfDiagnosticTroubleCodeLookup = JsonSerializer.Deserialize<Dictionary<string, string>>(dtcDescriptionsJson);
+            }
+            catch (FileNotFoundException)
+            {
+                // log
+            }
         }
 
         public List<DiagnosticTroubleCode> GetReportedDiagnosticTroubleCodes()

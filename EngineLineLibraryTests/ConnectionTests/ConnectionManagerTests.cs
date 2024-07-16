@@ -4,7 +4,7 @@ using EngineLineLibrary.Connection.ExternalDependencies;
 using FluentAssertions;
 using Moq;
 
-namespace EngineLineTests.ConnectionTests
+namespace EngineLineLibraryTests.ConnectionTests
 {
     public class ConnectionManagerTests
     {
@@ -13,7 +13,7 @@ namespace EngineLineTests.ConnectionTests
         {
             var serialPortMock = new Mock<ISerialPort>();
             var sut = new ConnectionManager(serialPortMock.Object);
-            
+
             var result = sut.CreateSerialConnection("COM1", 38400, It.IsAny<string>());
 
             result.Should().BeOfType<ElmObd2Device>();

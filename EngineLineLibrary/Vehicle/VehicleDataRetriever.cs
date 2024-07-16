@@ -2,6 +2,7 @@
 using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
+using EngineLineLibrary.Vehicle.Models;
 
 namespace EngineLineLibrary.Vehicle
 {
@@ -63,10 +64,8 @@ namespace EngineLineLibrary.Vehicle
 
             var hexArray = ResponseHelper.SingleLineResponseToHexArray(response).Skip(2).ToArray();
 
-            return PidCalculation.CalculateBasedOnPid(pid, hexArray);
+            return PidHelper.CalculateBasedOnPid(pid, hexArray);
         }
-
-        public void MonitorStatus() { }
 
         public void FuelSystemStatus() { }
 

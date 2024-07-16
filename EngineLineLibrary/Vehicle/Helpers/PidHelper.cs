@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace EngineLineLibrary.Vehicle.Helpers
 {
-    public static class PidCalculation
+    public static class PidHelper
     {
         public static decimal CalculateBasedOnPid(Pid pid, string[] hexArray)
         {

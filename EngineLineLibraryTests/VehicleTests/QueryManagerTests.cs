@@ -1,7 +1,7 @@
 ﻿using EngineLineLibrary.Connection.Devices;
 using Moq;
 
-namespace EngineLineTests.VehicleTests
+namespace EngineLineLibraryTests.VehicleTests
 {
     public class QueryManagerTests
     {

@@ -5,7 +5,7 @@ using EngineLineLibrary.Vehicle.Enums;
 using FluentAssertions;
 using Moq;
 
-namespace EngineLineTests.VehicleTests
+namespace EngineLineLibraryTests.VehicleTests
 {
     public class VehicleDataRetrieverTests
     {

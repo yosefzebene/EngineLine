@@ -4,7 +4,7 @@ using EngineLineLibrary.Exceptions;
 using FluentAssertions;
 using Moq;
 
-namespace EngineLineTests.ConnectionTests.Devices
+namespace EngineLineLibraryTests.ConnectionTests.Devices
 {
     public class ElmObd2DeviceTests
     {
@@ -36,7 +36,7 @@ namespace EngineLineTests.ConnectionTests.Devices
         }
 
         [Fact]
-        public void Query_ShouldThrowInvalidCommandReceivedException_WhenVehicleRespondsWithQuestionMark() 
+        public void Query_ShouldThrowInvalidCommandReceivedException_WhenVehicleRespondsWithQuestionMark()
         {
             var connectionMock = new Mock<IConnection>();
             var response = "\r\n?\r\n>";

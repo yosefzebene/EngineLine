@@ -1,7 +1,7 @@
 ﻿using EngineLineLibrary.Exceptions;
 using FluentAssertions;
 
-namespace EngineLineTests.ExceptionsTests
+namespace EngineLineLibraryTests.ExceptionsTests
 {
     public class VehicleConnectionExceptionTests
     {
