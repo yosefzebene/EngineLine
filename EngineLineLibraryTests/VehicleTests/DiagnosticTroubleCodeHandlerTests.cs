@@ -111,5 +111,25 @@ namespace EngineLineLibraryTests.VehicleTests
 
             result.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void GetFreezeFrameDiagnosticTroubleCode_ShouldReturnDecodedDiagnosticCode()
+        {
+            _deviceMock.Setup(m => m.Query(It.IsAny<string>()))
+                .Returns("42 02 01 11");
+
+            var expected = new DiagnosticTroubleCode()
+            {
+                Code = "P0111",
+                System = "Powertrain",
+                Subsystem = "Fuel and air metering",
+                Description = "Intake Air Temperature Circuit Range/Performance Problem"
+            };
+
+            var sut = new DiagnosticTroubleCodeHandler(_deviceMock.Object);
+            var result = sut.GetFreezeFrameDiagnosticTroubleCode();
+
+            result.Should().BeEquivalentTo(expected);
+        }
     }
 }

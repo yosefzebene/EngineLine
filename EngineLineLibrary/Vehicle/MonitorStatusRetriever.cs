@@ -1,5 +1,4 @@
 ﻿using EngineLineLibrary.Connection.Devices;
-using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
 using EngineLineLibrary.Vehicle.Models;
@@ -42,9 +41,9 @@ namespace EngineLineLibrary.Vehicle
 
         public MonitorStatus GetMonitorStatus()
         {
-            var realTimeDataMode = "01";
-
+            var realTimeDataMode = ((int)Service.CurrentData).ToString("X");
             var command = realTimeDataMode + ((int)Pid.MonitorStatusSinceDtcCleared).ToString("X");
+
             var response = _device.Query(command);
 
             var hexArray = ResponseHelper.SingleLineResponseToHexArray(response).Skip(2).ToArray();

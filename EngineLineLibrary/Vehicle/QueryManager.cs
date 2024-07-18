@@ -6,14 +6,12 @@ namespace EngineLineLibrary.Vehicle
 {
     public class QueryManager
     {
-        private readonly IObd2Device _device;
         private readonly IVehicleDataRetriever _vehicleDataRetriever;
         private readonly IDiagnosticTroubleCodeHandler _dtcHandler;
         private readonly IMonitorStatusRetriever _monitorStatusRetriever;
 
         public QueryManager(IObd2Device device)
         {
-            _device = device;
             _vehicleDataRetriever = new VehicleDataRetriever(device);
             _dtcHandler = new DiagnosticTroubleCodeHandler(device);
             _monitorStatusRetriever = new MonitorStatusRetriever(device);
@@ -34,13 +32,11 @@ namespace EngineLineLibrary.Vehicle
             return _monitorStatusRetriever.GetMonitorStatus();
         }
 
-        //// Mode 2
-        //public string GetFreezeFrameDiagnosticTroubleCode()
-        //{
-        //    return "";
-        //}
+        public DiagnosticTroubleCode GetFreezeFrameDiagnosticTroubleCode()
+        {
+            return _dtcHandler.GetFreezeFrameDiagnosticTroubleCode();
+        }
 
-        // Mode 3
         public List<DiagnosticTroubleCode> GetReportedDiagnosticTroubleCodes()
         {
             return _dtcHandler.GetReportedDiagnosticTroubleCodes();

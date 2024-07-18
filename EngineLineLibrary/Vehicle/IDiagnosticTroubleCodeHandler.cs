@@ -5,6 +5,7 @@ namespace EngineLineLibrary.Vehicle
     public interface IDiagnosticTroubleCodeHandler
     {
         public List<DiagnosticTroubleCode> GetReportedDiagnosticTroubleCodes();
+        public DiagnosticTroubleCode GetFreezeFrameDiagnosticTroubleCode();
         public void ClearDiagnosticTroubleCodes();
     }
 }

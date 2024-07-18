@@ -1,4 +1,5 @@
 ﻿using EngineLineLibrary.Connection.Devices;
+using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
 using EngineLineLibrary.Vehicle.Models;
 using System.Text.Json;
@@ -69,15 +70,34 @@ namespace EngineLineLibrary.Vehicle
 
         public List<DiagnosticTroubleCode> GetReportedDiagnosticTroubleCodes()
         {
-            var command = "03";
+            var command = ((int)Service.DiagnosticTroubleCodes).ToString("X");
             var response = _device.Query(command);
 
             var rawDiagnosticTroubleCodes = ExtractRawDiagnosticTroubleCodes(response);
 
-            return DecodeDiagnosticTroubleCodes(rawDiagnosticTroubleCodes);
+            return DecodeMultipleDiagnosticTroubleCodes(rawDiagnosticTroubleCodes);
         }
 
-        private List<string> ExtractRawDiagnosticTroubleCodes(string response)
+        public DiagnosticTroubleCode GetFreezeFrameDiagnosticTroubleCode()
+        {
+            var freezeFrameDataMode = ((int)Service.FreezeFrameData).ToString("X");
+            var command = freezeFrameDataMode + ((int)Pid.DtcThatCausedFreezeFrame).ToString("X");
+
+            var response = _device.Query(command);
+
+            var rawDiagnosticTroubleCode = response.Substring(6)
+                .Replace(" ", "");
+
+            return DecodeDiagnosticTroubleCode(rawDiagnosticTroubleCode);
+        }
+
+        public void ClearDiagnosticTroubleCodes()
+        {
+            var command = ((int)Service.ClearStoredValues).ToString("X");
+            _device.Query(command);
+        }
+
+        private static List<string> ExtractRawDiagnosticTroubleCodes(string response)
         {
             var multiLineHexArray = ResponseHelper.MultiLineResponseToHexArray(response);
 
@@ -94,40 +114,40 @@ namespace EngineLineLibrary.Vehicle
             return rawDiagnosticTroubleCodes.Where(code => !code.Equals("0000")).ToList();
         }
 
-        private List<DiagnosticTroubleCode> DecodeDiagnosticTroubleCodes(List<string> rawDiagnosticTroubleCodes)
+        private List<DiagnosticTroubleCode> DecodeMultipleDiagnosticTroubleCodes(List<string> rawDiagnosticTroubleCodes)
         {
             var diagnosticTroubleCodes = new List<DiagnosticTroubleCode>();
 
             foreach (var code in rawDiagnosticTroubleCodes)
             {
-                var decodedCode = string.Concat(TypeOfDiagnosticTroubleCodeLookup[code[0]], code.Substring(1));
-                var system = SystemMalfunctioningLookup[decodedCode[0]];
-
-                var subsystem = "";
-                if (decodedCode[1] == '0')
-                {
-                    subsystem = SubsystemMalfunctioningLookup.ContainsKey(decodedCode[2]) ? SubsystemMalfunctioningLookup[decodedCode[2]] : "";
-                }
-                var description =
-                    DescriptionOfDiagnosticTroubleCodeLookup.ContainsKey(decodedCode) ?
-                        DescriptionOfDiagnosticTroubleCodeLookup[decodedCode] : "Not available - check your vehicle manual or contact the manufacturer.";
-
-                diagnosticTroubleCodes.Add(new DiagnosticTroubleCode()
-                {
-                    Code = decodedCode,
-                    System = system,
-                    Subsystem = subsystem,
-                    Description = description,
-                });
+                diagnosticTroubleCodes.Add( DecodeDiagnosticTroubleCode(code) );
             }
 
             return diagnosticTroubleCodes;
         }
 
-        public void ClearDiagnosticTroubleCodes()
+        private DiagnosticTroubleCode DecodeDiagnosticTroubleCode(string code) 
         {
-            var command = "04";
-            _device.Query(command);
+            var decodedCode = string.Concat(TypeOfDiagnosticTroubleCodeLookup[code[0]], code.Substring(1));
+            var system = SystemMalfunctioningLookup[decodedCode[0]];
+
+            var subsystem = "";
+            if (decodedCode[1] == '0')
+            {
+                subsystem = SubsystemMalfunctioningLookup.ContainsKey(decodedCode[2]) ? SubsystemMalfunctioningLookup[decodedCode[2]] : "";
+            }
+            var description =
+                DescriptionOfDiagnosticTroubleCodeLookup.ContainsKey(decodedCode) ?
+                    DescriptionOfDiagnosticTroubleCodeLookup[decodedCode] : "Not available - check your vehicle manual or contact the manufacturer.";
+
+            return
+                new DiagnosticTroubleCode()
+                {
+                    Code = decodedCode,
+                    System = system,
+                    Subsystem = subsystem,
+                    Description = description,
+                };
         }
     }
 }
