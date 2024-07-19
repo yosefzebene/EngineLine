@@ -54,10 +54,9 @@ namespace EngineLineLibrary.Vehicle
             return PidSupport.Where(kv => kv.Value == true).Select(kv => kv.Key).ToArray();
         }
 
-        public decimal GetVehicleData(Pid pid)
+        public decimal GetVehicleData(Service service, Pid pid)
         {
-            var realTimeDataMode = ((int)Service.CurrentData).ToString("X");
-            var command = realTimeDataMode + ((int)pid).ToString("X");
+            var command = ((int)service).ToString("X") + ((int)pid).ToString("X");
 
             var response = _device.Query(command);
 
@@ -67,8 +66,5 @@ namespace EngineLineLibrary.Vehicle
         }
 
         public void FuelSystemStatus() { }
-
-        // NEEDS TO BE TESTED ON VEHICLE - if the sensor is not present it would also not be a supported PID so this might not be necessary to implement
-        public void OxygenSensorPresent() { }
     }
 }

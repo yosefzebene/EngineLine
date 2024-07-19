@@ -22,9 +22,14 @@ namespace EngineLineLibrary.Vehicle
             return _vehicleDataRetriever.GetSupportedCommands();
         }
 
-        public decimal GetVehicleData(Pid pid)
+        public decimal GetCurrentData(Pid pid)
         {
-            return _vehicleDataRetriever.GetVehicleData(pid);
+            return _vehicleDataRetriever.GetVehicleData(Service.CurrentData, pid);
+        }
+
+        public decimal GetFreezeFrameData(Pid pid)
+        {
+            return _vehicleDataRetriever.GetVehicleData(Service.FreezeFrameData, pid);
         }
 
         public MonitorStatus GetVehicleMonitorStatus()

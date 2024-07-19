@@ -52,11 +52,12 @@ namespace EngineLineLibraryTests.VehicleTests
         {
             _deviceMock.Setup(m => m.Query(It.IsAny<string>())).Returns("41 0C ff ff");
 
+            var service = Service.CurrentData;
             var request = Pid.EngineSpeed;
             var expected = 16384m;
 
             var sut = new VehicleDataRetriever(_deviceMock.Object);
-            var result = sut.GetVehicleData(request);
+            var result = sut.GetVehicleData(service, request);
 
             result.Should().Be(expected);
         }
