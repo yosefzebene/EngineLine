@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EngineLine (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "EngineLine (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
