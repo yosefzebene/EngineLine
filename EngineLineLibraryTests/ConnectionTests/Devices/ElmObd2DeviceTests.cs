@@ -8,14 +8,20 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
 {
     public class ElmObd2DeviceTests
     {
+        private readonly Mock<IConnection> _connectionMock;
+
+        public ElmObd2DeviceTests()
+        {
+            _connectionMock = new Mock<IConnection>();
+        }
+
         [Fact]
         public void InitalizeDevice_ShouldReturnTrue_WhenSuccessfullyInitialized()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "Successful";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             var result = sut.InitalizeDevice();
 
             result.Should().BeTrue();
@@ -24,11 +30,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldReturnAString_WhenGivenACommand()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "Successful";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             sut.InitalizeDevice();
             var result = sut.Query("query");
 
@@ -38,11 +43,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowInvalidCommandReceivedException_WhenVehicleRespondsWithQuestionMark()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\n?\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<InvalidCommandReceivedException>()
@@ -52,11 +56,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithBusBusy()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nBUS BUSY\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()
@@ -66,11 +69,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithBusError()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nBUS ERROR\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()
@@ -80,11 +82,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithCanError()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nCAN ERROR\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()
@@ -94,11 +95,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleDataException_WhenVehicleRespondsWithDataError()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nDATA ERROR\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleDataException>()
@@ -108,11 +108,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleDataException_WhenVehicleRespondsWithNoData()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nNO DATA\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleDataException>()
@@ -122,11 +121,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithUnableToConnect()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nUNABLE TO CONNECT\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()
@@ -136,11 +134,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithSearchingUnableToConnect()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nSEARCHING...\r\nUNABLE TO CONNECT\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()
@@ -150,11 +147,10 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         [Fact]
         public void Query_ShouldThrowVehicleConnectionException_WhenVehicleRespondsWithStopped()
         {
-            var connectionMock = new Mock<IConnection>();
             var response = "\r\nSTOPPED\r\n>";
-            connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
+            _connectionMock.Setup(m => m.SendMessage(It.IsAny<string>())).Returns(response);
 
-            var sut = new ElmObd2Device(connectionMock.Object, It.IsAny<string>());
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<string>());
             Action act = () => sut.InitalizeDevice();
 
             act.Should().Throw<VehicleConnectionException>()

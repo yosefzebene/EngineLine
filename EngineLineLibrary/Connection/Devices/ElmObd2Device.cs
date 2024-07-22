@@ -8,7 +8,6 @@ namespace EngineLineLibrary.Connection.Devices
         private readonly string protocol;
 
         private bool isInitialized = false;
-        private bool isCurrentlyInitializing = false;
 
         // NOTE:
         // The Protocol name is what is expected here not an AT command
@@ -25,14 +24,20 @@ namespace EngineLineLibrary.Connection.Devices
         {
             var init_commands = new List<string>() { "ATD", "ATE0", protocol, "0100" };
 
-            isCurrentlyInitializing = true;
+            isInitialized = true;
 
             init_commands.ForEach(command =>
             {
-                Query(command);
+                try
+                {
+                    Query(command);
+                }
+                catch
+                {
+                    isInitialized = false;
+                    throw;
+                }
             });
-
-            isInitialized = true;
 
             return isInitialized;
         }
@@ -41,7 +46,7 @@ namespace EngineLineLibrary.Connection.Devices
         {
             string response;
 
-            if (isCurrentlyInitializing || isInitialized)
+            if (isInitialized)
                 response = _connection.SendMessage(command);
             else
                 response = "UNINITIALIZED CONNECTION";
