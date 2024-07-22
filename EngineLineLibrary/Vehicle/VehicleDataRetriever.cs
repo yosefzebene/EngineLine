@@ -64,7 +64,5 @@ namespace EngineLineLibrary.Vehicle
 
             return PidHelper.CalculateBasedOnPid(pid, hexArray);
         }
-
-        public void FuelSystemStatus() { }
     }
 }
