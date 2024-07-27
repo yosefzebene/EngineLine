@@ -9,15 +9,10 @@ namespace EngineLineLibrary.Connection.Devices
 
         private bool isInitialized = false;
 
-        // NOTE:
-        // The Protocol name is what is expected here not an AT command
-        // Use a dictionary to map the name to an AT command.
-        // This way the client doesn't need to worry about the specific command to pass in.
-        // Depending on the device being used it will be converted to the appropriate command
-        public ElmObd2Device(IConnection connection, string protocol)
+        public ElmObd2Device(IConnection connection, int protocol)
         {
             _connection = connection;
-            this.protocol = protocol;
+            this.protocol = "AT SP " + protocol.ToString("X");
         }
 
         public bool InitalizeDevice()
