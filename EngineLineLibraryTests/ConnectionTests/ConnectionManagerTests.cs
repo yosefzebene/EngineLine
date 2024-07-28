@@ -14,7 +14,7 @@ namespace EngineLineLibraryTests.ConnectionTests
             var serialPortMock = new Mock<ISerialPort>();
             var sut = new ConnectionManager(serialPortMock.Object);
 
-            var result = sut.CreateSerialConnection("COM1", 38400, It.IsAny<string>());
+            var result = sut.CreateSerialConnection("COM1", 38400, It.IsAny<int>());
 
             result.Should().BeOfType<ElmObd2Device>();
         }

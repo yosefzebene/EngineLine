@@ -2,7 +2,6 @@
 using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
 using EngineLineLibrary.Vehicle.Models;
-using System.Text.Json;
 
 namespace EngineLineLibrary.Vehicle
 {
@@ -10,62 +9,9 @@ namespace EngineLineLibrary.Vehicle
     {
         private readonly IObd2Device _device;
 
-        private readonly Dictionary<char, string> TypeOfDiagnosticTroubleCodeLookup = new()
-        {
-            { '0', "P0" },
-            { '1', "P1" },
-            { '2', "P2" },
-            { '3', "P3" },
-            { '4', "C0" },
-            { '5', "C1" },
-            { '6', "C2" },
-            { '7', "C3" },
-            { '8', "B0" },
-            { '9', "B1" },
-            { 'A', "B2" },
-            { 'B', "B3" },
-            { 'C', "U0" },
-            { 'D', "U1" },
-            { 'E', "U2" },
-            { 'F', "U3" },
-        };
-
-        private readonly Dictionary<char, string> SystemMalfunctioningLookup = new()
-        {
-            { 'P', "Powertrain" },
-            { 'C', "Chassis" },
-            { 'B', "Body" },
-            { 'U', "Network" }
-        };
-
-        private readonly Dictionary<char, string> SubsystemMalfunctioningLookup = new()
-        {
-            { '0', "Fuel and air metering and auxiliary emission controls" },
-            { '1', "Fuel and air metering" },
-            { '2', "Fuel and air metering injection system" },
-            { '3', "Ignition systems" },
-            { '4', "Emissions system" },
-            { '5', "Vehicle speed controls and idle control system" },
-            { '6', "Computer output circuit" },
-            { '7', "Transmission" },
-            { '8', "Transmission" },
-        };
-
-        private readonly Dictionary<string, string> DescriptionOfDiagnosticTroubleCodeLookup = new() {};
-
         public DiagnosticTroubleCodeHandler(IObd2Device device)
         {
             _device = device;
-
-            try
-            {
-                var dtcDescriptionsJson = File.ReadAllText("Resources\\DiagnosticTroubleCodeDescriptions.json");
-                DescriptionOfDiagnosticTroubleCodeLookup = JsonSerializer.Deserialize<Dictionary<string, string>>(dtcDescriptionsJson);
-            }
-            catch (FileNotFoundException)
-            {
-                // log
-            }
         }
 
         public List<DiagnosticTroubleCode> GetReportedDiagnosticTroubleCodes()
@@ -128,17 +74,17 @@ namespace EngineLineLibrary.Vehicle
 
         private DiagnosticTroubleCode DecodeDiagnosticTroubleCode(string code) 
         {
-            var decodedCode = string.Concat(TypeOfDiagnosticTroubleCodeLookup[code[0]], code.Substring(1));
-            var system = SystemMalfunctioningLookup[decodedCode[0]];
+            var decodedCode = string.Concat(DtcDecodeData.TypeOfDiagnosticTroubleCodeLookup[code[0]], code.Substring(1));
+            var system = DtcDecodeData.SystemMalfunctioningLookup[decodedCode[0]];
 
             var subsystem = "";
             if (decodedCode[1] == '0')
             {
-                subsystem = SubsystemMalfunctioningLookup.ContainsKey(decodedCode[2]) ? SubsystemMalfunctioningLookup[decodedCode[2]] : "";
+                subsystem = DtcDecodeData.SubsystemMalfunctioningLookup.ContainsKey(decodedCode[2]) ? DtcDecodeData.SubsystemMalfunctioningLookup[decodedCode[2]] : "";
             }
             var description =
-                DescriptionOfDiagnosticTroubleCodeLookup.ContainsKey(decodedCode) ?
-                    DescriptionOfDiagnosticTroubleCodeLookup[decodedCode] : "Not available - check your vehicle manual or contact the manufacturer.";
+                DtcDecodeData.DescriptionOfDiagnosticTroubleCodeLookup.ContainsKey(decodedCode) ?
+                    DtcDecodeData.DescriptionOfDiagnosticTroubleCodeLookup[decodedCode] : "Not available - check your vehicle manual or contact the manufacturer.";
 
             return
                 new DiagnosticTroubleCode()

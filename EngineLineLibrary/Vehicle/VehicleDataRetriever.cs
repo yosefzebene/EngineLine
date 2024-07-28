@@ -23,7 +23,7 @@ namespace EngineLineLibrary.Vehicle
 
         public Pid[] GetSupportedCommands()
         {
-            var realTimeDataMode = ((int)Service.CurrentData).ToString("X");
+            var realTimeDataMode = ((int)Service.CurrentData).ToString("X2");
 
             try
             {
@@ -56,7 +56,7 @@ namespace EngineLineLibrary.Vehicle
 
         public decimal GetVehicleData(Service service, Pid pid)
         {
-            var command = ((int)service).ToString("X") + ((int)pid).ToString("X");
+            var command = ((int)service).ToString("X2") + ((int)pid).ToString("X2");
 
             var response = _device.Query(command);
 
