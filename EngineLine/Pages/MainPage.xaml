@@ -11,14 +11,15 @@
     <NavigationView x:Name="mainNavigation"
                     IsSettingsVisible="False"
                     IsBackButtonVisible="Collapsed"
-                    IsBackEnabled="False">
+                    IsBackEnabled="False"
+                    SelectionChanged="MainNavigation_SelectionChanged">
         <NavigationView.MenuItems>
-            <NavigationViewItem Content="Live Monitor" Tag="SamplePage1">
+            <NavigationViewItem Content="Live Monitor" Tag="Monitor" IsSelected="True">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xEC48;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
-            <NavigationViewItem Content="Diagnostic" Tag="SamplePage2">
+            <NavigationViewItem Content="Diagnostics" Tag="Diagnostics">
                 <NavigationViewItem.Icon>
                     <FontIcon Glyph="&#xE9D9;" />
                 </NavigationViewItem.Icon>

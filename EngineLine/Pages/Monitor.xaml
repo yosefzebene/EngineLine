@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="EngineLine.Pages.Monitor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EngineLine.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <SplitView x:Name="splitView" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="True">
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="SUPPORTED PIDS" x:Name="PaneHeader" Margin="60,12,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <ListView x:Name="SupportedPidsListView" SelectionChanged="SupportedPidsListView_SelectionChanged" Margin="0,12,0,0" SelectionMode="Multiple" Grid.Row="1" VerticalAlignment="Stretch"/>
+            </Grid>
+        </SplitView.Pane>
+        <StackPanel>
+            <Button x:Name="startStopButton" Click="StartStopButton_Click">Start</Button>
+            <GridView
+                x:Name="ContentGridView"
+                IsItemClickEnabled="False"
+                CanDragItems="False"
+                AllowDrop="False"
+                CanReorderItems="False"
+                SelectionMode="None"
+                FlowDirection="LeftToRight">        
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:MonitoringResult">
+                        <StackPanel Height = '300' Width = '300' Orientation = 'Vertical' >
+                            <TextBlock Style = '{StaticResource TitleTextBlockStyle}' Margin = '8,0,0,0' Text = '{x:Bind PidName, Mode=OneWay}'/>
+                            <TextBlock Style = '{StaticResource BodyTextBlockStyle}' Margin = '8,0,0,0' Text = '{x:Bind Result, Mode=OneWay}'/>
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </StackPanel>
+    </SplitView>
+</Page>
