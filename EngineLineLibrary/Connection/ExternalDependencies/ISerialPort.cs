@@ -11,12 +11,11 @@ namespace EngineLineLibrary.Connection.ExternalDependencies
         public int DataBits { get; set; }
         public StopBits StopBits { get; set; }
         public Handshake Handshake { get; set; }
-        public event SerialDataReceivedEventHandler DataReceived;
+        public Stream BaseStream { get; }
 
         public void Open();
         public void Close();
         public void WriteLine(string message);
-        public string ReadExisting();
         public string[] GetPortNames();
     }
 }

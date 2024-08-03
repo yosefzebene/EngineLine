@@ -47,10 +47,9 @@ namespace EngineLineLibrary.Connection.ExternalDependencies
             set { _serialPort.Handshake = value; }
         }
 
-        public event SerialDataReceivedEventHandler DataReceived
+        public Stream BaseStream
         {
-            add { _serialPort.DataReceived += value; }
-            remove { _serialPort.DataReceived -= value; }
+            get { return _serialPort.BaseStream; }
         }
 
         public SerialPortWrapper() { _serialPort = new(); }
@@ -60,8 +59,6 @@ namespace EngineLineLibrary.Connection.ExternalDependencies
         public void Close() { _serialPort.Close(); }
 
         public void WriteLine(string message) { _serialPort.WriteLine(message); }
-
-        public string ReadExisting() { return _serialPort.ReadExisting(); }
 
         public string[] GetPortNames() { return SerialPort.GetPortNames(); }
     }
