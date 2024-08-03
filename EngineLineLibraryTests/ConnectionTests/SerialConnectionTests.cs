@@ -2,33 +2,36 @@ using EngineLineLibrary.Connection;
 using EngineLineLibrary.Connection.ExternalDependencies;
 using FluentAssertions;
 using Moq;
-using System.IO.Ports;
+using System.Text;
 
 namespace EngineLineLibraryTests.ConnectionTests
 {
     public class SerialConnectionTests
     {
+        private readonly Mock<ISerialPort> _serialPortMock;
+
+        public SerialConnectionTests()
+        {
+            _serialPortMock = new Mock<ISerialPort>();
+        }
+
         [Fact]
         public void Connect_ShouldReturnTrue_WhenConnectionIsEstablished()
         {
-            var serialPortMock = new Mock<ISerialPort>();
-            serialPortMock.Setup(m => m.Open())
-                .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
+            _serialPortMock.Setup(m => m.Open())
+                .Callback(() => _serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
 
-            var sut = new SerialConnection(serialPortMock.Object);
+            var sut = new SerialConnection(_serialPortMock.Object);
 
             var result = sut.Connect("COM1");
 
             result.Should().BeTrue();
-            sut.GetConnectionStatus().Should().BeTrue();
         }
 
         [Fact]
         public void Connect_ShouldReturnFalse_WhenConnectionFailsToEstablish()
         {
-            var serialPortMock = new Mock<ISerialPort>();
-
-            var sut = new SerialConnection(serialPortMock.Object);
+            var sut = new SerialConnection(_serialPortMock.Object);
 
             var result = sut.Connect("COM1");
 
@@ -36,45 +39,41 @@ namespace EngineLineLibraryTests.ConnectionTests
         }
 
         [Fact]
-        public void GetConnectionStatus_ShouldReturnFalse_WhenTheSerialConnectionIsNotEstablished()
+        public void Disconnect_ShouldReturnTrue_WhenSuccessfulyDisconnected()
         {
-            var serialPortMock = new Mock<ISerialPort>();
+            _serialPortMock.SetupGet(m => m.IsOpen).Returns(true);
+            _serialPortMock.Setup(m => m.Close())
+                .Callback(() => _serialPortMock.SetupGet(m => m.IsOpen).Returns(false));
 
-            var sut = new SerialConnection(serialPortMock.Object);
-
-            var result = sut.GetConnectionStatus();
-
-            result.Should().BeFalse();
-        }
-
-        [Fact]
-        public void GetConnectionStatus_ShouldReturnTrue_WhenTheSerialConnectionIsEstablished()
-        {
-            var serialPortMock = new Mock<ISerialPort>();
-            serialPortMock.Setup(m => m.Open())
-                .Callback(() => serialPortMock.SetupGet(m => m.IsOpen).Returns(true));
-
-            var sut = new SerialConnection(serialPortMock.Object);
-
-            sut.Connect("COM1");
-            var result = sut.GetConnectionStatus();
+            var sut = new SerialConnection(_serialPortMock.Object);
+            var result = sut.Disconnect();
 
             result.Should().BeTrue();
         }
 
         [Fact]
+        public void Disconnect_ShouldReturnFalse_WhenItFailsToDisconnect()
+        {
+            _serialPortMock.SetupGet(m => m.IsOpen).Returns(true);
+
+            var sut = new SerialConnection(_serialPortMock.Object);
+            var result = sut.Disconnect();
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
         public void SendMessage_ShouldReturnResponseMessage_WhenMessageIsSent()
         {
-            var serialPortMock = new Mock<ISerialPort>();
-            serialPortMock.Setup(m => m.ReadExisting()).Returns("ResponseMessage>");
-            serialPortMock.Setup(m => m.WriteLine(It.IsAny<string>()))
-                          .Raises(m => m.DataReceived += null, serialPortMock.Object, It.IsAny<SerialDataReceivedEventArgs>());
+            _serialPortMock.SetupSequence(m => m.BaseStream)
+                .Returns(new MemoryStream(Encoding.ASCII.GetBytes("ResponseMessage")))
+                .Returns(new MemoryStream(Encoding.ASCII.GetBytes(">")));
 
-            var sut = new SerialConnection(serialPortMock.Object);
+            var sut = new SerialConnection(_serialPortMock.Object);
 
             var result = sut.SendMessage("TestMessage");
 
-            result.Should().BeSameAs("ResponseMessage>");
+            result.Should().Be("ResponseMessage>");
         }
     }
 }

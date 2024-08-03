@@ -156,5 +156,16 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
             act.Should().Throw<VehicleConnectionException>()
                 .WithMessage("The OBD operation has be interrupted");
         }
+
+        [Fact]
+        public void Disconnect_ShouldDisconnectFromDevice()
+        {
+            _connectionMock.Setup(m => m.Disconnect()).Returns(true);
+
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<int>());
+            var result = sut.Disconnect();
+
+            result.Should().BeTrue();
+        }
     }
 }

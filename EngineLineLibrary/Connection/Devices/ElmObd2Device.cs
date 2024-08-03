@@ -52,11 +52,6 @@ namespace EngineLineLibrary.Connection.Devices
             return trimmedResponse;
         }
 
-        public void Disconnect()
-        {
-            _connection.Disconnect();
-        }
-
         private static void CheckForErrorsInResponse(string response)
         {
             Dictionary<string, Exception> error_mapping = new Dictionary<string, Exception>()
@@ -77,6 +72,11 @@ namespace EngineLineLibrary.Connection.Devices
             {
                 throw error_mapping[response];
             }
+        }
+
+        public bool Disconnect()
+        {
+            return _connection.Disconnect();
         }
     }
 }

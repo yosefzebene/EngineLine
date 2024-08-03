@@ -4,6 +4,6 @@
     {
         public bool InitalizeDevice();
         public string Query(string command);
-        public void Disconnect();
+        public bool Disconnect();
     }
 }

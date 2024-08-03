@@ -28,14 +28,12 @@ namespace EngineLineLibrary.Connection
             return _serialPort.IsOpen;
         }
 
-        public void Disconnect()
+        public bool Disconnect()
         {
-            _serialPort.Close();
-        }
+            if (_serialPort.IsOpen)
+                _serialPort.Close();
 
-        public bool GetConnectionStatus()
-        {
-            return _serialPort.IsOpen;
+            return !_serialPort.IsOpen;
         }
 
         public string SendMessage(string message)
