@@ -131,5 +131,18 @@ namespace EngineLineLibraryTests.VehicleTests
 
             result.Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void ClearDiagnosticTroubleCodes_ShouldSendMode4ToDevice()
+        {
+            var expectedCommand = "4";
+            var commandPassed = "";
+            _deviceMock.Setup(m => m.Query(It.IsAny<string>())).Callback((string s) => commandPassed = s);
+
+            var sut = new DiagnosticTroubleCodeHandler(_deviceMock.Object);
+            sut.ClearDiagnosticTroubleCodes();
+
+            commandPassed.Should().Be(expectedCommand);
+        }
     }
 }

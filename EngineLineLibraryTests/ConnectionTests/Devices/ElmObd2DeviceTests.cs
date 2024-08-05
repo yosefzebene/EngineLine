@@ -41,6 +41,16 @@ namespace EngineLineLibraryTests.ConnectionTests.Devices
         }
 
         [Fact]
+        public void Query_ShouldThrowVehicleConnectionException_WhenTryingToQueryWithOutInitalizing()
+        {
+            var sut = new ElmObd2Device(_connectionMock.Object, It.IsAny<int>());
+            Action act = () => sut.Query(It.IsAny<string>());
+
+            act.Should().Throw<VehicleConnectionException>()
+                .WithMessage("The OBD2 Device has not been initialized");
+        }
+
+        [Fact]
         public void Query_ShouldThrowInvalidCommandReceivedException_WhenVehicleRespondsWithQuestionMark()
         {
             var response = "\r\n?\r\n>";
