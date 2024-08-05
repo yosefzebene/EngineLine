@@ -6,6 +6,7 @@ using EngineLineLibrary.Vehicle;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Threading.Tasks;
 
 namespace EngineLine.Pages
 {
@@ -51,7 +52,7 @@ namespace EngineLine.Pages
             }
         }
 
-        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             IObd2Device device = null;
             try
@@ -59,9 +60,10 @@ namespace EngineLine.Pages
                 if (AreValidSelections())
                 {
                     connectProgressRing.IsActive = true;
+                    connectButton.IsEnabled = false;
 
                     device = CreateConnetionWithDevice();
-                    device.InitalizeDevice();
+                    await Task.Factory.StartNew(() => device.InitalizeDevice());
 
                     ConnectionAccess.QueryManager = new QueryManager(device);
 
@@ -81,6 +83,7 @@ namespace EngineLine.Pages
 
                 device.Disconnect();
                 connectProgressRing.IsActive = false;
+                connectButton.IsEnabled = true;
             }
         }
 
