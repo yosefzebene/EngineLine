@@ -1,69 +1,334 @@
 ﻿using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle.Enums;
+using EngineLineLibrary.Vehicle.Models;
 using System.Globalization;
-using System.Reflection.Metadata;
 
 namespace EngineLineLibrary.Vehicle.Helpers
 {
     public static class PidHelper
     {
-        public static decimal CalculateBasedOnPid(Pid pid, string[] hexArray)
+        public static PidData CalculateBasedOnPid(Pid pid, string[] hexArray)
         {
             var calculationResult = pid switch
             {
-                Pid.CalculatedEngineLoad => CalculatedEngineLoadCalculation(hexArray),
-                Pid.EngineCoolantTemperature => EngineCoolantTemperatureCalculation(hexArray),
-                Pid.ShortTermFuelTrimBank1 => FuelTrimCalculation(hexArray),
-                Pid.LongTermFuelTrimBank1 => FuelTrimCalculation(hexArray),
-                Pid.ShortTermFuelTrimBank2 => FuelTrimCalculation(hexArray),
-                Pid.LongTermFuelTrimBank2 => FuelTrimCalculation(hexArray),
-                Pid.FuelPressure => FuelPressureCalculation(hexArray),
-                Pid.IntakeManifoldAbsolutePressure => IntakeManifoldAbsolutePressureCalculation(hexArray),
-                Pid.EngineSpeed => EngineSpeedCalculation(hexArray),
-                Pid.VehicleSpeed => VehicleSpeedCalculation(hexArray),
-                Pid.TimingAdvance => TimingAdvanceCalculation(hexArray),
-                Pid.IntakeAirTemperature => IntakeAirTemperatureCalculation(hexArray),
-                Pid.MassAirFlowSensor => MassAirFlowSensorCalculation(hexArray),
-                Pid.ThrottlePosition => ThrottlePositionCalculation(hexArray),
-                Pid.OxygenSensor1Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor2Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor3Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor4Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor5Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor6Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor7Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.OxygenSensor8Voltage => OxygenSensorVoltageCalculation(hexArray),
-                Pid.RunTimeSinceStart => RunTimeSinceStartCalculation(hexArray),
-                Pid.DistanceTravelSinceCheckEngineLightOn => DistanceTravelSinceCheckEngineLightOnCalculation(hexArray),
-                Pid.FuelRailPressure => FuelRailPressureCalculation(hexArray),
-                Pid.FuelRailGaugePressure => FuelRailGaugePressureCalculation(hexArray),
-                Pid.WideBandOxygenSensor1Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor2Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor3Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor4Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor5Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor6Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor7Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.WideBandOxygenSensor8Voltage => WideBandOxygenSensorVoltageCalculation(hexArray),
-                Pid.CommandedEgr => CommandedEgrCalculation(hexArray),
-                Pid.FuelTankLevel => FuelTankLevelCalculation(hexArray),
-                Pid.WarmupsSinceCodesCleared => WarmupsSinceCodesClearedCalculation(hexArray),
-                Pid.DistanceTraveledSinceCodesCleared => DistanceTraveledSinceCodesClearedCalculation(hexArray),
-                Pid.EvapSystemVaporPressure => EvapSystemVaporPressureCalculation(hexArray),
-                Pid.AbsoluteBarometricPressure => AbsoluteBarometricPressureCalculation(hexArray),
-                Pid.WideBandOxygenSensor1Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor2Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor3Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor4Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor5Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor6Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor7Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.WideBandOxygenSensor8Current => WideBandOxygenSensorCurrentCalculation(hexArray),
-                Pid.CatalystTemperatureBank1Sensor1 => CatalystTemperatureSensorCalculation(hexArray),
-                Pid.CatalystTemperatureBank2Sensor1 => CatalystTemperatureSensorCalculation(hexArray),
-                Pid.CatalystTemperatureBank1Sensor2 => CatalystTemperatureSensorCalculation(hexArray),
-                Pid.CatalystTemperatureBank2Sensor2 => CatalystTemperatureSensorCalculation(hexArray),
-                _ => -1,
+                Pid.CalculatedEngineLoad => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = CalculatedEngineLoadCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.EngineCoolantTemperature => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = EngineCoolantTemperatureCalculation(hexArray),
+                    Unit = "°C"
+                },
+                Pid.ShortTermFuelTrimBank1 => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelTrimCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.LongTermFuelTrimBank1 => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelTrimCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.ShortTermFuelTrimBank2 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelTrimCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.LongTermFuelTrimBank2 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelTrimCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.FuelPressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelPressureCalculation(hexArray),
+                    Unit = "kPa"
+                },
+                Pid.IntakeManifoldAbsolutePressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = IntakeManifoldAbsolutePressureCalculation(hexArray),
+                    Unit = "kPa"
+                },
+                Pid.EngineSpeed => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = EngineSpeedCalculation(hexArray),
+                    Unit = "rpm"
+                },
+                Pid.VehicleSpeed => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = VehicleSpeedCalculation(hexArray),
+                    Unit = "km/h"
+                },
+                Pid.TimingAdvance => new PidData() 
+                {
+                    PidName = pid.ToString(),
+                    Result = TimingAdvanceCalculation(hexArray),
+                    Unit = "°"
+                },
+                Pid.IntakeAirTemperature => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = IntakeAirTemperatureCalculation(hexArray),
+                    Unit = "°C"
+                },
+                Pid.MassAirFlowSensor => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = MassAirFlowSensorCalculation(hexArray),
+                    Unit = "g/s"
+                },
+                Pid.ThrottlePosition => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = ThrottlePositionCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.OxygenSensor1Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor2Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor3Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor4Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor5Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor6Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor7Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.OxygenSensor8Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = OxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.RunTimeSinceStart => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = RunTimeSinceStartCalculation(hexArray),
+                    Unit = "s"
+                },
+                Pid.DistanceTravelSinceCheckEngineLightOn => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = DistanceTravelSinceCheckEngineLightOnCalculation(hexArray),
+                    Unit = "km"
+                },
+                Pid.FuelRailPressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelRailPressureCalculation(hexArray),
+                    Unit = "kPa"
+                },
+                Pid.FuelRailGaugePressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelRailGaugePressureCalculation(hexArray),
+                    Unit = "kPa"
+                },
+                Pid.WideBandOxygenSensor1Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor2Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor3Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor4Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor5Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor6Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor7Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.WideBandOxygenSensor8Voltage => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorVoltageCalculation(hexArray),
+                    Unit = "V"
+                },
+                Pid.CommandedEgr => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = CommandedEgrCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.FuelTankLevel => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = FuelTankLevelCalculation(hexArray),
+                    Unit = "%"
+                },
+                Pid.WarmupsSinceCodesCleared => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WarmupsSinceCodesClearedCalculation(hexArray),
+                    Unit = ""
+                },
+                Pid.DistanceTraveledSinceCodesCleared => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = DistanceTraveledSinceCodesClearedCalculation(hexArray),
+                    Unit = "km"
+                },
+                Pid.EvapSystemVaporPressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = EvapSystemVaporPressureCalculation(hexArray),
+                    Unit = "Pa"
+                },
+                Pid.AbsoluteBarometricPressure => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = AbsoluteBarometricPressureCalculation(hexArray),
+                    Unit = "kPa"
+                },
+                Pid.WideBandOxygenSensor1Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor2Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor3Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor4Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor5Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor6Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor7Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.WideBandOxygenSensor8Current => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = WideBandOxygenSensorCurrentCalculation(hexArray),
+                    Unit = "mA"
+                },
+                Pid.CatalystTemperatureBank1Sensor1 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = CatalystTemperatureSensorCalculation(hexArray),
+                    Unit = "°C"
+                },
+                Pid.CatalystTemperatureBank2Sensor1 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = CatalystTemperatureSensorCalculation(hexArray),
+                    Unit = "°C"
+                },
+                Pid.CatalystTemperatureBank1Sensor2 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = CatalystTemperatureSensorCalculation(hexArray),
+                    Unit = "°C"
+                },
+                Pid.CatalystTemperatureBank2Sensor2 => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = CatalystTemperatureSensorCalculation(hexArray),
+                    Unit = "°C"
+                },
+                _ => new PidData()
+                {
+                    PidName = pid.ToString(),
+                    Result = -1,
+                    Unit = ""
+                },
             };
             return calculationResult;
         }

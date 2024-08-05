@@ -1,5 +1,6 @@
 ﻿using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle;
+using EngineLineLibrary.Vehicle.Models;
 using EngineLineLibrary.Connection.Devices;
 using EngineLineLibrary.Vehicle.Enums;
 using FluentAssertions;
@@ -54,12 +55,20 @@ namespace EngineLineLibraryTests.VehicleTests
 
             var service = Service.CurrentData;
             var request = Pid.EngineSpeed;
-            var expected = 16384m;
 
             var sut = new VehicleDataRetriever(_deviceMock.Object);
             var result = sut.GetVehicleData(service, request);
 
-            result.Should().Be(expected);
+            var expected = new PidData()
+            {
+                PidName = request.ToString(),
+                Result = 16384m,
+                Unit = "rpm"
+            };
+
+            result.PidName.Should().Be(expected.PidName);
+            result.Result.Should().Be(expected.Result);
+            result.Unit.Should().Be(expected.Unit);
         }
     }
 }

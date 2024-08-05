@@ -6,6 +6,6 @@ namespace EngineLineLibrary.Vehicle
     public interface IVehicleDataRetriever
     {
         public Pid[] GetSupportedCommands();
-        public decimal GetVehicleData(Service service, Pid pid);
+        public PidData GetVehicleData(Service service, Pid pid);
     }
 }

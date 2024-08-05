@@ -2,6 +2,7 @@
 using EngineLineLibrary.Exceptions;
 using EngineLineLibrary.Vehicle.Enums;
 using EngineLineLibrary.Vehicle.Helpers;
+using EngineLineLibrary.Vehicle.Models;
 
 namespace EngineLineLibrary.Vehicle
 {
@@ -54,7 +55,7 @@ namespace EngineLineLibrary.Vehicle
             return PidSupport.Where(kv => kv.Value == true).Select(kv => kv.Key).ToArray();
         }
 
-        public decimal GetVehicleData(Service service, Pid pid)
+        public PidData GetVehicleData(Service service, Pid pid)
         {
             var command = ((int)service).ToString("X2") + ((int)pid).ToString("X2");
 

@@ -17,17 +17,24 @@ namespace EngineLineLibrary.Vehicle
             _monitorStatusRetriever = new MonitorStatusRetriever(device);
         }
 
+        public QueryManager(IVehicleDataRetriever vehicleDataRetriever, IDiagnosticTroubleCodeHandler dtcHandler, IMonitorStatusRetriever monitorStatusRetriever)
+        {
+            _vehicleDataRetriever = vehicleDataRetriever;
+            _dtcHandler = dtcHandler;
+            _monitorStatusRetriever = monitorStatusRetriever;
+        }
+
         public Pid[] GetSupportedCommands()
         {
             return _vehicleDataRetriever.GetSupportedCommands();
         }
 
-        public decimal GetCurrentData(Pid pid)
+        public PidData GetCurrentData(Pid pid)
         {
             return _vehicleDataRetriever.GetVehicleData(Service.CurrentData, pid);
         }
 
-        public decimal GetFreezeFrameData(Pid pid)
+        public PidData GetFreezeFrameData(Pid pid)
         {
             return _vehicleDataRetriever.GetVehicleData(Service.FreezeFrameData, pid);
         }
