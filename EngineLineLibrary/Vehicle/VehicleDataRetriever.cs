@@ -49,7 +49,8 @@ namespace EngineLineLibrary.Vehicle
             }
             catch (InvalidCommandReceivedException e)
             {
-                //Log
+                //log
+                _ = e;
             }
 
             return PidSupport.Where(kv => kv.Value == true).Select(kv => kv.Key).ToArray();

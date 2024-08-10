@@ -61,7 +61,7 @@ namespace EngineLineLibraryTests.VehicleTests
 
             var expected = new PidData()
             {
-                PidName = request.ToString(),
+                PidName = "Engine Speed",
                 Result = 16384m,
                 Unit = "rpm"
             };

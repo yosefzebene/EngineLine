@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Unloaded="Page_Unloaded">
 
     <SplitView x:Name="splitView" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="True">
         <SplitView.Pane>
@@ -34,7 +35,10 @@
                     <DataTemplate x:DataType="local:MonitoringResult">
                         <StackPanel Height = '300' Width = '300' Orientation = 'Vertical' >
                             <TextBlock Style = '{StaticResource TitleTextBlockStyle}' Margin = '8,0,0,0' Text = '{x:Bind PidName, Mode=OneWay}'/>
-                            <TextBlock Style = '{StaticResource BodyTextBlockStyle}' Margin = '8,0,0,0' Text = '{x:Bind Result, Mode=OneWay}'/>
+                            <TextBlock Style = '{StaticResource BodyTextBlockStyle}' Margin = '8,0,0,0'>
+                                <Run Text='{x:Bind Result, Mode=OneWay}'/>
+                                <Run Text='{x:Bind Unit, Mode=OneWay}' />
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
