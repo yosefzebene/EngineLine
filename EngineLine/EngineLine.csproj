@@ -17,6 +17,7 @@
     <None Remove="Pages\Diagnostics.xaml" />
     <None Remove="Pages\MainPage.xaml" />
     <None Remove="Pages\Monitor.xaml" />
+    <None Remove="Pages\Plot.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EngineLineLibrary\EngineLineLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Plot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Diagnostics.xaml">

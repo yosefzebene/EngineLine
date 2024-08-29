@@ -24,6 +24,11 @@
                     <FontIcon Glyph="&#xE9D9;" />
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
+            <NavigationViewItem Content="Plot" Tag="Plot">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE80A;" />
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame"/>
     </NavigationView>

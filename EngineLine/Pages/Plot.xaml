@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="EngineLine.Pages.Plot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EngineLine.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:oxy="using:OxyPlot"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Unloaded="Page_Unloaded">
+
+    <SplitView x:Name="splitView" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="True">
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="SUPPORTED PIDS" x:Name="PaneHeader" Margin="60,12,0,0" Style="{StaticResource BaseTextBlockStyle}"/>
+                <ListView x:Name="SupportedPidsListView" SelectionChanged="SupportedPidsListView_SelectionChanged" Margin="0,12,0,0" SelectionMode="Multiple" Grid.Row="1" VerticalAlignment="Stretch"/>
+            </Grid>
+        </SplitView.Pane>
+        <StackPanel x:Name="StackPanel">
+            <Button x:Name="startStopButton" Click="StartStopButton_Click">Start</Button>
+            <oxy:PlotView x:Name="plotView" Width="Auto" Height="800"/>
+        </StackPanel>
+    </SplitView>
+</Page>
